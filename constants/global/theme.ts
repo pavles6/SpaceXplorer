@@ -1,36 +1,44 @@
+/*
+  text - base text color
+  textAccent - lighter than base
+  textSecondary - darker than base
+
+  surface - surface color (navbars, menus, cards, etc)
+  surfaceBackground - darker variant of surface(usually a bg color of a container)
+
+*/
+
 interface baseColors {
   mainSurface: string
   mainText: string
-  mainLightSurface: string
-  mainLightText: string
+  mainTextAccent: string
+  mainSurfaceAccent: string
+  mainColor: string
+  mainLightColor: string
 }
 
 const mainPalette: baseColors = {
   mainSurface: 'bg-red-500',
   mainText: 'text-red-500',
-  mainLightSurface: 'bg-red-300',
-  mainLightText: 'text-red-300',
+  mainTextAccent: 'text-red-600',
+  mainSurfaceAccent: 'bg-red-600',
+  mainColor: 'red-500',
+  mainLightColor: 'red-400',
 }
 
 export interface Theme extends baseColors {
   surface: string
   surfaceBackground: string
-  textColor: string
-  textColorSecondary: string
+  text: string
+  textAccent: string
+  textSecondary: string
 }
 
 export const darkTheme: Theme = {
   ...mainPalette,
   surfaceBackground: 'bg-gray-900',
   surface: 'bg-gray-800',
-  textColor: 'text-gray-50',
-  textColorSecondary: 'text-gray-150',
-}
-
-export const lightTheme: Theme = {
-  ...mainPalette,
-  surfaceBackground: 'bg-gray-150',
-  surface: 'bg-gray-50',
-  textColor: 'text-gray-900',
-  textColorSecondary: 'text-gray-700',
+  textAccent: 'text-gray-50',
+  text: 'text-gray-400',
+  textSecondary: 'text-gray-400',
 }

@@ -9,22 +9,15 @@ interface NavbarLinkProps {
   path: string
 }
 
-interface ReduxState {
-  theme: {
-    themeType: string
-    themeData: Theme
-  }
-}
-
 export default function NavbarLink(props: NavbarLinkProps) {
-  const themeData = useSelector((state: ReduxState) => state.theme.themeData)
+  const theme = useSelector((state: { theme: Theme }) => state.theme)
 
   return (
     <Link href={props.path}>
       <a
-        className={` flex items-center  justify-center ${
-          props.active ? 'text-red-500' : 'text-gray-200'
-        }`}
+        className={`flex items-center justify-center ${
+          props.active ? theme.mainText : theme.textAccent
+        } hover:${props.active ? null : theme.text} transition duration-150`}
       >
         <p
           className={`font-semibold uppercase ${
