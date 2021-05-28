@@ -1,46 +1,50 @@
 import React, { FunctionComponent, ReactElement } from 'react'
 import { useSelector } from 'react-redux'
-import { Theme } from '../../constants/global/theme'
 import Link from 'next/link'
-
-import Text from '../Text/Text'
 import { TextSize } from '../Text/ETextSize'
+import { Theme } from '../../lib/types/theme'
 
 interface Props {
-  click: Function
+  click?: Function
+  textColor?: string
   children: string
-  Icon?: FunctionComponent<React.ComponentProps<'svg'>>
+  icon?: FunctionComponent<React.ComponentProps<'svg'>>
   variant: 'link' | 'button'
   href?: string
-  size: TextSize
+  textWeight?: string
+  textSize: TextSize
   classes?: string
 }
 
 export default function Button({
   click,
   variant = 'button',
+  textColor,
   classes,
+  textWeight,
   children,
   href,
-  size,
-  Icon,
+  textSize,
+  icon: Icon,
 }: Props): ReactElement {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
+
+  if (!textColor) textColor = theme.textAccent
 
   if (variant === 'link') {
     return (
       <Link href={href}>
-        <a
-          className={
-            classes ||
-            `mx-6 transition delay-100 flex justify-between items-center p-3.5 rounded-lg focus:outline-none ${theme.surface} hover:bg-red-500`
-          }
-        >
-          <Text size={size} weight="font-semibold" color={theme.textAccent}>
+        <a className={`${classes} ${textColor}`}>
+          <p
+            style={{
+              color: 'inherit',
+            }}
+            className={`${textSize} ${textWeight}`}
+          >
             {children}
-          </Text>
+          </p>
           {Icon ? (
-            <Icon className={`${theme.text} h-8 w-8 ml-10`}></Icon>
+            <Icon className={`${theme.text} absolute h-8 w-8 mx-2`}></Icon>
           ) : null}
         </a>
       </Link>
@@ -48,14 +52,18 @@ export default function Button({
   }
 
   return (
-    <button
-      className={`mx-6 transition delay-100 flex justify-between items-center p-3.5 rounded focus:outline-none ${theme.surface} hover:${theme.mainSurface}`}
-      onClick={() => click()}
-    >
-      <Text size={size} weight="font-bold" color={theme.textAccent}>
+    <button className={`${classes} ${textColor}`} onClick={() => click()}>
+      <p
+        style={{
+          color: 'inherit',
+        }}
+        className={`${textSize} ${textWeight}`}
+      >
         {children}
-      </Text>
-      {Icon ? <Icon className={`${theme.text} h-8 w-8 ml-10`}></Icon> : null}
+      </p>
+      {Icon ? (
+        <Icon className={`${textColor} absolute h-8 w-8 mx-2`}></Icon>
+      ) : null}
     </button>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Theme } from '../../constants/global/theme'
+import { Theme } from '../../lib/types/theme'
 import { useRouter } from 'next/router'
 import Text from '../Text/Text'
 import { INavbarLink } from './INavbarLink'
@@ -9,12 +9,15 @@ import { TextSize } from '../Text/ETextSize'
 
 interface Props {
   backgroundColor?: string
-  shadow: boolean
+  isShadow?: boolean
 }
 
-export default function Navbar({ backgroundColor }: Props) {
+export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   const router = useRouter()
   const theme = useSelector((state: { theme: Theme }) => state.theme)
+
+  let shadow = 'shadow-md'
+  if (!isShadow) shadow = 'no-shadow'
 
   if (!backgroundColor) backgroundColor = theme.surface
 
@@ -54,7 +57,7 @@ export default function Navbar({ backgroundColor }: Props) {
 
   return (
     <div
-      className={`w-full ${backgroundColor} transition delay-150 h-16 fixed  flex justify-between items-center flex-row`}
+      className={`w-full ${shadow} ${backgroundColor} transition delay-150 h-16 fixed  flex justify-between items-center z-50 flex-row`}
     >
       {/* Navbar Title */}
       <Text

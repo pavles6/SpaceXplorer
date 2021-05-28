@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios'
 import { IEndpointPayload } from './IEndpoints'
 
 interface RequestConfig extends AxiosRequestConfig {
-  data: IEndpointPayload
+  data?: IEndpointPayload
 }
 
 export const featuredLaunchesPayload: RequestConfig = {
@@ -34,23 +34,6 @@ export const featuredLaunchesPayload: RequestConfig = {
 }
 
 export const nextLaunchPayload: RequestConfig = {
-  method: 'POST',
-  url: 'https://api.spacexdata.com/v4/launches/query',
-  data: {
-    options: {
-      limit: 1,
-      select: 'date_unix name',
-      sort: {
-        date_unix: 'asc',
-      },
-    },
-    query: {
-      upcoming: {
-        $eq: 'true',
-      },
-      date_precision: {
-        $eq: 'hour',
-      },
-    },
-  },
+  method: 'GET',
+  url: 'https://api.spacexdata.com/v4/launches/next',
 }

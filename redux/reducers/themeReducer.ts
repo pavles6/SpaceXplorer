@@ -1,5 +1,5 @@
 import { darkTheme } from '../../constants/global/theme'
-import { ThemeState } from '../../types/redux'
+import { ThemeState } from '../../lib/types/redux'
 
 export const initialThemeState: ThemeState = darkTheme
 

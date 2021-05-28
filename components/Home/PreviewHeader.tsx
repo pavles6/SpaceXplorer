@@ -1,18 +1,16 @@
 import React, { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
-import { Theme } from '../../constants/global/theme'
+import { Theme } from '../../lib/types/theme'
 import { TextSize } from '../Text/ETextSize'
 import Text from '../Text/Text'
 
 interface Props {
   title: string
   subtitle: string
-  action?: ReactElement
 }
 
 export default function PreviewHeader({
   title,
-  action,
   subtitle,
 }: Props): ReactElement {
   const theme = useSelector((state: { theme: Theme }) => state.theme)

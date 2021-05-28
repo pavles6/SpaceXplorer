@@ -6,7 +6,7 @@ interface Props {}
 export default function starlink({}: Props): ReactElement {
   return (
     <div>
-      <Navbar shadow={true}></Navbar>
+      <Navbar></Navbar>
     </div>
   )
 }

@@ -6,6 +6,9 @@ module.exports = {
       'source-sans': ['Source Sans Pro', 'ui-sans-serif', 'system-ui'],
     },
     extend: {
+      boxShadow: {
+        red: '0 2px 10px rgba(239, 68, 68, 0.85)',
+      },
       height: {
         landing: '600px',
       },

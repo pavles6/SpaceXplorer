@@ -1,41 +1,39 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import DragonPreview from '../components/Home/DragonPreview'
 import LaunchesPreview from '../components/Home/LaunchesPreview'
 import RocketsPreview from '../components/Home/RocketsPreview'
 import Navbar from '../components/Navbar/Navbar'
 import { TextSize } from '../components/Text/ETextSize'
 import Text from '../components/Text/Text'
-import { Theme } from '../constants/global/theme'
 import { landingImageHeight } from '../constants/other'
-import { getFeaturedLaunches, getNextLaunch } from '../redux/actions/launches'
-import { wrapper } from '../redux/store'
-import { LaunchesState } from '../types/redux'
+import { getFeaturedLaunches, getNextLaunch } from '../lib/api-calls'
+import { Launch } from '../lib/types/api'
+import { Theme } from '../lib/types/theme'
 
-export default function Home() {
-  const dispatch = useDispatch()
-  const { nextLaunch, featuredLaunches } = useSelector(
-    (state: { launches: LaunchesState }) => state.launches
-  )
+interface Props {
+  nextLaunch: Launch
+  featuredLaunches: Launch[]
+}
 
+export default function Home({ nextLaunch, featuredLaunches }: Props) {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
 
   const [navbarColor, setNavbarColor] = useState('bg-transparent')
 
-  const [navbarShadow, setNavbarShadow] = useState<boolean>(false)
+  const [navbarShadow, setNavbarShadow] = useState(false)
 
   function handleScroll() {
     if (window.scrollY >= landingImageHeight / 3) {
       setNavbarColor(theme.surface)
       setNavbarShadow(true)
-    } else setNavbarColor('bg-transparent')
+    } else {
+      setNavbarColor('bg-transparent')
+      setNavbarShadow(false)
+    }
   }
-
-  useEffect(() => {
-    dispatch(getFeaturedLaunches())
-  }, [])
 
   // cdup
   useEffect(() => {
@@ -54,7 +52,7 @@ export default function Home() {
       </Head>
 
       {/* Header */}
-      <Navbar shadow={navbarShadow} backgroundColor={navbarColor} />
+      <Navbar isShadow={navbarShadow} backgroundColor={navbarColor} />
 
       {/* landing */}
       <div className="w-full">
@@ -72,18 +70,17 @@ export default function Home() {
             size={TextSize.Xl}
             color={theme.textAccent}
           >
-            Cool data mapped within eye-candy UI, made with a very cool
-            tech-stack.
+            Explore SpaceX launches, rockets, projects and more
           </Text>
           <Text
             link
             href="https://github.com/r-spacex/SpaceX-API"
             classes={`underline text-center mt-1 ${theme.mainText} cursor-pointer`}
-            size={TextSize.Xl}
+            size={TextSize.Lg}
             color="text-white"
             weight="font-semibold"
           >
-            Powered by an awesome API
+            Powered by an awesome open-source API
           </Text>
         </div>
       </div>
@@ -139,10 +136,14 @@ export default function Home() {
   )
 }
 
-export const getStaticProps = wrapper.getStaticProps(
-  (store) =>
-    ({ preview }) => {
-      console.log('getStaticProps on index.tsx has been called.')
-      store.dispatch(getFeaturedLaunches())
-    }
-)
+export async function getStaticProps() {
+  const nextLaunchData = await getNextLaunch()
+  const featuredLaunchesData = await getFeaturedLaunches()
+
+  return {
+    props: {
+      nextLaunch: nextLaunchData,
+      featuredLaunches: featuredLaunchesData,
+    },
+  }
+}

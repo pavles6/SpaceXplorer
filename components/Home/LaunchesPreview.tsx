@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Theme } from '../../constants/global/theme'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
 import PreviewHeader from './PreviewHeader'
-import { ArrowNarrowRightIcon } from '@heroicons/react/outline'
 import { TextSize } from '../Text/ETextSize'
-import { FeaturedLaunches, FetchableLaunch } from '../../types/redux'
 import Skeleton from '../Skeleton/Skeleton'
+import Link from 'next/link'
+import { Launch } from '../../lib/types/api'
+import { Theme } from '../../lib/types/theme'
 
 interface timerNode {
   type: string
@@ -15,8 +15,8 @@ interface timerNode {
 }
 
 interface Props {
-  nextLaunch: FetchableLaunch
-  featuredLaunches: FeaturedLaunches
+  nextLaunch: Launch
+  featuredLaunches: Launch[]
 }
 
 export default function LaunchesPreview({
@@ -94,7 +94,7 @@ export default function LaunchesPreview({
   useEffect(() => {
     startTimer()
     return () => {
-      window?.clearInterval(countdownInterval.current)
+      window.clearInterval(countdownInterval)
     }
   }, [nextLaunch])
 
@@ -107,17 +107,6 @@ export default function LaunchesPreview({
         <PreviewHeader
           title="Launches"
           subtitle="Get to know about every SpaceX space Launch"
-          action={
-            <Button
-              variant="link"
-              href="/launches"
-              size={TextSize.Xl2}
-              Icon={ArrowNarrowRightIcon}
-              click={() => {}}
-            >
-              All launches
-            </Button>
-          }
         ></PreviewHeader>
       </div>
       <div className={`flex-1`}>
@@ -131,20 +120,22 @@ export default function LaunchesPreview({
             Next Launch:
           </Text>
           <div className="m-6">
-            {!nextLaunch.loading ? (
-              <Text
-                color={theme.mainText}
-                weight="font-bold"
-                size={TextSize.Xl6}
+            {nextLaunch ? (
+              <Button
+                variant="link"
+                href={`/launch/${nextLaunch.id}`}
+                textColor={theme.mainText}
+                textWeight="font-extrabold"
+                textSize={TextSize.Xl6}
               >
                 {nextLaunch.name}
-              </Text>
+              </Button>
             ) : (
               <Skeleton width={25} height={3.75} />
             )}
           </div>
           <div className="flex m-6 justify-around items-center max-w-screen-lg w-full space-x-5">
-            {!nextLaunch.loading
+            {nextLaunch
               ? timer.map((item) => (
                   <div
                     key={item.type}
@@ -173,18 +164,18 @@ export default function LaunchesPreview({
         </div>
         {/* Featured launches */}
         <div className="flex justify-center mt-6">
-          <div className="flex flex-col w-2/3 items-center">
+          <div className="flex flex-col w-full items-center">
             <Text
               color={theme.textAccent}
               size={TextSize.Xl3}
-              weight={'font-bold'}
+              weight={'font-semibold'}
               classes="mb-6"
             >
               Featured launches
             </Text>
             <ul className="flex flex-wrap justify-center items-center">
-              {!featuredLaunches.loading
-                ? featuredLaunches.items.map((item) => {
+              {featuredLaunches
+                ? featuredLaunches.map((item) => {
                     const monthNames = [
                       'January',
                       'February',
@@ -201,45 +192,49 @@ export default function LaunchesPreview({
                     ]
 
                     return (
-                      <li
-                        key={item.id}
-                        className={`p-4 border border-${theme.mainColor} rounded-xl mx-4 my-4`}
-                      >
-                        <Text
-                          size={TextSize.Xl3}
-                          color={theme.mainText}
-                          weight="font-semibold"
+                      <Link key={item.id} href={`/launch/${item.id}`}>
+                        <a
+                          className={`w-52 hover:shadow-red transition transform hover:-translate-y-1 cursor-pointer w-72 h-52 p-4 border border-${theme.mainColor} rounded-xl mx-4 my-4`}
                         >
-                          {item.name}
-                        </Text>
-                        <Text
-                          size={TextSize.Lg}
-                          color={theme.text}
-                          weight="font-semibold"
-                        >
-                          {`${
-                            monthNames[
-                              new Date(item.date_unix * 1000).getMonth()
-                            ]
-                          }, ${new Date(item.date_unix * 1000).getFullYear()} ${
-                            item.upcoming ? '- Upcoming' : ''
-                          }`}
-                        </Text>
-                        <Text size={TextSize.Base} color={theme.text}></Text>
-                        <Text size={TextSize.Base} color={theme.text}>
-                          {`Outcome: ${
-                            item.success === null
-                              ? 'N/A'
-                              : item.success
-                              ? 'Successful'
-                              : 'Failed'
-                          }`}
-                        </Text>
-                        <Text
-                          size={TextSize.Base}
-                          color={theme.text}
-                        >{`Rocket: ${item.rocket!.name}`}</Text>
-                      </li>
+                          <Text
+                            size={TextSize.Xl3}
+                            color={theme.mainText}
+                            weight="font-semibold"
+                            classes="truncate"
+                          >
+                            {item.name}
+                          </Text>
+                          <Text
+                            size={TextSize.Lg}
+                            color={theme.text}
+                            weight="font-semibold"
+                          >
+                            {`${
+                              monthNames[
+                                new Date(item.date_unix * 1000).getMonth()
+                              ]
+                            }, ${new Date(
+                              item.date_unix * 1000
+                            ).getFullYear()} ${
+                              item.upcoming ? '- Upcoming' : ''
+                            }`}
+                          </Text>
+                          <Text size={TextSize.Base} color={theme.text}></Text>
+                          <Text size={TextSize.Base} color={theme.text}>
+                            {`Outcome: ${
+                              item.success === null
+                                ? 'N/A'
+                                : item.success
+                                ? 'Successful'
+                                : 'Failed'
+                            }`}
+                          </Text>
+                          <Text
+                            size={TextSize.Base}
+                            color={theme.text}
+                          >{`Rocket: ${item.rocket!.name}`}</Text>
+                        </a>
+                      </Link>
                     )
                   })
                 : null}
@@ -250,9 +245,9 @@ export default function LaunchesPreview({
           <Button
             variant="link"
             href="/launches"
-            size={TextSize.Xl}
-            click={() => {}}
-            classes={`transition transform bg-${theme.mainColor} ${theme.textAccent} rounded-lg px-28 py-5 mb-10 hover:-translate-y-1`}
+            textSize={TextSize.Xl2}
+            textWeight="font-semibold"
+            classes={`transition transform hover:-translate-y-1 bg-${theme.mainColor} ${theme.textAccent} rounded-lg px-20 py-5 mb-10 `}
           >
             See all launches
           </Button>

@@ -8,14 +8,7 @@
 
 */
 
-interface baseColors {
-  mainSurface: string
-  mainText: string
-  mainTextAccent: string
-  mainSurfaceAccent: string
-  mainColor: string
-  mainLightColor: string
-}
+import { baseColors, Theme } from '../../lib/types/theme'
 
 const mainPalette: baseColors = {
   mainSurface: 'bg-red-500',
@@ -24,14 +17,6 @@ const mainPalette: baseColors = {
   mainSurfaceAccent: 'bg-red-600',
   mainColor: 'red-500',
   mainLightColor: 'red-400',
-}
-
-export interface Theme extends baseColors {
-  surface: string
-  surfaceBackground: string
-  text: string
-  textAccent: string
-  textSecondary: string
 }
 
 export const darkTheme: Theme = {
