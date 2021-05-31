@@ -5,6 +5,29 @@ interface RequestConfig extends AxiosRequestConfig {
   data?: IEndpointPayload
 }
 
+export const dragonsPreviewPayload: RequestConfig = {
+  method: 'POST',
+  url: 'https://api.spacexdata.com/v4/dragons/query',
+  data: {
+    options: {
+      pagination: false,
+      select: 'name flickr_images active first_flight description id',
+    },
+  },
+}
+
+export const rocketsPreviewPayload: RequestConfig = {
+  method: 'POST',
+  url: 'https://api.spacexdata.com/v4/rockets/query',
+  data: {
+    options: {
+      pagination: false,
+      select:
+        'name id flickr_images description engines.number first_flight active',
+    },
+  },
+}
+
 export const featuredLaunchesPayload: RequestConfig = {
   method: 'POST',
   url: 'https://api.spacexdata.com/v4/launches/query',

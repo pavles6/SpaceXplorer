@@ -23,7 +23,7 @@ export const darkTheme: Theme = {
   ...mainPalette,
   surfaceBackground: 'bg-gray-900',
   surface: 'bg-gray-800',
-  textAccent: 'text-gray-50',
-  text: 'text-gray-400',
+  textAccent: 'text-white',
+  text: 'text-gray-300',
   textSecondary: 'text-gray-400',
 }

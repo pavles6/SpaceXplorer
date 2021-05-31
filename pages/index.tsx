@@ -2,23 +2,36 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import DragonPreview from '../components/Home/DragonPreview'
+import Footer from '../components/Footer'
+import DragonsPreview from '../components/Home/DragonsPreview'
 import LaunchesPreview from '../components/Home/LaunchesPreview'
 import RocketsPreview from '../components/Home/RocketsPreview'
 import Navbar from '../components/Navbar/Navbar'
 import { TextSize } from '../components/Text/ETextSize'
 import Text from '../components/Text/Text'
 import { landingImageHeight } from '../constants/other'
-import { getFeaturedLaunches, getNextLaunch } from '../lib/api-calls'
-import { Launch } from '../lib/types/api'
+import {
+  getDragonsPreview,
+  getFeaturedLaunches,
+  getNextLaunch,
+  getRocketsPreview,
+} from '../lib/api-calls'
+import { Dragon, Launch, Rocket } from '../lib/types/api'
 import { Theme } from '../lib/types/theme'
 
 interface Props {
-  nextLaunch: Launch
-  featuredLaunches: Launch[]
+  nextLaunchData: Launch
+  featuredLaunchesData: Launch[]
+  rocketsPreviewData: Rocket[]
+  dragonsPreviewData: Dragon[]
 }
 
-export default function Home({ nextLaunch, featuredLaunches }: Props) {
+export default function Home({
+  nextLaunchData,
+  featuredLaunchesData,
+  rocketsPreviewData,
+  dragonsPreviewData,
+}: Props) {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
 
   const [navbarColor, setNavbarColor] = useState('bg-transparent')
@@ -59,7 +72,7 @@ export default function Home({ nextLaunch, featuredLaunches }: Props) {
         <div className="flex flex-col justify-center items-center items-center bg-landing-image w-full h-landing bg-cover">
           <Text
             classes="text-center"
-            size={TextSize.Xl6}
+            size={TextSize.Xl8}
             weight="font-bold"
             color={theme.textAccent}
           >
@@ -67,20 +80,21 @@ export default function Home({ nextLaunch, featuredLaunches }: Props) {
           </Text>
           <Text
             classes="text-center mt-1"
-            size={TextSize.Xl}
-            color={theme.textAccent}
+            size={TextSize.Xl3}
+            weight="font-semibold"
+            color={theme.text}
           >
             Explore SpaceX launches, rockets, projects and more
           </Text>
           <Text
             link
             href="https://github.com/r-spacex/SpaceX-API"
-            classes={`underline text-center mt-1 ${theme.mainText} cursor-pointer`}
-            size={TextSize.Lg}
+            classes={`text-center mt-1 ${theme.mainText} cursor-pointer`}
+            size={TextSize.Xl}
             color="text-white"
             weight="font-semibold"
           >
-            Powered by an awesome open-source API
+            Powered by an awesome SpaceX-API
           </Text>
         </div>
       </div>
@@ -90,47 +104,13 @@ export default function Home({ nextLaunch, featuredLaunches }: Props) {
         className={`transition flex flex-col items-center h-full delay-300 ${theme.surfaceBackground}  `}
       >
         <LaunchesPreview
-          featuredLaunches={featuredLaunches}
-          nextLaunch={nextLaunch}
+          featuredLaunches={featuredLaunchesData}
+          nextLaunch={nextLaunchData}
         />
-        <RocketsPreview />
-        <DragonPreview />
+        <RocketsPreview rocketsPreview={rocketsPreviewData} />
+        <DragonsPreview dragonsPreview={dragonsPreviewData} />
 
-        {/* Footer */}
-        <div
-          className={`${theme.surface} w-full h-20 flex justify-between items-center`}
-        >
-          <Text
-            classes="ml-5"
-            size={TextSize.Lg}
-            weight="font-semibold"
-            color={theme.text}
-          >
-            Licensed under{' '}
-            <Link href="#">
-              <span className="underline cursor-pointer">MIT License</span>
-            </Link>
-          </Text>
-          <Text
-            classes=""
-            size={TextSize.Lg}
-            weight="font-semibold"
-            color={theme.text}
-          >
-            Made with Next.js &amp; Redux +{' '}
-            <span className="text-red-500">❤</span>
-          </Text>
-          <Text
-            link
-            href="#"
-            classes="underline mr-5 cursor-pointer"
-            size={TextSize.Lg}
-            weight="font-semibold"
-            color={theme.text}
-          >
-            GitHub Repository
-          </Text>
-        </div>
+        <Footer />
       </div>
     </>
   )
@@ -139,11 +119,15 @@ export default function Home({ nextLaunch, featuredLaunches }: Props) {
 export async function getStaticProps() {
   const nextLaunchData = await getNextLaunch()
   const featuredLaunchesData = await getFeaturedLaunches()
+  const rocketsPreviewData = await getRocketsPreview()
+  const dragonsPreviewData = await getDragonsPreview()
 
   return {
     props: {
-      nextLaunch: nextLaunchData,
-      featuredLaunches: featuredLaunchesData,
+      nextLaunchData,
+      featuredLaunchesData,
+      rocketsPreviewData,
+      dragonsPreviewData,
     },
   }
 }

@@ -61,6 +61,8 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
     >
       {/* Navbar Title */}
       <Text
+        link
+        href="/"
         size={TextSize.Xl4}
         weight="font-bold"
         classes="ml-5"

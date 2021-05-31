@@ -8,6 +8,7 @@ import Skeleton from '../Skeleton/Skeleton'
 import Link from 'next/link'
 import { Launch } from '../../lib/types/api'
 import { Theme } from '../../lib/types/theme'
+import { formatDate } from '../../lib/utils/format-date'
 
 interface timerNode {
   type: string
@@ -24,6 +25,8 @@ export default function LaunchesPreview({
   featuredLaunches,
 }: Props) {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
+
+  const [launchNameUnderline, setLaunchNameUnderline] = useState(false)
 
   const [timer, setTimer] = useState<timerNode[]>([
     {
@@ -109,59 +112,56 @@ export default function LaunchesPreview({
           subtitle="Get to know about every SpaceX space Launch"
         ></PreviewHeader>
       </div>
-      <div className={`flex-1`}>
+      <div>
         {/* Next launch */}
-        <div className="flex flex-col justify-center items-center">
-          <Text
-            color={theme.textAccent}
-            size={TextSize.Xl2}
-            weight="font-semibold"
+        <Link href={`/launch/${nextLaunch.id}`}>
+          <a
+            onMouseOver={() => setLaunchNameUnderline(true)}
+            onMouseLeave={() => setLaunchNameUnderline(false)}
+            className="flex cursor-pointer flex-col justify-center items-center"
           >
-            Next Launch:
-          </Text>
-          <div className="m-6">
-            {nextLaunch ? (
-              <Button
-                variant="link"
-                href={`/launch/${nextLaunch.id}`}
-                textColor={theme.mainText}
-                textWeight="font-extrabold"
-                textSize={TextSize.Xl6}
+            <Text
+              color={theme.textAccent}
+              size={TextSize.Xl2}
+              weight="font-semibold"
+            >
+              Next Launch:
+            </Text>
+            <div className="m-6">
+              <Text
+                color={theme.mainText}
+                weight="font-extrabold"
+                size={TextSize.Xl6}
+                classes={`${launchNameUnderline ? 'underline' : ''}`}
               >
                 {nextLaunch.name}
-              </Button>
-            ) : (
-              <Skeleton width={25} height={3.75} />
-            )}
-          </div>
-          <div className="flex m-6 justify-around items-center max-w-screen-lg w-full space-x-5">
-            {nextLaunch
-              ? timer.map((item) => (
+              </Text>
+            </div>
+            <div className="flex m-6 justify-around items-center max-w-screen-lg w-full space-x-5">
+              {timer.map((item) => (
+                <div
+                  key={item.type}
+                  className="flex flex-col items-center justify-center"
+                >
                   <div
-                    key={item.type}
-                    className="flex flex-col items-center justify-center"
+                    className={`w-40 h-40 flex justify-center items-center rounded-lg ${theme.surface}`}
                   >
-                    <div
-                      className={`w-40 h-40 flex justify-center items-center rounded-lg ${theme.surface}`}
+                    <Text
+                      color={theme.textAccent}
+                      size={TextSize.Xl6}
+                      weight="font-bold"
                     >
-                      <Text
-                        color={theme.textAccent}
-                        size={TextSize.Xl6}
-                        weight="font-bold"
-                      >
-                        {item.value}
-                      </Text>
-                    </div>
-                    <Text size={TextSize.Lg} color={theme.text}>
-                      {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                      {item.value}
                     </Text>
                   </div>
-                ))
-              : timer.map(({ type }) => (
-                  <Skeleton key={type} width={10} height={10} />
-                ))}
-          </div>
-        </div>
+                  <Text size={TextSize.Lg} color={theme.text}>
+                    {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                  </Text>
+                </div>
+              ))}
+            </div>
+          </a>
+        </Link>
         {/* Featured launches */}
         <div className="flex justify-center mt-6">
           <div className="flex flex-col w-full items-center">
@@ -175,26 +175,11 @@ export default function LaunchesPreview({
             </Text>
             <ul className="flex flex-wrap justify-center items-center">
               {featuredLaunches
-                ? featuredLaunches.map((item) => {
-                    const monthNames = [
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                      'May',
-                      'June',
-                      'July',
-                      'August',
-                      'September',
-                      'October',
-                      'November',
-                      'December',
-                    ]
-
+                ? featuredLaunches.map((launch) => {
                     return (
-                      <Link key={item.id} href={`/launch/${item.id}`}>
+                      <Link key={launch.id} href={`/launch/${launch.id}`}>
                         <a
-                          className={`w-52 hover:shadow-red transition transform hover:-translate-y-1 cursor-pointer w-72 h-52 p-4 border border-${theme.mainColor} rounded-xl mx-4 my-4`}
+                          className={`hover:shadow-red transition transform hover:-translate-y-1 cursor-pointer w-72 h-52 p-4 border border-${theme.mainColor} rounded-xl mx-4 my-4`}
                         >
                           <Text
                             size={TextSize.Xl3}
@@ -202,29 +187,24 @@ export default function LaunchesPreview({
                             weight="font-semibold"
                             classes="truncate"
                           >
-                            {item.name}
+                            {launch.name}
                           </Text>
                           <Text
                             size={TextSize.Lg}
                             color={theme.text}
                             weight="font-semibold"
                           >
-                            {`${
-                              monthNames[
-                                new Date(item.date_unix * 1000).getMonth()
-                              ]
-                            }, ${new Date(
-                              item.date_unix * 1000
-                            ).getFullYear()} ${
-                              item.upcoming ? '- Upcoming' : ''
-                            }`}
+                            {`${formatDate(
+                              new Date(launch.date_unix * 1000),
+                              'MMMM, YYYY.'
+                            )} ${launch.upcoming ? '- Upcoming' : ''}`}
                           </Text>
                           <Text size={TextSize.Base} color={theme.text}></Text>
                           <Text size={TextSize.Base} color={theme.text}>
                             {`Outcome: ${
-                              item.success === null
+                              launch.success === null
                                 ? 'N/A'
-                                : item.success
+                                : launch.success
                                 ? 'Successful'
                                 : 'Failed'
                             }`}
@@ -232,7 +212,7 @@ export default function LaunchesPreview({
                           <Text
                             size={TextSize.Base}
                             color={theme.text}
-                          >{`Rocket: ${item.rocket!.name}`}</Text>
+                          >{`Rocket: ${launch.rocket!.name}`}</Text>
                         </a>
                       </Link>
                     )

@@ -1,5 +1,26 @@
 import axios, { AxiosResponse } from 'axios'
-import { featuredLaunchesPayload, nextLaunchPayload } from './api/endpoints'
+import {
+  dragonsPreviewPayload,
+  featuredLaunchesPayload,
+  nextLaunchPayload,
+  rocketsPreviewPayload,
+} from './api/endpoints'
+
+export const getDragonsPreview = async () => {
+  const {
+    data: { docs },
+  }: AxiosResponse = await axios(dragonsPreviewPayload)
+
+  return docs
+}
+
+export const getRocketsPreview = async () => {
+  const {
+    data: { docs },
+  }: AxiosResponse = await axios(rocketsPreviewPayload)
+
+  return docs
+}
 
 export const getNextLaunch = async () => {
   const {

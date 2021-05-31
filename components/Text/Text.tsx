@@ -9,6 +9,7 @@ interface TextProps {
   classes?: string
   link?: boolean
   href?: string
+  align?: 'text-left' | 'text-center' | 'text-right' | 'text-justify'
   children?: React.ReactNode | React.ReactNodeArray
 }
 
@@ -26,7 +27,7 @@ export default function Text(props: TextProps) {
   }
   return (
     <div
-      className={`${props.color} ${props.weight} ${props.size} ${props.classes}  transition delay-300`}
+      className={`${props.color} ${props.weight} ${props.size} ${props.classes} ${props.align} transition delay-300`}
     >
       {props.children}
     </div>

@@ -8,11 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/react-redux": "^7.1.16",
     "axios": "^0.21.1",
     "material-design-icons": "^3.0.1",
+    "moment": "^2.29.1",
     "next": "10.2.2",
     "next-redux-wrapper": "^7.0.0-rc.2",
     "react": "17.0.2",

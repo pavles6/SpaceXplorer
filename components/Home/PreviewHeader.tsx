@@ -26,7 +26,7 @@ export default function PreviewHeader({
         >
           {title}
         </Text>
-        <Text color={theme.text} size={TextSize.Lg}>
+        <Text color={theme.textSecondary} size={TextSize.Lg}>
           {subtitle}
         </Text>
       </div>
