@@ -11,6 +11,7 @@ export interface Theme extends baseColors {
   surface: string
   surfaceBackground: string
   text: string
+  disabled: string
   textAccent: string
   textSecondary: string
 }

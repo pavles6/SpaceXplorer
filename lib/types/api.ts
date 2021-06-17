@@ -2,6 +2,20 @@ type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
 }
 
+export interface Dragon extends DeepPartial<DragonDraft> {}
+
+export interface Rocket extends DeepPartial<RocketDraft> {}
+
+export interface Launch extends DeepPartial<LaunchDraft> {}
+
+export interface LaunchLinks extends DeepPartial<LaunchLinksDraft> {}
+
+export interface Payload extends DeepPartial<PayloadDraft> {}
+
+export interface DragonCapsule extends DeepPartial<DragonCapsuleDraft> {}
+
+export interface CrewMember extends DeepPartial<CrewMemberDraft> {}
+
 interface Document {
   id: string
 }
@@ -40,23 +54,92 @@ interface RocketDraft extends Document {
   flickr_images: string[]
 }
 
+interface LaunchpadDraft extends Document {
+  name: string
+  full_name: string
+  status:
+    | 'active'
+    | 'inactive'
+    | 'unknown'
+    | 'retired'
+    | 'lost'
+    | 'under construction'
+  locality: string
+  region: string
+  timezone: string
+  latitude: number
+  longtitude: number
+  launch_success: number
+  rockets: RocketDraft[] | string[]
+  launches: LaunchDraft[] | string[]
+}
+
+interface LaunchLinksDraft {
+  wikipedia: string
+  article: string
+  webcast: string
+  reddit: {
+    campaign: string
+    launch: string
+  }
+  flickr: {
+    small: string[]
+    original: string[]
+  }
+}
+
 interface LaunchDraft extends Document {
   date_unix: number
+  date_precision: 'year' | 'month' | 'day' | 'hour' | 'half' | 'quarter'
   name: string
-  id: string
   upcoming: boolean
   success: boolean | null
   details: string
   rocket: RocketDraft
-  links: {
-    wikipedia: string
-    article: string
-    webcast: string
-  }
+  launchpad: LaunchpadDraft
+  links: LaunchLinksDraft
+  crew: CrewMemberDraft[]
+  capsules: DragonCapsuleDraft[]
+  payloads: PayloadDraft[]
 }
 
-export interface Dragon extends DeepPartial<DragonDraft> {}
+interface CrewMemberDraft extends Document {
+  name: string
+  status: 'active' | 'inactive' | 'retired' | 'unknown'
+  agency: string
+  image: string
+  wikipedia: string
+  launches: LaunchDraft[]
+}
 
-export interface Rocket extends DeepPartial<RocketDraft> {}
+interface DragonCapsuleDraft extends Document {
+  serial: string
+  status: 'unknown' | 'active' | 'retired' | 'unknown'
+  type: 'Dragon 1.0' | 'Dragon 1.1' | 'Dragon 2.0'
+  dragon: DragonDraft
+  reuse_count: number
+  last_update: string
+  water_landings: number
+  land_landings: number
+  launches: LaunchDraft[]
+}
 
-export interface Launch extends DeepPartial<LaunchDraft> {}
+interface PayloadDraft extends Document {
+  name: string
+  type: string
+  reused: boolean
+  launch: LaunchDraft | string | null
+  customers: string[]
+  nationalities: string[]
+  manufacturers: string[]
+  mass_kg: number
+  mass_lb: number
+  dragon: {
+    capsule: DragonCapsuleDraft | string
+    mass_returned_kg: number
+    mass_returned_lbs: number
+    flight_time_sec: number
+    water_landing: boolean
+    land_landing: boolean
+  }
+}

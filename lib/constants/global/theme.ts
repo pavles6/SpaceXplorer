@@ -21,6 +21,7 @@ const mainPalette: baseColors = {
 
 export const darkTheme: Theme = {
   ...mainPalette,
+  disabled: 'gray-400',
   surfaceBackground: 'bg-gray-900',
   surface: 'bg-gray-800',
   textAccent: 'text-white',

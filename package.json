@@ -1,9 +1,9 @@
 {
-  "name": "astronaut",
+  "name": "spacexplorer",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "HOST=0.0.0.0 next dev",
     "build": "next build",
     "start": "next start"
   },

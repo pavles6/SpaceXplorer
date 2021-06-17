@@ -1,4 +1,7 @@
 export enum TextSize {
+  h1 = 'xl:text-5xl lg:text-4xl text-3xl font-bold',
+  h2 = 'xl:text-4xl lg:text-3xl text-2xl font-semibold',
+  h3 = 'xl:text-3xl lg:text-2xl text-xl font-semibold',
   Xs = 'text-xs',
   Sm = 'text-sm',
   Base = 'text-base',

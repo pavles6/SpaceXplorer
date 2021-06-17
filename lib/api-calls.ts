@@ -2,11 +2,19 @@ import axios, { AxiosResponse } from 'axios'
 import {
   dragonsPreviewPayload,
   featuredLaunchesPayload,
+  launchPayload,
   nextLaunchPayload,
   rocketsPreviewPayload,
 } from './api/endpoints'
+import { Dragon, Launch, Rocket } from './types/api'
 
-export const getDragonsPreview = async () => {
+export const getLaunch = async (id: string): Promise<Launch> => {
+  const { data }: AxiosResponse = await axios(launchPayload(id))
+
+  return data.docs[0]
+}
+
+export const getDragonsPreview = async (): Promise<Dragon[]> => {
   const {
     data: { docs },
   }: AxiosResponse = await axios(dragonsPreviewPayload)
@@ -14,7 +22,7 @@ export const getDragonsPreview = async () => {
   return docs
 }
 
-export const getRocketsPreview = async () => {
+export const getRocketsPreview = async (): Promise<Rocket[]> => {
   const {
     data: { docs },
   }: AxiosResponse = await axios(rocketsPreviewPayload)
@@ -22,20 +30,20 @@ export const getRocketsPreview = async () => {
   return docs
 }
 
-export const getNextLaunch = async () => {
+export const getNextLaunch = async (): Promise<Launch> => {
   const {
-    data: { name, date_unix, id },
+    data: { name, date_unix, id, date_precision },
   }: AxiosResponse = await axios(nextLaunchPayload)
-  setTimeout(() => {}, 2000)
 
   return {
     name,
     date_unix,
     id,
+    date_precision,
   }
 }
 
-export const getFeaturedLaunches = async () => {
+export const getFeaturedLaunches = async (): Promise<Launch[]> => {
   const { data }: AxiosResponse = await axios(featuredLaunchesPayload)
   return data.docs
 }

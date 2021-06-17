@@ -7,44 +7,54 @@ import { Theme } from '../../lib/types/theme'
 interface Props {
   click?: Function
   textColor?: string
-  children: string
+  children?: string
   icon?: FunctionComponent<React.ComponentProps<'svg'>>
-  variant: 'link' | 'button'
+  variant?: 'link' | 'button'
   href?: string
   textWeight?: string
-  textSize: TextSize
+  textSize?: TextSize
   classes?: string
+  iconClasses?: string
 }
 
 export default function Button({
   click,
   variant = 'button',
   textColor,
-  classes,
+  classes = '',
   textWeight,
-  children,
+  children = '',
+  iconClasses = '',
   href,
-  textSize,
+  textSize = TextSize.Base,
   icon: Icon,
 }: Props): ReactElement {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
 
   if (!textColor) textColor = theme.textAccent
 
+  const iconButton = !children && Icon
+
   if (variant === 'link') {
     return (
       <Link href={href}>
         <a className={`${classes} ${textColor}`}>
-          <p
-            style={{
-              color: 'inherit',
-            }}
-            className={`${textSize} ${textWeight}`}
-          >
-            {children}
-          </p>
+          {!iconButton ? (
+            <p
+              style={{
+                color: 'inherit',
+              }}
+              className={`${textSize} ${textWeight}`}
+            >
+              {children}
+            </p>
+          ) : null}
           {Icon ? (
-            <Icon className={`${theme.text} absolute h-8 w-8 mx-2`}></Icon>
+            <Icon
+              className={`${textColor} ${
+                !iconButton ? 'absolute' : ''
+              } h-8 w-8 ${iconClasses}`}
+            ></Icon>
           ) : null}
         </a>
       </Link>
@@ -52,17 +62,26 @@ export default function Button({
   }
 
   return (
-    <button className={`${classes} ${textColor}`} onClick={() => click()}>
-      <p
-        style={{
-          color: 'inherit',
-        }}
-        className={`${textSize} ${textWeight}`}
-      >
-        {children}
-      </p>
+    <button
+      className={`${classes} focus:outline-none ${textColor}`}
+      onClick={() => click()}
+    >
+      {children ? (
+        <p
+          style={{
+            color: 'inherit',
+          }}
+          className={`${textSize} ${textWeight}`}
+        >
+          {children}
+        </p>
+      ) : null}
       {Icon ? (
-        <Icon className={`${textColor} absolute h-8 w-8 mx-2`}></Icon>
+        <Icon
+          className={`${textColor} ${
+            !iconButton ? 'absolute' : ''
+          } h-8 w-8 ${iconClasses}`}
+        ></Icon>
       ) : null}
     </button>
   )

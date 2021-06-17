@@ -8,7 +8,7 @@ import { Theme } from '../../lib/types/theme'
 import { Rocket } from '../../lib/types/api'
 import Link from 'next/link'
 import { Transition } from '@headlessui/react'
-import { formatDate } from '../../lib/utils/format-date'
+import { formatDate } from '../../lib/utils/date-functions'
 
 interface Props {
   rocketsPreview: Rocket[]
@@ -68,7 +68,7 @@ export default function RocketsPreview({ rocketsPreview }: Props) {
                     <Text
                       align="text-center"
                       size={TextSize.Lg}
-                      color={theme.text}
+                      color={theme.textAccent}
                       classes="overflow-clip"
                     >
                       {truncatedDescription}

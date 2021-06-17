@@ -7,7 +7,7 @@ import PreviewHeader from './PreviewHeader'
 import { TextSize } from '../Text/ETextSize'
 import { Dragon } from '../../lib/types/api'
 import Link from 'next/link'
-import { formatDate } from '../../lib/utils/format-date'
+import { formatDate } from '../../lib/utils/date-functions'
 
 interface Props {
   dragonsPreview: Dragon[]

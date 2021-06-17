@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Theme } from '../../constants/global/theme'
+import { Theme } from '../../lib/types/theme'
 import Link from 'next/link'
 
 interface NavbarLinkProps {

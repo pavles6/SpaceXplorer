@@ -9,7 +9,7 @@ import RocketsPreview from '../components/Home/RocketsPreview'
 import Navbar from '../components/Navbar/Navbar'
 import { TextSize } from '../components/Text/ETextSize'
 import Text from '../components/Text/Text'
-import { landingImageHeight } from '../constants/other'
+import { landingImageHeight } from '../lib/constants/other'
 import {
   getDragonsPreview,
   getFeaturedLaunches,
@@ -61,7 +61,7 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>Astronaut</title>
+        <title>SpaceTracker</title>
       </Head>
 
       {/* Header */}
@@ -71,19 +71,13 @@ export default function Home({
       <div className="w-full">
         <div className="flex flex-col justify-center items-center items-center bg-landing-image w-full h-landing bg-cover">
           <Text
-            classes="text-center"
-            size={TextSize.Xl8}
+            classes="text-center text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
             weight="font-bold"
             color={theme.textAccent}
           >
-            Astronaut: The SpaceX API explorer
+            SpaceXplorer: The SpaceX data explorer
           </Text>
-          <Text
-            classes="text-center mt-1"
-            size={TextSize.Xl3}
-            weight="font-semibold"
-            color={theme.text}
-          >
+          <Text classes="text-center" weight="font-semibold" color={theme.text}>
             Explore SpaceX launches, rockets, projects and more
           </Text>
           <Text

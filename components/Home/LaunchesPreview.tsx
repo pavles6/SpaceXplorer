@@ -4,13 +4,13 @@ import Button from '../Button/Button'
 import Text from '../Text/Text'
 import PreviewHeader from './PreviewHeader'
 import { TextSize } from '../Text/ETextSize'
-import Skeleton from '../Skeleton/Skeleton'
+import { calculateCountdown } from '../../lib/utils/date-functions'
 import Link from 'next/link'
 import { Launch } from '../../lib/types/api'
 import { Theme } from '../../lib/types/theme'
-import { formatDate } from '../../lib/utils/format-date'
+import { formatDate } from '../../lib/utils/date-functions'
 
-interface timerNode {
+interface TimerNode {
   type: string
   value: string
 }
@@ -28,7 +28,7 @@ export default function LaunchesPreview({
 
   const [launchNameUnderline, setLaunchNameUnderline] = useState(false)
 
-  const [timer, setTimer] = useState<timerNode[]>([
+  const [timer, setTimer] = useState<TimerNode[]>([
     {
       type: 'days',
       value: null,
@@ -50,46 +50,15 @@ export default function LaunchesPreview({
   let countdownInterval: any = useRef<any | null>(null)
 
   const startTimer = () => {
-    const countdownTime = nextLaunch?.date_unix * 1000
     countdownInterval = window?.setInterval(() => {
-      const now = new Date().getTime()
-      const distance = countdownTime - now
-
-      if (distance > 0) {
-        let days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString()
-        let hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        ).toString()
-        let minutes = Math.floor(
-          (distance % (1000 * 60 * 60)) / (1000 * 60)
-        ).toString()
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000).toString()
-
-        if (days.length == 1) days = `0${days}`
-        if (hours.length == 1) hours = `0${hours}`
-        if (minutes.length == 1) minutes = `0${minutes}`
-        if (seconds.length == 1) seconds = `0${seconds}`
-
-        setTimer([
-          {
-            ...timer[0],
-            value: days,
-          },
-          {
-            ...timer[1],
-            value: hours,
-          },
-          {
-            ...timer[2],
-            value: minutes,
-          },
-          {
-            ...timer[3],
-            value: seconds,
-          },
-        ])
-      } else {
-        window?.clearInterval(countdownInterval.current)
+      const result = calculateCountdown(nextLaunch.date_unix)
+      if (!result) window?.clearInterval(countdownInterval.current)
+      else {
+        const timerData: TimerNode[] = timer.map((node: TimerNode) => ({
+          ...node,
+          value: result[node.type],
+        }))
+        setTimer(timerData)
       }
     }, 1000)
   }
