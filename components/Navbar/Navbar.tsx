@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Theme } from '../../lib/types/theme'
 import { useRouter } from 'next/router'
 import Text from '../Text/Text'
 import { INavbarLink } from './INavbarLink'
 import NavbarLink from './NavbarLink'
-import { TextSize } from '../Text/ETextSize'
 import Button from '../Button/Button'
-import { MenuAlt3Icon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { DotsVerticalIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Transition } from '@headlessui/react'
+import { Drawer } from './Drawer'
 
 interface Props {
   backgroundColor?: string
@@ -71,24 +71,31 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
       <nav
         className={`w-full ${shadow} ${backgroundColor} transition h-16 ${
           router.pathname == '/' ? 'fixed' : 'sticky'
-        } top-0 right-0 flex justify-between items-center z-40 flex-row`}
+        } top-0 right-0 flex lg:justify-between items-center z-40 flex-row`}
       >
-        {/* Navbar Title */}
+        <Button
+          icon={MenuIcon}
+          buttonClasses="mx-2 lg:hidden transition"
+          click={() => {
+            setMenuOpened(true)
+          }}
+        />
         <Text
           link
           href="/"
-          size={TextSize.Xl3}
+          size="text-2xl"
           weight="font-bold"
-          classes={`ml-2 hover:${theme.mainText} active:${theme.mainText}`}
-          color={theme.textAccent}
+          classes={`lg:ml-2 hover:${theme.mainText} active:${theme.mainText} lg:text-4xl`}
+          color="textAccent"
         >
           SpaceXplorer
         </Text>
 
-        <div className="hidden lg:flex flex-1 mr-6 flex-row items-center h-10 justify-end space-x-5">
+        <div className="hidden lg:flex flex-1 flex-row items-center h-10 justify-end space-x-5">
           {navbarLinks.map((link) => {
             return (
               <NavbarLink
+                align="center"
                 path={link.path}
                 key={link.title}
                 active={link.active}
@@ -97,65 +104,20 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
               </NavbarLink>
             )
           })}
-          <button className="focus:outline-none text-white">
-            <span className=" material-icons text-3xl">more_horiz</span>
-          </button>
         </div>
-        <Button
-          icon={MenuIcon}
-          classes="mr-2 lg:hidden"
-          click={() => {
-            setMenuOpened(true)
-          }}
-        />
+        <div className="h-full flex lg:justify-center justify-end items-center lg:flex-grow-0 flex-grow ml-4 mr-2">
+          <Button
+            click={() => {}}
+            iconClasses="w-8 h-8"
+            icon={DotsVerticalIcon}
+          />
+        </div>
       </nav>
-      <Transition
-        show={menuOpened}
-        enter="transition-opacity ease-in duration-150"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity ease-out duration-150"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div
-          onClick={() => setMenuOpened(false)}
-          className="h-full flex justify-end top-0 lg:hidden fixed z-40 w-screen bg-black bg-opacity-60"
-        >
-          <Transition.Child
-            enter="transition ease-in-out duration-150 transform"
-            enterFrom="translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition ease-in-out duration-150 transform"
-            leaveFrom="-translate-x-0"
-            leaveTo="translate-x-full"
-          >
-            <div
-              className={`h-full w-96 relative z-50 flex flex-col items-center ${theme.surface}`}
-            >
-              <div className="h-16 w-full flex justify-end items-center">
-                <Button
-                  icon={XIcon}
-                  classes="mr-2"
-                  click={() => {
-                    setMenuOpened(false)
-                  }}
-                />
-              </div>
-              {navbarLinks.map((link: INavbarLink) => {
-                return (
-                  <div className="m-6" key={link.title}>
-                    <NavbarLink path={link.path} active={link.active}>
-                      {link.title}
-                    </NavbarLink>
-                  </div>
-                )
-              })}
-              <div className="w-11/12 border-t-2 border-white border-opacity-10"></div>
-            </div>
-          </Transition.Child>
-        </div>
-      </Transition>
+      <Drawer
+        closeMenu={() => setMenuOpened(false)}
+        navLinks={navbarLinks}
+        open={menuOpened}
+      />
     </>
   )
 }

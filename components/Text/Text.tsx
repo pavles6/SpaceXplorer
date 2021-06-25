@@ -2,125 +2,168 @@ import Link from 'next/link'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { State } from '../../lib/types/redux'
-import { Theme } from '../../lib/types/theme'
-import { TextSize } from './ETextSize'
+import { TextProps, TextVariantMapping, TextWeight, TwClass } from './types'
 
-const headingWithBorderStyles = 'pb-3 border-b-2 border-white border-opacity-10'
+const paragraphDividerClasses = 'pb-3 border-b-2 border-white border-opacity-10'
 
-interface TextVariant {
-  h1: string
-  h2: string
-  h3: string
-  title1: (color: string) => string
-  title2: (color: string) => string
-  subtitle1: (color: string) => string
-  subtitle2: (color: string) => string
+const defaultWeights: TextVariantMapping<TextWeight> = {
+  h1: 'font-bold',
+  h2: 'font-semibold',
+  h3: 'font-semibold',
+  h4: 'font-semibold',
+  title1: 'font-semibold',
+  title2: 'font-normal',
+  subtitle1: 'font-semibold',
+  subtitle2: 'font-normal',
+  small1: 'font-normal',
+  small2: 'font-normal',
+  articleHeading1: 'font-bold',
+  articleHeading2: 'font-semibold',
+  articleHeading3: 'font-semibold',
 }
 
-// Pre-defined styles for commonly used text styles, inspired by Material-UI Typography component
-const textVariantFunction = (theme: Theme, heading: boolean): TextVariant => ({
-  h1: `${TextSize.Xl5} ${theme.textAccent} ${
-    heading ? headingWithBorderStyles : ''
-  } font-bold`,
-  h2: `${TextSize.Xl3} ${theme.textAccent} ${
-    heading ? headingWithBorderStyles : ''
-  } font-semibold`,
-  h3: `${TextSize.Xl} ${theme.text} ${
-    heading ? headingWithBorderStyles : ''
-  } font-semibold`,
-  title1: (color: string) => `${TextSize.Lg} font-semibold ${color}`,
-  title2: (color: string) => `${TextSize.Lg} ${color}`,
-  subtitle1: (color: string) => `${TextSize.Base} font-semibold ${color}`,
-  subtitle2: (color: string) => `${TextSize.Base} ${color}`,
-})
-
-/**
- * @member {variant} When using `subtitle1` or `subtitle2`, a `color` prop must be passed
- *
- *
- */
-interface Props {
-  /** Pre-defined variants for commonly used text styles, inspired by Material-UI Typography component */
-  variant?:
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'title1'
-    | 'title2'
-    | 'subtitle1'
-    | 'subtitle2'
-    | ''
-  /**Tailwindcss class for color */
-  color?: string
-  /**Text size, use from TextSize enum */
-  size?: TextSize
-  /**Tailwindcss class for font weight */
-  weight?: string
-  /**Additional optional styles, or whole text config instead of passing multiple props */
-  classes?: string
-  /**If true, text will be rendered as an link, using Next.js <Link/> component */
-  link?: boolean
-  /**Adds an bottom border under the text, if passed as true */
-  heading?: boolean
-  /**Url for link, only if `link` prop is true */
-  href?: string
-  /**Text alignment */
-  align?: 'text-left' | 'text-center' | 'text-right' | 'text-justify'
-  /** Can be supplied when `link` prop is `true`, usually `__blank` */
-  target?: string
-  children?: React.ReactNode | React.ReactNodeArray
+const textVariants: TextVariantMapping<TwClass> = {
+  h1: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl',
+  h2: 'text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl',
+  h3: 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl',
+  h4: 'text-2xl lg:text-3xl',
+  title1: 'text-lg',
+  title2: 'text-lg',
+  subtitle1: 'text-base',
+  subtitle2: 'text-base',
+  small1: 'text-sm',
+  small2: 'text-xs',
+  articleHeading1: 'text-2xl lg:text-3xl xl:text-4xl',
+  articleHeading2: 'text-xl lg:text-2xl xl:text-3xl',
+  articleHeading3: 'text-lg lg:text-xl xl:text-2xl',
 }
 
 export default function Text({
   link = false,
-  href = '',
-  target = '',
-  color = '',
-  weight = '',
-  size = TextSize.Base,
-  classes = '',
+  divider = false,
+  decoration = 'no-underline',
+  target = '_self',
+  align,
+  href,
+  color,
+  weight,
+  classes,
+  size,
   children,
-  heading = false,
-  align = 'text-left',
-  variant = '',
-}: Props) {
+  variant,
+  id,
+}: TextProps) {
   const theme = useSelector((state: State) => state.theme)
 
-  const textVariants = textVariantFunction(theme, heading)
-  let predefinedVariant = null
+  const defaultColor = theme.text
 
-  if (variant) {
-    for (const foundVariant of Object.keys(textVariants))
-      if (variant === foundVariant) {
-        if (typeof textVariants[variant] === 'function')
-          if (!color)
-            throw new Error(
-              'Error in <Text/> Component. Supplied text variant which needs color prop, but no color prop has been found.'
-            )
-          else predefinedVariant = (textVariants[variant] as Function)(color)
-        else predefinedVariant = textVariants[variant]
-      }
+  let styles = null
+  let output = null
+
+  if (variant)
+    styles = `${textVariants[variant]} ${defaultWeights[variant] || weight} ${
+      theme[color] || defaultColor
+    } ${align || 'text-left'} ${
+      divider ? paragraphDividerClasses : ''
+    } ${weight} ${size || ''} ${decoration} ${classes || ''}`
+  else {
+    styles = `${theme[color]} ${align || 'text-left'} ${
+      divider ? paragraphDividerClasses : ''
+    } ${weight || 'font-normal'} ${size || 'text-base'} ${decoration} ${
+      classes || ''
+    }`
   }
 
-  const eliminateRedundantWhitespaces = (s: string) =>
-    s.replace(/^\s+|\s+$/g, '')
+  styles = eliminateRedundantWhitespaces(styles)
 
-  let styles: string = `${color} ${weight} ${size} ${classes} ${
-    heading ? headingWithBorderStyles : ''
-  } ${align} transition`
-
-  let computedClasses: string = predefinedVariant
-    ? eliminateRedundantWhitespaces(
-        `${predefinedVariant} ${classes} ${align} transition`
+  switch (variant) {
+    case 'h1':
+      output = (
+        <h1 id={id} className={styles}>
+          {children}
+        </h1>
       )
-    : eliminateRedundantWhitespaces(styles)
+      break
+    case 'h2':
+      output = (
+        <h2 id={id} className={styles}>
+          {children}
+        </h2>
+      )
+      break
+    case 'h3':
+      output = (
+        <h3 id={id} className={styles}>
+          {children}
+        </h3>
+      )
+      break
+    case 'h4':
+      output = (
+        <h4 id={id} className={styles}>
+          {children}
+        </h4>
+      )
+      break
+    case 'title1':
+      output = (
+        <p id={id} className={styles}>
+          {children}
+        </p>
+      )
+      break
+    case 'title2':
+      output = (
+        <p id={id} className={styles}>
+          {children}
+        </p>
+      )
+      break
+    case 'subtitle1':
+      output = (
+        <p id={id} className={styles}>
+          {children}
+        </p>
+      )
+      break
+    case 'subtitle2':
+      output = (
+        <p id={id} className={styles}>
+          {children}
+        </p>
+      )
+      break
+    case 'small1':
+      output = (
+        <span id={id} className={styles}>
+          {children}
+        </span>
+      )
+      break
+    case 'small2':
+      output = (
+        <span id={id} className={styles}>
+          {children}
+        </span>
+      )
+      break
+    default:
+      output = (
+        <p id={id} className={styles}>
+          {children}
+        </p>
+      )
+  }
 
-  let output = <p className={computedClasses}>{children}</p>
+  if (link && !href)
+    throw new Error(
+      'Error in <Text/> component. Prop `link` is passed as true, but href is null.'
+    )
 
   if (link)
     output = (
-      <Link href={href || '#'}>
-        <a target={target || ''} className={computedClasses}>
+      <Link href={href}>
+        <a id={id} target={target} className={styles}>
           {children}
         </a>
       </Link>
@@ -128,3 +171,5 @@ export default function Text({
 
   return output
 }
+
+const eliminateRedundantWhitespaces = (s: string) => s.replace(/^\s+|\s+$/g, '')

@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { DragonCapsule, Payload } from '../../lib/types/api'
 import { State } from '../../lib/types/redux'
-import { TextSize } from '../Text/ETextSize'
 import Text from '../Text/Text'
 import { DataRow } from './DataListItem'
 import { Expandable } from './Expandable'
@@ -45,7 +44,7 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
               <li key={payload.id}>
                 <Text
                   variant="subtitle1"
-                  color={theme.mainText}
+                  color="mainText"
                   link
                   href={`/payload/${payload.id}`}
                 >
@@ -66,11 +65,11 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
 
   return (
     <div className="flex mt-12 w-full h-full flex-col space-y-2">
-      <Text classes="mb-4" heading size={TextSize.h2} color={theme.textAccent}>
+      <Text classes="mb-4" divider variant="articleHeading2" color="textAccent">
         Payload
       </Text>
       {!isNoPayloadData && payloads.length === 0 ? (
-        <Text variant="title1" color={theme.text}>
+        <Text variant="title1" color="text">
           There's no available payload data for this launch.
         </Text>
       ) : (
@@ -82,11 +81,11 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
               <div key={capsule.id}>
                 <Text
                   classes="mt-4"
-                  color={theme.textAccent}
-                  heading
-                  size={TextSize.h3}
+                  color="textAccent"
+                  divider
+                  variant="articleHeading3"
                 >
-                  Capsule data
+                  Payload capsule
                 </Text>
                 <div className="mt-6">
                   <div className="flex flex-col space-y-2">

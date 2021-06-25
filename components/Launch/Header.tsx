@@ -1,36 +1,45 @@
+import Image from 'next/image'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { State } from '../../lib/types/redux'
 import { formatDate } from '../../lib/utils/date-functions'
-import { TextSize } from '../Text/ETextSize'
 import Text from '../Text/Text'
 
 interface Props {
-  landingImage: string
+  landingImageUrl: string
   name: string
   launchOutcome: string
   date_unix: number
 }
 
 export const HeaderSection = ({
-  landingImage,
+  landingImageUrl,
   name,
   date_unix,
   launchOutcome,
 }: Props) => {
-  const theme = useSelector((state: State) => state.theme)
+  let titleTextSize = 'text-4xl'
+
+  if (name.length > 25) titleTextSize = 'text-3xl'
+
+  if (name.length > 35) titleTextSize = 'text-2xl'
+
+  if (name.length > 50) titleTextSize = 'text-2xl'
 
   return (
     <section
-      style={{
-        backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(31, 41, 55, 0.75) 110%), url('${landingImage}')`,
-      }}
-      className={`h-launchHeaderXs sm:h-launchHeaderSm md:h-launchHeaderMd lg:h-launchHeader w-full bg-cover bg-center flex justify-center `}
+      className={`w-full h-launchHeaderXs sm:h-launchHeaderSm md:h-launchHeaderMd lg:h-launchHeader relative flex justify-center`}
     >
-      <div className="w-full h-full flex flex-col justify-end items-center">
+      <Image
+        quality={100}
+        src={landingImageUrl}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="center"
+      />
+      <div className="bg-launch-image-gradient z-20 absolute w-full h-full" />
+      <div className="w-full relative z-30 h-full flex flex-col justify-end items-center">
         <Text
-          classes="xl:text-6xl lg:text-5xl text-4xl"
-          color={theme.mainText}
+          classes={`xl:text-6xl lg:text-5xl ${titleTextSize}`}
+          color="mainText"
           weight="font-bold"
           align="text-center"
         >
@@ -38,8 +47,8 @@ export const HeaderSection = ({
         </Text>
         <div className="flex flex-row items-center jusitfy-center space-x-4">
           <Text
-            size={TextSize.h3}
-            color={theme.textAccent}
+            variant="h3"
+            color="textAccent"
             weight="font-semibold"
             classes="mt-2 mb-4 sm:mb-6 md:mb-8 lg:mb-12"
           >

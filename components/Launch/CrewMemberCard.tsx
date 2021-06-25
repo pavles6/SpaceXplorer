@@ -1,10 +1,11 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { CrewMember } from '../../lib/types/api'
 import { Transition } from '@headlessui/react'
 import Text from '../Text/Text'
-import { TextSize } from '../Text/ETextSize'
 import { useSelector } from 'react-redux'
 import { State } from '../../lib/types/redux'
+import { useMediaQuery } from 'react-responsive'
+import Image from 'next/image'
 
 interface Props extends CrewMember {
   key: React.Key
@@ -17,60 +18,72 @@ export default function CrewMemberCard({
   agency,
   image,
 }: Props): ReactElement {
-  const theme = useSelector((state: State) => state.theme)
   const [showMemberInfo, setShowMemberInfo] = useState(false)
+
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 767px)' })
 
   return (
     <div
       tabIndex={0}
-      className="w-44 h-44 sm:w-64 sm:h-64 m-2 sm:m-8 mb-0 flex relative shadow-md rounded-xl"
+      className="w-64 h-64 my-8 md:mx-8 mb-0 flex relative shadow-md rounded-xl"
     >
-      <img
+      <Image
+        layout="fill"
+        objectFit="cover"
         src={image}
         alt={`${name}, ${agency}`}
-        className="object-cover w-full relative h-full rounded-xl"
+        className="w-full relative h-full rounded-xl"
       />
       <div
         onMouseOver={() => setShowMemberInfo(true)}
         onMouseLeave={() => setShowMemberInfo(false)}
-        className={`absolute flex flex-col w-full h-full rounded-xl
-            ${showMemberInfo ? 'bg-black' : ''} bg-opacity-60 transition
+        className={`absolute flex flex-col w-full h-full
         `}
       >
         <Transition
-          show={showMemberInfo}
-          enter="transition-opacity duration-75"
+          show={showMemberInfo || (isSmallScreen && isClient)}
+          enter="transition-opacity duration-150"
           enterFrom="opacity-0"
           enterTo="opacity-100"
           leave="transition-opacity duration-150"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-          className="flex w-full h-full flex-col px-2 py-4 justify-center items-center spacing-y-5"
+          className="flex w-full h-full flex-col justify-center items-center spacing-y-5 rounded-xl
+          bg-black bg-opacity-60 transition"
         >
           <Text
-            classes="sm:text-xl md:text-2xl"
+            classes="text-xl md:text-2xl"
             weight="font-semibold"
-            color={theme.mainText}
+            color="mainText"
             align="text-center"
           >
             {name}
           </Text>
-          <Text classes="sm:text-base md:text-lg" color={theme.textAccent}>
+          <Text classes="sm:text-base md:text-lg" color="textAccent">
             {`Agency: ${agency}`}
           </Text>
-          <Text classes="sm:text-base md:text-lg" color={theme.textAccent}>
+          <Text classes="sm:text-base md:text-lg" color="textAccent">
             {`No. of missions: ${launches.length}`}
           </Text>
-          <Text
-            target="__blank"
-            classes="sm:text-base md:text-lg"
-            color={theme.mainText}
-            weight="font-semibold"
-            link
-            href={wikipedia}
-          >
-            Wikipedia page
-          </Text>
+          {wikipedia ? (
+            <Text
+              target="__blank"
+              classes="sm:text-base md:text-lg"
+              decoration="underline"
+              color="mainText"
+              weight="font-semibold"
+              link
+              href={wikipedia}
+            >
+              Wikipedia page
+            </Text>
+          ) : null}
         </Transition>
       </div>
     </div>

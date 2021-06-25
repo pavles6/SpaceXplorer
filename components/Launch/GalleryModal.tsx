@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react'
+import Image from 'next/image'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 interface Props {
@@ -23,34 +24,35 @@ function GalleryModal({
   return (
     <Transition
       show={show}
-      enter="transition-opacity duration-350"
+      enter="transition-opacity duration-300"
       enterFrom="opacity-0"
       enterTo="opacity-100"
-      leave="transition-opacity duration-350"
+      leave="transition-opacity duration-300"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
       <div
-        className="w-screen h-screen fixed inset-0 z-50 overflow-auto bg-black bg-opacity-90"
+        className="w-screen h-screen fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75"
         onClick={() => close()}
       >
-        <Transition
-          show={show}
-          enter="transition-opacity duration-350"
+        <Transition.Child
+          enter="transition-opacity duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="transition-opacity duration-350"
+          leave="transition-opacity duration-300"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
           <div className="flex h-screen flex-row items-center justify-center">
-            <img
+            <Image
+              layout="fill"
+              objectFit="contain"
               src={imageUrl}
               alt={launchName}
-              className="object-contain p-6 max-w-screen max-h-screen"
+              className="p-6 max-w-screen max-h-screen"
             />
           </div>
-        </Transition>
+        </Transition.Child>
       </div>
     </Transition>
   )

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Navbar from '../../components/Navbar/Navbar'
 import { defaultLaunchLandingImage } from '../../lib/constants/other'
-import { getLaunch } from '../../lib/api-calls'
+import { getLaunch, getLaunchesIds } from '../../lib/api-calls'
 import { Launch } from '../../lib/types/api'
 import { State } from '../../lib/types/redux'
 import Footer from '../../components/Footer'
@@ -11,6 +11,7 @@ import { OverviewSection } from '../../components/Launch/Overview'
 import { PayloadSection } from '../../components/Launch/Payload'
 import { CrewSection } from '../../components/Launch/Crew'
 import { GallerySection } from '../../components/Launch/Gallery'
+import Head from 'next/head'
 
 interface Props {
   launchData: Launch
@@ -34,7 +35,9 @@ export default function LaunchPage({ launchData }: Props) {
 
   const isImage = launchData.links!.flickr!.original.length > 0 || null
 
-  const [landingImage, setLandingImage] = useState<string>(null)
+  const [landingImage, setLandingImage] = useState<string>(
+    defaultLaunchLandingImage
+  )
 
   useEffect(() => {
     if (isImage) {
@@ -42,8 +45,6 @@ export default function LaunchPage({ launchData }: Props) {
         Math.random() * launchData.links.flickr.original.length
       )
       setLandingImage(launchData.links.flickr.original[randomImage])
-    } else {
-      setLandingImage(defaultLaunchLandingImage)
     }
   }, [])
 
@@ -60,11 +61,14 @@ export default function LaunchPage({ launchData }: Props) {
 
   return (
     <>
+      <Head>
+        <title>{`${launchData.name} | SpaceXplorer`}</title>
+      </Head>
       <Navbar />
       <div>
         <HeaderSection
           date_unix={launchData.date_unix}
-          landingImage={landingImage}
+          landingImageUrl={landingImage}
           launchOutcome={launchOutcome}
           name={launchData.name}
         />
@@ -94,20 +98,31 @@ export default function LaunchPage({ launchData }: Props) {
             {isImage ? (
               <GallerySection name={name} images={links.flickr.original} />
             ) : null}
+            <Footer />
           </div>
-          <Footer />
         </div>
       </div>
     </>
   )
 }
 
-export const getServerSideProps = async (context) => {
-  const launchData = await getLaunch(context.params.id)
+export const getStaticProps = async ({ params }) => {
+  const launchData = await getLaunch(params.id)
 
   return {
     props: {
       launchData,
     },
+  }
+}
+
+export async function getStaticPaths() {
+  const docs = await getLaunchesIds()
+
+  const paths = docs.map((doc: any) => ({ params: { id: doc.id } }))
+
+  return {
+    paths,
+    fallback: true,
   }
 }

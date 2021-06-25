@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from 'axios'
 import {
   dragonsPreviewPayload,
-  featuredLaunchesPayload,
+  recentLaunchesPayload,
   launchPayload,
   nextLaunchPayload,
+  LaunchesIdsPayload,
   rocketsPreviewPayload,
 } from './api/endpoints'
 import { Dragon, Launch, Rocket } from './types/api'
@@ -12,6 +13,15 @@ export const getLaunch = async (id: string): Promise<Launch> => {
   const { data }: AxiosResponse = await axios(launchPayload(id))
 
   return data.docs[0]
+}
+
+// for static page generation of launches/[id] route
+export const getLaunchesIds = async (): Promise<object[]> => {
+  const {
+    data: { docs },
+  }: AxiosResponse = await axios(LaunchesIdsPayload)
+
+  return docs
 }
 
 export const getDragonsPreview = async (): Promise<Dragon[]> => {
@@ -43,7 +53,7 @@ export const getNextLaunch = async (): Promise<Launch> => {
   }
 }
 
-export const getFeaturedLaunches = async (): Promise<Launch[]> => {
-  const { data }: AxiosResponse = await axios(featuredLaunchesPayload)
+export const getRecentLaunches = async (): Promise<Launch[]> => {
+  const { data }: AxiosResponse = await axios(recentLaunchesPayload)
   return data.docs
 }

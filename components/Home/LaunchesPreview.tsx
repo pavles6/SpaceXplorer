@@ -3,30 +3,25 @@ import { useSelector } from 'react-redux'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
 import PreviewHeader from './PreviewHeader'
-import { TextSize } from '../Text/ETextSize'
 import { calculateCountdown } from '../../lib/utils/date-functions'
 import Link from 'next/link'
 import { Launch } from '../../lib/types/api'
 import { Theme } from '../../lib/types/theme'
 import { formatDate } from '../../lib/utils/date-functions'
+import { Countdown } from './Countdown'
 
-interface TimerNode {
+export interface TimerNode {
   type: string
   value: string
 }
 
 interface Props {
   nextLaunch: Launch
-  featuredLaunches: Launch[]
+  recentLaunches: Launch[]
 }
 
-export default function LaunchesPreview({
-  nextLaunch,
-  featuredLaunches,
-}: Props) {
+export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
-
-  const [launchNameUnderline, setLaunchNameUnderline] = useState(false)
 
   const [timer, setTimer] = useState<TimerNode[]>([
     {
@@ -78,89 +73,60 @@ export default function LaunchesPreview({
         {/*... */}
         <PreviewHeader
           title="Launches"
-          subtitle="Get to know about every SpaceX space Launch"
+          subtitle="Check out every detail of each SpaceX launch"
         ></PreviewHeader>
       </div>
       <div>
         {/* Next launch */}
-        <Link href={`/launch/${nextLaunch.id}`}>
-          <a
-            onMouseOver={() => setLaunchNameUnderline(true)}
-            onMouseLeave={() => setLaunchNameUnderline(false)}
-            className="flex cursor-pointer flex-col justify-center items-center"
-          >
+        <div className="flex flex-col justify-center items-center">
+          <Text color="textAccent" variant="h4">
+            Next Launch:
+          </Text>
+          <div className="m-6">
             <Text
-              color={theme.textAccent}
-              size={TextSize.Xl2}
-              weight="font-semibold"
+              link
+              href={`/launch/${nextLaunch.id}`}
+              color="mainText"
+              variant="h2"
+              decoration="underline"
             >
-              Next Launch:
+              {nextLaunch.name}
             </Text>
-            <div className="m-6">
-              <Text
-                color={theme.mainText}
-                weight="font-extrabold"
-                size={TextSize.Xl6}
-                classes={`${launchNameUnderline ? 'underline' : ''}`}
-              >
-                {nextLaunch.name}
-              </Text>
-            </div>
-            <div className="flex m-6 justify-around items-center max-w-screen-lg w-full space-x-5">
-              {timer.map((item) => (
-                <div
-                  key={item.type}
-                  className="flex flex-col items-center justify-center"
-                >
-                  <div
-                    className={`w-40 h-40 flex justify-center items-center rounded-lg ${theme.surface}`}
-                  >
-                    <Text
-                      color={theme.textAccent}
-                      size={TextSize.Xl6}
-                      weight="font-bold"
-                    >
-                      {item.value}
-                    </Text>
-                  </div>
-                  <Text size={TextSize.Lg} color={theme.text}>
-                    {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                  </Text>
-                </div>
-              ))}
-            </div>
-          </a>
-        </Link>
-        {/* Featured launches */}
-        <div className="flex justify-center mt-6">
+          </div>
+          <div className="flex md:space-x-6 justify-around items-center max-w-screen-sm w-full">
+            <Countdown timer={timer} />
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-12">
           <div className="flex flex-col w-full items-center">
             <Text
-              color={theme.textAccent}
-              size={TextSize.Xl3}
+              color="textAccent"
+              size="text-2xl"
               weight={'font-semibold'}
-              classes="mb-6"
+              classes="mb-6 lg:text-3xl"
             >
-              Featured launches
+              Recent launches
             </Text>
-            <ul className="flex flex-wrap justify-center items-center">
-              {featuredLaunches
-                ? featuredLaunches.map((launch) => {
+            <ul className="flex flex-col md:flex-row md:flex-wrap justify-center items-center">
+              {recentLaunches
+                ? recentLaunches.map((launch, i) => {
                     return (
                       <Link key={launch.id} href={`/launch/${launch.id}`}>
                         <a
-                          className={`hover:shadow-red transition transform hover:-translate-y-1 cursor-pointer w-72 h-52 p-4 border border-${theme.mainColor} rounded-xl mx-4 my-4`}
+                          className={`hover:shadow-red transition transform hover:-translate-y-1 cursor-pointer w-72 h-52 p-4 border border-${theme.mainColor} rounded-xl sm:mx-4 my-4`}
                         >
                           <Text
-                            size={TextSize.Xl3}
-                            color={theme.mainText}
+                            variant="h4"
+                            color="mainText"
                             weight="font-semibold"
                             classes="truncate"
                           >
                             {launch.name}
                           </Text>
                           <Text
-                            size={TextSize.Lg}
-                            color={theme.text}
+                            variant="subtitle1"
+                            color="text"
                             weight="font-semibold"
                           >
                             {`${formatDate(
@@ -168,8 +134,8 @@ export default function LaunchesPreview({
                               'MMMM, YYYY.'
                             )} ${launch.upcoming ? '- Upcoming' : ''}`}
                           </Text>
-                          <Text size={TextSize.Base} color={theme.text}></Text>
-                          <Text size={TextSize.Base} color={theme.text}>
+                          <Text variant="subtitle1" color="text"></Text>
+                          <Text variant="subtitle1" color="text">
                             {`Outcome: ${
                               launch.success === null
                                 ? 'N/A'
@@ -178,10 +144,9 @@ export default function LaunchesPreview({
                                 : 'Failed'
                             }`}
                           </Text>
-                          <Text
-                            size={TextSize.Base}
-                            color={theme.text}
-                          >{`Rocket: ${launch.rocket!.name}`}</Text>
+                          <Text variant="subtitle1" color="text">{`Rocket: ${
+                            launch.rocket!.name
+                          }`}</Text>
                         </a>
                       </Link>
                     )
@@ -190,13 +155,13 @@ export default function LaunchesPreview({
             </ul>
           </div>
         </div>
-        <div className="flex flex-col h-60 items-center justify-end">
+        <div className="flex flex-col items-center my-12 justify-end">
           <Button
-            variant="link"
+            buttonVariant="link"
             href="/launches"
-            textSize={TextSize.Xl2}
-            textWeight="font-semibold"
-            classes={`transition transform hover:-translate-y-1 bg-${theme.mainColor} ${theme.textAccent} rounded-lg px-20 py-5 mb-10 `}
+            variant="title1"
+            color="textAccent"
+            classes={`transition transform hover:-translate-y-1 bg-${theme.mainColor} rounded-lg px-20 py-5`}
           >
             See all launches
           </Button>

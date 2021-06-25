@@ -7,24 +7,32 @@ interface NavbarLinkProps {
   children: string
   active: boolean
   path: string
+  align: 'start' | 'center' | 'end'
 }
 
-export default function NavbarLink(props: NavbarLinkProps) {
+export default function NavbarLink({
+  children,
+  active,
+  align,
+  path,
+}: NavbarLinkProps) {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
 
   return (
-    <Link href={props.path}>
+    <Link href={path}>
       <a
-        className={`flex items-center justify-center ${
-          props.active ? theme.mainText : theme.textAccent
-        } hover:${props.active ? null : theme.text} transition duration-150`}
+        className={`flex items-center justify-${align} ${
+          active ? theme.mainText : theme.textAccent
+        } hover:${active ? null : theme.text} ${
+          active ? 'pointer-events-none' : ''
+        } transition duration-150`}
       >
         <p
           className={`font-semibold uppercase ${
-            !props.active ? 'cursor-pointer' : null
+            !active ? 'cursor-pointer' : null
           }`}
         >
-          {props.children}
+          {children}
         </p>
       </a>
     </Link>

@@ -73,29 +73,24 @@ export const rocketsPreviewPayload: RequestConfig = {
   },
 }
 
-export const featuredLaunchesPayload: RequestConfig = {
+export const recentLaunchesPayload: RequestConfig = {
   method: 'POST',
   url: 'https://api.spacexdata.com/v4/launches/query',
   data: {
     options: {
-      pagination: false,
+      limit: 5,
       select: 'date_unix name id upcoming success rocket',
-      populate: [
-        {
-          path: 'rocket',
-          select: 'name',
-        },
-      ],
+      sort: {
+        date_unix: 'desc',
+      },
+      populate: [{ path: 'rocket', select: 'name' }],
     },
     query: {
-      _id: {
-        $in: [
-          '5eb87d13ffd86e000604b360',
-          '5fe3af58b3467846b324215f',
-          '5fe3b15eb3467846b324216d',
-          '5fe3af84b3467846b3242161',
-          '605b4b95aa5433645e37d041',
-        ],
+      success: {
+        $eq: true,
+      },
+      date_precision: {
+        $eq: 'hour',
       },
     },
   },
@@ -104,4 +99,15 @@ export const featuredLaunchesPayload: RequestConfig = {
 export const nextLaunchPayload: RequestConfig = {
   method: 'GET',
   url: 'https://api.spacexdata.com/v4/launches/next',
+}
+
+export const LaunchesIdsPayload: RequestConfig = {
+  method: 'POST',
+  url: 'https://api.spacexdata.com/v4/launches/query',
+  data: {
+    options: {
+      pagination: false,
+      select: 'id',
+    },
+  },
 }

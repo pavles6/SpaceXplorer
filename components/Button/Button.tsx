@@ -1,87 +1,86 @@
 import React, { FunctionComponent, ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
-import { TextSize } from '../Text/ETextSize'
 import { Theme } from '../../lib/types/theme'
+import { TextProps } from '../Text/types'
+import Text from '../Text/Text'
 
-interface Props {
+interface ButtonProps extends TextProps {
   click?: Function
-  textColor?: string
-  children?: string
   icon?: FunctionComponent<React.ComponentProps<'svg'>>
-  variant?: 'link' | 'button'
-  href?: string
-  textWeight?: string
-  textSize?: TextSize
-  classes?: string
+  buttonVariant?: 'link' | 'button'
   iconClasses?: string
+  buttonClasses?: string
+  target?: string
+  id?: string
 }
 
 export default function Button({
   click,
-  variant = 'button',
-  textColor,
-  classes = '',
-  textWeight,
+  buttonVariant = 'button',
+  variant = 'subtitle1',
+  buttonClasses = '',
   children = '',
-  iconClasses = '',
+  iconClasses,
+  classes,
   href,
-  textSize = TextSize.Base,
+  color,
   icon: Icon,
-}: Props): ReactElement {
+  id,
+  target = '_self',
+}: ButtonProps): ReactElement {
   const theme = useSelector((state: { theme: Theme }) => state.theme)
-
-  if (!textColor) textColor = theme.textAccent
 
   const iconButton = !children && Icon
 
-  if (variant === 'link') {
+  if (buttonVariant === 'link') {
     return (
-      <Link href={href}>
-        <a className={`${classes} ${textColor}`}>
-          {!iconButton ? (
-            <p
-              style={{
-                color: 'inherit',
-              }}
-              className={`${textSize} ${textWeight}`}
-            >
-              {children}
-            </p>
-          ) : null}
-          {Icon ? (
-            <Icon
-              className={`${textColor} ${
-                !iconButton ? 'absolute' : ''
-              } h-8 w-8 ${iconClasses}`}
-            ></Icon>
-          ) : null}
-        </a>
-      </Link>
+      <Text
+        variant={variant}
+        classes={classes}
+        link
+        color={color}
+        href={href}
+        target={target}
+        id={id}
+      >
+        {!iconButton ? (
+          <span
+            style={{
+              color: 'inherit',
+            }}
+          >
+            {children}
+          </span>
+        ) : null}
+        {Icon ? (
+          <Icon
+            className={`${theme.textAccent} ${!iconButton ? 'absolute' : ''} ${
+              iconClasses || 'h-8 w-8'
+            }`}
+          />
+        ) : null}
+      </Text>
     )
   }
 
   return (
     <button
-      className={`${classes} focus:outline-none ${textColor}`}
+      id={id}
+      className={`${buttonClasses} focus:outline-none`}
       onClick={() => click()}
     >
       {children ? (
-        <p
-          style={{
-            color: 'inherit',
-          }}
-          className={`${textSize} ${textWeight}`}
-        >
+        <Text variant={variant} color={color} classes={classes}>
           {children}
-        </p>
+        </Text>
       ) : null}
       {Icon ? (
         <Icon
-          className={`${textColor} ${
-            !iconButton ? 'absolute' : ''
-          } h-8 w-8 ${iconClasses}`}
-        ></Icon>
+          className={`${theme.textAccent} ${!iconButton ? 'absolute' : ''} ${
+            iconClasses || 'h-8 w-8'
+          }`}
+        />
       ) : null}
     </button>
   )

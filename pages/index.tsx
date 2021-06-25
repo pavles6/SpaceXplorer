@@ -7,28 +7,28 @@ import DragonsPreview from '../components/Home/DragonsPreview'
 import LaunchesPreview from '../components/Home/LaunchesPreview'
 import RocketsPreview from '../components/Home/RocketsPreview'
 import Navbar from '../components/Navbar/Navbar'
-import { TextSize } from '../components/Text/ETextSize'
 import Text from '../components/Text/Text'
 import { landingImageHeight } from '../lib/constants/other'
 import {
   getDragonsPreview,
-  getFeaturedLaunches,
+  getRecentLaunches,
   getNextLaunch,
   getRocketsPreview,
 } from '../lib/api-calls'
 import { Dragon, Launch, Rocket } from '../lib/types/api'
 import { Theme } from '../lib/types/theme'
+import Image from 'next/image'
 
 interface Props {
   nextLaunchData: Launch
-  featuredLaunchesData: Launch[]
+  recentLaunchesData: Launch[]
   rocketsPreviewData: Rocket[]
   dragonsPreviewData: Dragon[]
 }
 
 export default function Home({
   nextLaunchData,
-  featuredLaunchesData,
+  recentLaunchesData,
   rocketsPreviewData,
   dragonsPreviewData,
 }: Props) {
@@ -39,13 +39,17 @@ export default function Home({
   const [navbarShadow, setNavbarShadow] = useState(false)
 
   function handleScroll() {
-    if (window.scrollY >= landingImageHeight / 3) {
-      setNavbarColor(theme.surface)
-      setNavbarShadow(true)
-    } else {
-      setNavbarColor('bg-transparent')
-      setNavbarShadow(false)
-    }
+    const landingImageContainer = document.getElementById(
+      'landing_image_container'
+    )
+    if (landingImageContainer)
+      if (window.scrollY >= landingImageContainer.clientHeight / 3) {
+        setNavbarColor(theme.surface)
+        setNavbarShadow(true)
+      } else {
+        setNavbarColor('bg-transparent')
+        setNavbarShadow(false)
+      }
   }
 
   // cdup
@@ -61,44 +65,55 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>SpaceTracker</title>
+        <title>SpaceXplorer</title>
       </Head>
 
       {/* Header */}
       <Navbar isShadow={navbarShadow} backgroundColor={navbarColor} />
 
-      {/* landing */}
       <div className="w-full">
-        <div className="flex flex-col justify-center items-center items-center bg-landing-image w-full h-landing bg-cover">
-          <Text
-            classes="text-center text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
-            weight="font-bold"
-            color={theme.textAccent}
-          >
-            SpaceXplorer: The SpaceX data explorer
-          </Text>
-          <Text classes="text-center" weight="font-semibold" color={theme.text}>
-            Explore SpaceX launches, rockets, projects and more
-          </Text>
-          <Text
-            link
-            href="https://github.com/r-spacex/SpaceX-API"
-            classes={`text-center mt-1 ${theme.mainText} cursor-pointer`}
-            size={TextSize.Xl}
-            color="text-white"
-            weight="font-semibold"
-          >
-            Powered by an awesome SpaceX-API
-          </Text>
+        <div
+          id="landing_image_container"
+          className="flex items-center justify-center w-full lg:h-landing md:h-landingMd sm:h-landingSm h-landingXs relative"
+        >
+          <Image
+            quality={100}
+            src="/img/landing-bg.jpg"
+            layout="fill"
+            objectFit="cover"
+          />
+          <div className="w-full h-full bg-landing-image-gradient absolute z-20" />
+          <div className="absolute z-30 w-11/12 md:w-full flex flex-col justify-center">
+            <Text variant="h1" color="mainText" align="text-center">
+              SpaceXplorer: The SpaceX data hub
+            </Text>
+            <Text
+              classes="text-base sm:text-lg xl:text-xl"
+              weight="font-semibold"
+              color="textAccent"
+              align="text-center"
+            >
+              Explore SpaceX launches, rockets and its other projects
+            </Text>
+            <Text
+              link
+              href="https://github.com/r-spacex/SpaceX-API"
+              variant="subtitle1"
+              decoration="underline"
+              color="textAccent"
+              weight="font-semibold"
+              align="text-center"
+            >
+              Powered by an awesome SpaceX-API
+            </Text>
+          </div>
         </div>
       </div>
-
-      {/* page container */}
       <div
         className={`transition flex flex-col items-center h-full delay-300 ${theme.surfaceBackground}  `}
       >
         <LaunchesPreview
-          featuredLaunches={featuredLaunchesData}
+          recentLaunches={recentLaunchesData}
           nextLaunch={nextLaunchData}
         />
         <RocketsPreview rocketsPreview={rocketsPreviewData} />
@@ -112,14 +127,14 @@ export default function Home({
 
 export async function getStaticProps() {
   const nextLaunchData = await getNextLaunch()
-  const featuredLaunchesData = await getFeaturedLaunches()
+  const recentLaunchesData = await getRecentLaunches()
   const rocketsPreviewData = await getRocketsPreview()
   const dragonsPreviewData = await getDragonsPreview()
 
   return {
     props: {
       nextLaunchData,
-      featuredLaunchesData,
+      recentLaunchesData,
       rocketsPreviewData,
       dragonsPreviewData,
     },

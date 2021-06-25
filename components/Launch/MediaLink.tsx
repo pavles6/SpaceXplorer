@@ -5,16 +5,16 @@ import { State } from '../../lib/types/redux'
 import ConditionalLink from '../../lib/utils/componentAsLink'
 
 interface Props {
-  link: MediaLinkType
+  link: IMediaLink
 }
 
-export type MediaLinkType = {
+export interface IMediaLink {
   title: string
   url: string | null
   Icon: FunctionComponent<React.ComponentProps<'svg'>>
 }
 
-export const MediaLinkComponent = ({ link: { Icon, title, url } }: Props) => {
+export const MediaLink = ({ link: { Icon, title, url } }: Props) => {
   const isLink = url !== null
   const theme = useSelector((state: State) => state.theme)
   const [hovered, setHovered] = useState(false)
@@ -27,12 +27,11 @@ export const MediaLinkComponent = ({ link: { Icon, title, url } }: Props) => {
         onMouseLeave={() => setHovered(false)}
         onTouchStart={() => setHovered(true)}
         onTouchEnd={() => setHovered(false)}
-        title={!isLink ? 'Not available' : ''}
         className={`flex m-2 p-2 rounded-md transition ${
           isLink
             ? `${hovered ? `bg-${theme.mainColor}` : 'bg-transparent'}`
             : 'cursor-not-allowed'
-        }`}
+        } ${isLink ? 'flex' : 'hidden'} lg:flex`}
       >
         <Icon
           className={`w-7 h-7 transition mr-1 ${
@@ -44,13 +43,7 @@ export const MediaLinkComponent = ({ link: { Icon, title, url } }: Props) => {
           }`}
         />
         <Text
-          color={
-            isLink
-              ? hovered
-                ? theme.textAccent
-                : theme.text
-              : theme.textSecondary
-          }
+          color={isLink ? (hovered ? 'textAccent' : 'text') : 'textSecondary'}
         >
           {title}
         </Text>

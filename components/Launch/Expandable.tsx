@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
 import { State } from '../../lib/types/redux'
 import { Disclosure, Transition } from '@headlessui/react'
-import { TextSize } from '../Text/ETextSize'
 import { ChevronDownIcon } from '@heroicons/react/outline'
+import Text from '../Text/Text'
 
 interface ExpandableProps {
   title: string
@@ -18,9 +18,11 @@ export const Expandable = ({ title, children }: ExpandableProps) => {
         {({ open }) => (
           <>
             <Disclosure.Button
-              className={`flex ${TextSize.Lg} font-semibold ${theme.text} flex items-center justify-between space-x-4 focus:outline-none w-full ${theme.surface} rounded-xl p-4`}
+              className={`flex items-center justify-between space-x-4 focus:outline-none w-full ${theme.surface} rounded-xl p-4`}
             >
-              {title}
+              <Text variant="title1" color="textAccent">
+                {title}
+              </Text>
               <ChevronDownIcon
                 className={`${open ? 'transform rotate-180' : ''} w-5 h-5 ${
                   open ? theme.mainText : theme.text

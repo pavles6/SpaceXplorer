@@ -10,14 +10,11 @@ import {
   VideoCameraIcon,
 } from '@heroicons/react/outline'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { LaunchLinks } from '../../lib/types/api'
-import { State } from '../../lib/types/redux'
 import { formatDate } from '../../lib/utils/date-functions'
-import { TextSize } from '../Text/ETextSize'
 import Text from '../Text/Text'
 import { DataRow } from './DataListItem'
-import { MediaLinkComponent, MediaLinkType } from './MediaLink'
+import { MediaLink, IMediaLink } from './MediaLink'
 
 interface Props {
   details: string | null
@@ -46,7 +43,7 @@ export const OverviewSection = ({
   launchpadRegion,
   upcoming,
 }: Props) => {
-  const mediaLinks: MediaLinkType[] = [
+  const mediaLinks: IMediaLink[] = [
     {
       url: links.webcast,
       title: 'Youtube livestream',
@@ -79,64 +76,58 @@ export const OverviewSection = ({
     mediaLinks.sort((link, _) => (link.url === null ? 1 : -1))
   }
 
-  const theme = useSelector((state: State) => state.theme)
-
   return (
     <div className="flex flex-col justify-center">
       <div>
         <Text
-          color={theme.textAccent}
+          color="textAccent"
           weight="font-bold"
-          size={TextSize.h1}
-          heading
+          variant="articleHeading1"
+          divider
         >
           Description and overview
         </Text>
       </div>
       <Text
         align="text-justify"
-        classes="pt-4"
-        variant="title2"
-        color={theme.text}
+        classes="pt-4 xl:text-lg"
+        variant="subtitle2"
+        color="text"
       >
         {details || 'No details are provided yet.'}
       </Text>
       <div className="flex flex-wrap flex-col md:flex-row mt-10 lg:space-x-6 flex-row w-full items-start justify-center xl:justify-start">
         {mediaLinks.map((link) => (
-          <MediaLinkComponent key={link.title} link={link} />
+          <MediaLink key={link.title} link={link} />
         ))}
       </div>
       <div className="flex w-full mt-12 flex-col space-y-2">
         <Text
           classes="mb-4"
-          heading
-          size={TextSize.h2}
-          color={theme.textAccent}
+          divider
+          variant="articleHeading2"
+          color="textAccent"
         >
           Basic information
         </Text>
-        <DataRow Icon={LightningBoltIcon} title="Name" value={name} />
+        <DataRow title="Name" value={name} />
         <DataRow
-          Icon={CubeIcon}
           title="Rocket"
           value={rocketName}
           link
           href={`/rocket/${rocketId}`}
         />
         <DataRow
-          Icon={CalendarIcon}
           title="Date of launch"
           value={formatDate(new Date(date_unix * 1000), 'MMMM D, YYYY.')}
         />
         <DataRow
-          Icon={LocationMarkerIcon}
           title="Launchpad"
           value={`${launchpadName}, ${launchpadRegion}`}
           link
           href={`/launchpad/${launchpadId}`}
         />
         <DataRow
-          Icon={BookmarkIcon}
           title="Outcome"
           value={upcoming ? 'N/A (Upcoming)' : launchOutcome}
         />
