@@ -1,4 +1,0 @@
-colors:
-    main: #b91c1c aka red600
-    light: ##F87171 aka red300
-    dark: #111827 aka gray900

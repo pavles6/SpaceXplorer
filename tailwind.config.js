@@ -1,25 +1,47 @@
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class',
   theme: {
     fontFamily: {
       'source-sans': ['Source Sans Pro', 'ui-sans-serif', 'system-ui'],
     },
+    cursor: {
+      auto: 'auto',
+      default: 'default',
+      pointer: 'pointer',
+      wait: 'wait',
+      text: 'text',
+      move: 'move',
+      'not-allowed': 'not-allowed',
+      crosshair: 'crosshair',
+      'zoom-in': 'zoom-in',
+    },
     extend: {
+      boxShadow: {
+        red: '0 2px 10px rgba(239, 68, 68, 0.85)',
+      },
       height: {
-        landing: '600px',
+        pageHeader: '600px',
+        pageHeaderMd: 'calc(600px / 1.3)',
+        pageHeaderSm: 'calc(600px / 1.8)',
+        pageHeaderXs: 'calc(600px / 2)',
+        launchHeader: '400px',
+        launchHeaderMd: 'calc(400px / 1.3)',
+        launchHeaderSm: 'calc(400px / 1.8)',
+        launchHeaderXs: 'calc(400px / 2.3)',
+        galleryImage: '750px',
+        galleryImageMd: 'calc(750px / 1.3)',
+        galleryImageSm: 'calc(750px / 1.8)',
+        galleryImageXs: 'calc(750px / 2.3)',
       },
       minHeight: {
-        previewCard: '600px',
-      },
-      width: {
-        previewCard: 'calc(100% - 2.5rem)',
+        landingTile: '600px',
       },
       backgroundImage: (theme) => ({
-        'landing-image':
-          "linear-gradient(45deg, rgba(185,28,28,0.75) 20% , rgba(55, 65, 81, 0.6)60%), url('/img/landing-bg.jpg')",
-        'launches-preview-bg':
-          " linear-gradient(45deg, rgba(23,23,23,0.8) 0%, rgba(0,0,0,0.25) 100%), url('/img/launches-preview.jpg')",
+        'landing-image-gradient':
+          'linear-gradient(45deg, rgba(185,28,28,0.5) 20%, rgba(55, 65, 81, 0.8) 60%)',
+        'launch-image-gradient':
+          'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(31, 41, 55, 0.75) 115%)',
       }),
       zIndex: {
         '-2': '-2',
@@ -28,7 +50,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      translate: ['hover', 'focus'],
+    },
   },
   plugins: [],
 }

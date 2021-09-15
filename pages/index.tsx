@@ -1,82 +1,123 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import Footer from '../components/Footer'
 import LaunchesPreview from '../components/Home/LaunchesPreview'
 import Navbar from '../components/Navbar/Navbar'
-import Text from '../components/Text'
-import { Theme } from '../constants/global/theme'
-import { landingImageHeight, navbarBackgroundColor } from '../constants/other'
+import Text from '../components/Text/Text'
+import { getRecentLaunches, getNextLaunch } from '../lib/api/api-calls'
+import { Launch } from '../lib/types/api'
+import Image from 'next/image'
+import { useTheme } from 'next-themes'
+import { usePalette } from '../lib/palette/store'
 
-export default function Home() {
-  const { themeData }: { themeData: Theme } = useSelector(
-    (state: any) => state.theme
-  )
-  let r = []
-  for (let i = 0; i < 1000; i++) {
-    r[i] = i
-  }
+interface Props {
+  nextLaunchData: Launch
+  recentLaunchesData: Launch[]
+}
+
+export default function HomePage({
+  nextLaunchData,
+  recentLaunchesData,
+}: Props) {
+  const theme = usePalette()
 
   const [navbarColor, setNavbarColor] = useState('bg-transparent')
 
-  const [navbarShadow, setNavbarShadow] = useState<boolean>(false)
+  const [navbarShadow, setNavbarShadow] = useState(false)
 
   function handleScroll() {
-    if (window.scrollY >= landingImageHeight / 2) {
-      setNavbarColor(navbarBackgroundColor)
-      setNavbarShadow(true)
-    } else setNavbarColor('bg-transparent')
+    const landingImageContainer = document.getElementById(
+      'landing_image_container'
+    )
+    if (landingImageContainer)
+      if (window.scrollY >= landingImageContainer.clientHeight / 3) {
+        setNavbarColor(theme.base.surface)
+        setNavbarShadow(true)
+      } else {
+        setNavbarColor('bg-transparent')
+        setNavbarShadow(false)
+      }
   }
 
+  // cdup
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
 
+    // cwu
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
   })
 
-  console.log('i got rendered [index]')
-
   return (
     <>
       <Head>
-        <title>Astronaut</title>
+        <title>SpaceXplorer</title>
       </Head>
 
       {/* Header */}
-      <Navbar shadow={navbarShadow} backgroundColor={navbarColor} />
+      <Navbar isShadow={navbarShadow} backgroundColor={navbarColor} />
 
-      {/* landing */}
       <div className="w-full">
-        <div className="flex flex-col justify-center items-center items-center bg-landing-image w-full h-landing bg-cover">
-          <Text
-            classes="text-center"
-            size="text-6xl"
-            weight="font-bold"
-            color="text-white"
-          >
-            Astronaut: The ultimate SpaceX API explorer
-          </Text>
-          <Text
-            classes="text-center mt-1"
-            size="text-xl"
-            weight="font-semibold"
-            color="text-white"
-          >
-            Eye-candy UI for all the interesting data, made with a very cool
-            tech-stack.
-          </Text>
+        <div
+          id="landing_image_container"
+          className="flex items-center justify-center w-full lg:h-pageHeader md:h-pageHeaderMd sm:h-pageHeaderSm h-pageHeaderXs relative"
+        >
+          <Image
+            quality={100}
+            src="/img/landing-header.jpg"
+            layout="fill"
+            objectFit="cover"
+          />
+          <div className="w-full h-full bg-landing-image-gradient absolute z-20" />
+          <div className="absolute z-30 w-11/12 md:w-full flex flex-col justify-center">
+            <Text variant="h1" color="dark:textAccent" align="text-center">
+              SpaceXplorer: The SpaceX launch tracker
+            </Text>
+            <Text
+              classes="hidden md:block text-base text-white sm:text-lg xl:text-xl"
+              weight="font-semibold"
+              align="text-center"
+            >
+              Explore each SpaceX launch, and discover their details
+            </Text>
+            <Text
+              link
+              href="https://github.com/r-spacex/SpaceX-API"
+              variant="subtitle1"
+              decoration="underline"
+              color="dark:textAccent"
+              weight="font-semibold"
+              align="text-center"
+            >
+              Powered by an awesome r/SpaceX-API
+            </Text>
+          </div>
         </div>
       </div>
-
-      {/* page container */}
       <div
-        className={`transition flex flex-col items-center h-full delay-300 ${themeData.surfaceBackground}`}
+        className={`transition flex flex-col items-center h-full ${theme.base.surfaceBackground}  `}
       >
-        <LaunchesPreview theme={themeData} />
-        <LaunchesPreview theme={themeData} />
-        <LaunchesPreview theme={themeData} />
+        <LaunchesPreview
+          isHourPrecision={nextLaunchData.date_precision === 'hour'}
+          recentLaunches={recentLaunchesData}
+          nextLaunch={nextLaunchData}
+        />
+
+        <Footer />
       </div>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const nextLaunchData = await getNextLaunch()
+  const recentLaunchesData = await getRecentLaunches()
+
+  return {
+    props: {
+      nextLaunchData,
+      recentLaunchesData,
+    },
+  }
 }

@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar/Navbar'
 export default function Custom404() {
   return (
     <div>
-      <Navbar shadow={true}></Navbar>
+      <Navbar></Navbar>
     </div>
   )
 }

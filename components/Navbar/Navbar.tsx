@@ -1,110 +1,122 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Theme } from '../../constants/global/theme'
-import { useRouter } from 'next/router'
-import {
-  TOGGLE_DARK_THEME,
-  TOGGLE_LIGHT_THEME,
-} from '../../constants/redux/actionTypes'
-import Text from '../Text'
-import { IfcNavbarLink } from './IfcNavbarLink'
-import NavbarLink from './NavbarLink'
-import { navbarBackgroundColor } from '../../constants/other'
-
-interface ReduxState {
-  theme: {
-    themeType: string
-    themeData: Theme
-  }
-}
+import { Router, useRouter } from 'next/router'
+import Text from '../Text/Text'
+import { INavItem, navItems } from './NavItems'
+import Button from '../Button/Button'
+import { MenuIcon } from '@heroicons/react/outline'
+import { Drawer } from './Drawer'
+import Link from 'next/link'
+import { usePalette } from '../../lib/palette/store'
+import { useTheme } from 'next-themes'
+import { ThemeSwitch } from './ThemeSwitch'
 
 interface Props {
   backgroundColor?: string
-  shadow: boolean
+  isShadow?: boolean
 }
 
-export default function Navbar({
-  backgroundColor = navbarBackgroundColor,
-}: Props) {
+export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   const router = useRouter()
-  const themeData = useSelector((state: ReduxState) => state.theme.themeData)
-  const dispatch = useDispatch()
-  const themeType = useSelector((state: ReduxState) => state.theme.themeType)
 
-  const [navbarLinks, setNavbarLinks] = useState<IfcNavbarLink[]>([
-    {
-      path: '/',
-      title: 'Home',
-      active: false,
-    },
-    {
-      path: '/launches',
-      title: 'Launches',
-      active: false,
-    },
-    {
-      path: '/ships',
-      title: 'Ships',
-      active: false,
-    },
-    {
-      path: '/starlink',
-      title: 'Starlink',
-      active: false,
-    },
-  ])
+  const theme = usePalette()
 
-  useEffect(() => {
-    // setting an active link
+  const { theme: themeType, setTheme } = useTheme()
+
+  const [menuOpened, setMenuOpened] = useState(false)
+
+  const [mounted, setMounted] = useState(false)
+
+  let shadow = 'shadow-md'
+  if (!isShadow) shadow = 'no-shadow'
+
+  if (!backgroundColor) backgroundColor = theme.base.surface
+
+  const [navbarLinks, setNavbarLinks] = useState<INavItem[]>([...navItems])
+
+  function checkForActiveLinks() {
     const links = [...navbarLinks]
 
     links.map((link, i) =>
-      router.asPath === link.path ? (links[i].active = true) : null
+      router.asPath === link.path
+        ? (links[i].active = true)
+        : (links[i].active = false)
     )
 
-    setNavbarLinks(links)
+    setNavbarLinks([...links])
+  }
+
+  useEffect(() => {
+    setMounted(true)
+    checkForActiveLinks()
   }, [])
 
-  return (
-    <div
-      className={`w-full ${backgroundColor} transition delay-150 h-16 fixed  flex justify-between items-center flex-row`}
-    >
-      {/* Navbar Title */}
-      <Text
-        size="text-4xl"
-        weight="font-bold"
-        classes="ml-5"
-        color="text-white"
-      >
-        Astronaut
-      </Text>
+  useEffect(() => {
+    if (window && menuOpened) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = 'auto'
+  }, [menuOpened])
 
-      <div className="flex flex-1 mr-6 flex-row items-center h-10 justify-end space-x-5">
-        {navbarLinks.map((link) => {
-          return (
-            <NavbarLink path={link.path} key={link.title} active={link.active}>
-              {link.title}
-            </NavbarLink>
-          )
-        })}
-        <button
-          className="focus:outline-none"
-          onClick={() =>
-            dispatch({
-              type:
-                themeType === 'dark' ? TOGGLE_LIGHT_THEME : TOGGLE_DARK_THEME,
-              payload: window,
-            })
-          }
+  return (
+    <>
+      <nav
+        className={`w-full ${shadow} ${backgroundColor} transition h-16 ${
+          router.pathname == '/' ? 'fixed' : 'sticky'
+        } top-0 right-0 flex lg:justify-between items-center z-40 flex-row`}
+      >
+        <Button
+          icon={MenuIcon}
+          buttonClasses="mx-2 lg:hidden transition"
+          click={() => {
+            setMenuOpened(true)
+          }}
+        />
+        <Text
+          link
+          href="/"
+          size="text-2xl"
+          weight="font-bold"
+          classes={`lg:ml-2 lg:text-4xl ${theme.base.textPrimary}`}
         >
-          <span className="transition material-icons text-3xl text-white">
-            {themeType == 'dark' ? 'brightness_4' : 'brightness_high'}
-          </span>
-        </button>
-        <button className="focus:outline-none text-white">
-          <span className=" material-icons text-3xl">more_horiz</span>
-        </button>
-      </div>
-    </div>
+          SpaceXplorer
+        </Text>
+
+        <div className="hidden lg:flex flex-1 flex-row items-center h-10 justify-end space-x-5">
+          {mounted
+            ? navbarLinks.map((link) => {
+                return (
+                  <Link key={link.title} href={link.path}>
+                    <a
+                      className={`flex items-center justify-center  transition duration-150 ${
+                        link.active ? 'pointer-events-none cursor-default' : ''
+                      }`}
+                    >
+                      <Text
+                        classes={`font-semibold uppercase ${
+                          link.active
+                            ? theme.base.textPrimary
+                            : theme.base.textAccent
+                        } ${
+                          link.active
+                            ? ''
+                            : themeType === 'light'
+                            ? `hover:${theme.base['dark:textSecondary']}`
+                            : `dark:hover:${theme.base['light:textSecondary']}`
+                        }`}
+                      >
+                        {link.title}
+                      </Text>
+                    </a>
+                  </Link>
+                )
+              })
+            : null}
+        </div>
+        <ThemeSwitch theme={theme} themeType={themeType} setTheme={setTheme} />
+      </nav>
+      <Drawer
+        closeMenu={() => setMenuOpened(false)}
+        navLinks={navbarLinks}
+        open={menuOpened}
+      />
+    </>
   )
 }
