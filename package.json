@@ -10,20 +10,16 @@
   "dependencies": {
     "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
-    "@reduxjs/toolkit": "^1.5.1",
-    "@types/react-redux": "^7.1.16",
     "@types/react-responsive": "^8.0.2",
     "axios": "^0.21.1",
     "material-design-icons": "^3.0.1",
     "moment": "^2.29.1",
     "next": "10.2.2",
-    "next-redux-wrapper": "^7.0.0-rc.2",
+    "next-themes": "^0.0.15",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-loading-skeleton": "^2.2.0",
-    "react-redux": "^7.2.4",
-    "react-responsive": "^8.2.0",
-    "redux-devtools-extension": "^2.13.9"
+    "react-responsive": "^8.2.0"
   },
   "devDependencies": {
     "@types/node": "^15.6.0",

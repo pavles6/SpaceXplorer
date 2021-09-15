@@ -1,10 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { State } from '../../lib/types/redux'
+import { usePalette } from '../../lib/palette/store'
 import { TextProps, TextVariantMapping, TextWeight, TwClass } from './types'
-
-const paragraphDividerClasses = 'pb-3 border-b-2 border-white border-opacity-10'
 
 const defaultWeights: TextVariantMapping<TextWeight> = {
   h1: 'font-bold',
@@ -23,7 +20,7 @@ const defaultWeights: TextVariantMapping<TextWeight> = {
 }
 
 const textVariants: TextVariantMapping<TwClass> = {
-  h1: 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl',
+  h1: 'text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl',
   h2: 'text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl',
   h3: 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl',
   h4: 'text-2xl lg:text-3xl',
@@ -53,22 +50,24 @@ export default function Text({
   variant,
   id,
 }: TextProps) {
-  const theme = useSelector((state: State) => state.theme)
+  const theme = usePalette()
 
-  const defaultColor = theme.text
+  const defaultColor = theme.base.text
 
   let styles = null
   let output = null
 
+  const titleDividerStyles = `pb-3 border-b ${theme.base.border}`
+
   if (variant)
     styles = `${textVariants[variant]} ${defaultWeights[variant] || weight} ${
-      theme[color] || defaultColor
-    } ${align || 'text-left'} ${
-      divider ? paragraphDividerClasses : ''
-    } ${weight} ${size || ''} ${decoration} ${classes || ''}`
+      theme.base[color] || defaultColor
+    } ${align || 'text-left'} ${divider ? titleDividerStyles : ''} ${weight} ${
+      size || ''
+    } ${decoration} ${classes || ''}`
   else {
-    styles = `${theme[color]} ${align || 'text-left'} ${
-      divider ? paragraphDividerClasses : ''
+    styles = `${theme.base[color]} ${align || 'text-left'} ${
+      divider ? titleDividerStyles : ''
     } ${weight || 'font-normal'} ${size || 'text-base'} ${decoration} ${
       classes || ''
     }`

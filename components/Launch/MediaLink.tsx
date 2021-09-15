@@ -1,8 +1,7 @@
 import { FunctionComponent, useState } from 'react'
-import { useSelector } from 'react-redux'
 import Text from '../Text/Text'
-import { State } from '../../lib/types/redux'
 import ConditionalLink from '../../lib/utils/componentAsLink'
+import { usePalette } from '../../lib/palette/store'
 
 interface Props {
   link: IMediaLink
@@ -14,9 +13,9 @@ export interface IMediaLink {
   Icon: FunctionComponent<React.ComponentProps<'svg'>>
 }
 
-export const MediaLink = ({ link: { Icon, title, url } }: Props) => {
+export const LaunchMediaLink = ({ link: { Icon, title, url } }: Props) => {
   const isLink = url !== null
-  const theme = useSelector((state: State) => state.theme)
+  const theme = usePalette()
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -29,21 +28,21 @@ export const MediaLink = ({ link: { Icon, title, url } }: Props) => {
         onTouchEnd={() => setHovered(false)}
         className={`flex m-2 p-2 rounded-md transition ${
           isLink
-            ? `${hovered ? `bg-${theme.mainColor}` : 'bg-transparent'}`
+            ? `${hovered ? `${theme.base.surfacePrimary}` : 'bg-transparent'}`
             : 'cursor-not-allowed'
         } ${isLink ? 'flex' : 'hidden'} lg:flex`}
       >
         <Icon
-          className={`w-7 h-7 transition mr-1 ${
+          className={`w-7 h-7 mr-1 ${
             isLink
               ? hovered
-                ? theme.textAccent
-                : theme.mainText
-              : theme.textSecondary
+                ? theme.base['dark:iconAccent']
+                : theme.base.iconPrimary
+              : theme.base.textDisabled
           }`}
         />
         <Text
-          color={isLink ? (hovered ? 'textAccent' : 'text') : 'textSecondary'}
+          color={isLink ? (hovered ? 'textAccent' : 'text') : 'textDisabled'}
         >
           {title}
         </Text>

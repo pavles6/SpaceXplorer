@@ -1,21 +1,19 @@
 import { Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import React, { Fragment } from 'react'
-import { useSelector } from 'react-redux'
-import { State } from '../../lib/types/redux'
+import { usePalette } from '../../lib/palette/store'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
-import { INavbarLink } from './INavbarLink'
-import NavbarLink from './NavbarLink'
+import { INavItem, navItems } from './NavItems'
 
 interface Props {
   closeMenu: Function
   open: boolean
-  navLinks: INavbarLink[]
+  navLinks: INavItem[]
 }
 
 export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
-  const theme = useSelector((state: State) => state.theme)
+  const theme = usePalette()
 
   return (
     <Transition
@@ -46,7 +44,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
           as={Fragment}
         >
           <div
-            className={`h-screen w-2/3 max-w-lg relative z-50 flex flex-col items-center ${theme.surface}`}
+            className={`h-screen w-2/3 max-w-lg relative z-50 flex flex-col items-center ${theme.base.surface}`}
           >
             <div className="h-16 w-full flex justify-between items-center">
               <Text
@@ -66,7 +64,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
               />
             </div>
             <div className="px-4 w-full">
-              {navLinks.map((link: INavbarLink) => {
+              {navLinks.map((link: INavItem) => {
                 return (
                   <div
                     className={`py-4 pl-2 ${
@@ -74,13 +72,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
                     } transition rounded-lg hover:bg-opacity-10`}
                     key={link.title}
                   >
-                    <NavbarLink
-                      align="start"
-                      path={link.path}
-                      active={link.active}
-                    >
-                      {link.title}
-                    </NavbarLink>
+                    pisha
                   </div>
                 )
               })}

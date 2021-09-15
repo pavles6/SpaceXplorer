@@ -1,21 +1,46 @@
+import {
+  CheckIcon,
+  ClockIcon,
+  QuestionMarkCircleIcon,
+  UserGroupIcon,
+  XIcon,
+} from '@heroicons/react/solid'
 import Image from 'next/image'
-import React from 'react'
-import { formatDate } from '../../lib/utils/date-functions'
+import React, { useEffect, useState } from 'react'
+import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
+import { LaunchBadge } from './LaunchBadge'
+import { useMediaQuery } from 'react-responsive'
 
 interface Props {
   landingImageUrl: string
   name: string
   launchOutcome: string
-  date_unix: number
+  formattedDate: string
+  isCrew: boolean
+  upcoming: boolean
+  success: boolean
 }
 
-export const HeaderSection = ({
+export const LaunchHeaderSection = ({
   landingImageUrl,
   name,
-  date_unix,
+  formattedDate,
   launchOutcome,
+  isCrew,
+  upcoming,
+  success,
 }: Props) => {
+  const theme = usePalette()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 767px)' })
+
   let titleTextSize = 'text-4xl'
 
   if (name.length > 25) titleTextSize = 'text-3xl'
@@ -38,26 +63,34 @@ export const HeaderSection = ({
       <div className="bg-launch-image-gradient z-20 absolute w-full h-full" />
       <div className="w-full relative z-30 h-full flex flex-col justify-end items-center">
         <Text
-          classes={`xl:text-6xl lg:text-5xl ${titleTextSize}`}
-          color="mainText"
+          classes={`xl:text-6xl lg:text-5xl ${titleTextSize} mb-4 md:mb-0`}
+          color="textPrimary"
           weight="font-bold"
           align="text-center"
         >
           {name}
         </Text>
-        <div className="flex flex-row items-center jusitfy-center space-x-4">
-          <Text
-            variant="h3"
-            color="textAccent"
-            weight="font-semibold"
-            classes="mt-2 mb-4 sm:mb-6 md:mb-8 lg:mb-12"
+        {!isSmallScreen && mounted ? (
+          <div
+            className={`flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full ${theme.base.surfaceBackground} bg-opacity-70 dark:bg-opacity-70`}
           >
-            {`${formatDate(
-              new Date(date_unix * 1000),
-              'MMMM D, YYYY.'
-            )} ${`• ${launchOutcome}`}`}
-          </Text>
-        </div>
+            <LaunchBadge
+              icon={ClockIcon}
+              type="success"
+              value={formattedDate}
+            />
+            {isCrew ? (
+              <LaunchBadge icon={UserGroupIcon} type="success" value="Crew" />
+            ) : null}
+            <LaunchBadge
+              icon={
+                upcoming ? QuestionMarkCircleIcon : success ? CheckIcon : XIcon
+              }
+              type={success ? 'success' : 'failure'}
+              value={upcoming ? 'N/A (Upcoming)' : launchOutcome}
+            />
+          </div>
+        ) : null}
       </div>
     </section>
   )

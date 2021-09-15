@@ -1,6 +1,6 @@
 import { Transition } from '@headlessui/react'
 import Image from 'next/image'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 
 interface Props {
   imageUrl: string
@@ -9,12 +9,12 @@ interface Props {
   show: boolean
 }
 
-function GalleryModal({
+export const LaunchGalleryModal = ({
   imageUrl,
   close,
   show,
   launchName,
-}: Props): ReactElement {
+}: Props): ReactElement => {
   useEffect(() => {
     if (window && show) {
       document.body.style.overflow = 'hidden'
@@ -57,5 +57,3 @@ function GalleryModal({
     </Transition>
   )
 }
-
-export default GalleryModal

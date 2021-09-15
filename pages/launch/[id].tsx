@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import Navbar from '../../components/Navbar/Navbar'
-import { defaultLaunchLandingImage } from '../../lib/constants/other'
-import { getLaunch, getLaunchesIds } from '../../lib/api-calls'
+import { getLaunch, getLaunchesIds } from '../../lib/api/api-calls'
 import { Launch } from '../../lib/types/api'
-import { State } from '../../lib/types/redux'
 import Footer from '../../components/Footer'
-import { HeaderSection } from '../../components/Launch/Header'
-import { OverviewSection } from '../../components/Launch/Overview'
-import { PayloadSection } from '../../components/Launch/Payload'
-import { CrewSection } from '../../components/Launch/Crew'
-import { GallerySection } from '../../components/Launch/Gallery'
+import { LaunchHeaderSection } from '../../components/Launch/Header'
+import { LaunchOverviewSection } from '../../components/Launch/Overview'
+import { LaunchPayloadSection } from '../../components/Launch/Payload'
+import { LaunchCrewSection } from '../../components/Launch/Crew'
+import { LaunchGallerySection } from '../../components/Launch/Gallery'
 import Head from 'next/head'
+import { formatDate } from '../../lib/utils/date-functions'
+import { usePalette } from '../../lib/palette/store'
 
 interface Props {
   launchData: Launch
@@ -27,16 +26,17 @@ export default function LaunchPage({ launchData }: Props) {
     launchpad,
     links,
     name,
+    date_precision,
     payloads,
     success,
     upcoming,
   } = launchData
-  const theme = useSelector((state: State) => state.theme)
+  const theme = usePalette()
 
   const isImage = launchData.links!.flickr!.original.length > 0 || null
 
   const [landingImage, setLandingImage] = useState<string>(
-    defaultLaunchLandingImage
+    '/img/default-launch-header.jpg'
   )
 
   useEffect(() => {
@@ -57,7 +57,28 @@ export default function LaunchPage({ launchData }: Props) {
   if (success) launchOutcome = 'Successful'
   if (success === false) launchOutcome = 'Failed'
 
-  console.log(launchData)
+  let dateFormat
+  let formattedDate = 'N/A'
+
+  switch (date_precision) {
+    case 'hour':
+    case 'day':
+      dateFormat = 'MMMM D, YYYY.'
+      break
+    case 'month':
+      dateFormat = 'MMMM, YYYY.'
+      break
+    case 'half':
+    case 'quarter':
+    case 'year':
+      dateFormat = 'YYYY.'
+      break
+    default:
+      dateFormat = null
+  }
+
+  if (dateFormat)
+    formattedDate = formatDate(new Date(date_unix * 1000), dateFormat)
 
   return (
     <>
@@ -66,37 +87,44 @@ export default function LaunchPage({ launchData }: Props) {
       </Head>
       <Navbar />
       <div>
-        <HeaderSection
-          date_unix={launchData.date_unix}
+        <LaunchHeaderSection
+          success={success}
+          isCrew={crew.length > 0}
+          upcoming={upcoming}
+          formattedDate={formattedDate}
           landingImageUrl={landingImage}
           launchOutcome={launchOutcome}
-          name={launchData.name}
+          name={name}
         />
-        <div className={`${theme.surfaceBackground}`}>
+        <div className={`${theme.base.surfaceBackground}`}>
           <div
-            className={`${theme.surfaceBackground} flex flex-col items-center w-full`}
+            className={`${theme.base.surfaceBackground} flex flex-col items-center w-full`}
           >
             <article
-              className={`flex flex-col max-w-screen-xl w-11/12 lg:w-full lg:px-6 h-full pt-12`}
+              className={`flex flex-col max-w-screen-xl w-11/12 lg:w-full lg:px-6 h-full space-y-12 my-8`}
             >
-              <OverviewSection
-                date_unix={date_unix}
+              <LaunchOverviewSection
+                formattedDate={formattedDate}
                 launchOutcome={launchOutcome}
                 upcoming={upcoming}
                 launchpadRegion={launchpad.region}
                 launchpadName={launchpad.name}
                 launchpadId={launchpad.id}
                 rocketName={rocket.name}
-                rocketId={rocket.id}
+                rocketWikipediaPage={rocket.wikipedia}
                 name={name}
                 details={details}
                 links={links}
               />
-              <PayloadSection capsules={capsules} payloads={payloads} />
-              <CrewSection crew={crew} />
+              <LaunchPayloadSection capsules={capsules} payloads={payloads} />
+              {crew.length > 0 ? <LaunchCrewSection crew={crew} /> : null}
             </article>
-            {isImage ? (
-              <GallerySection name={name} images={links.flickr.original} />
+
+            {links.flickr.original.length > 0 ? (
+              <LaunchGallerySection
+                name={name}
+                images={links.flickr.original}
+              />
             ) : null}
             <Footer />
           </div>

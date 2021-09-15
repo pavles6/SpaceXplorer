@@ -16,7 +16,7 @@ export const launchPayload = (id: string): RequestConfig => ({
       populate: [
         {
           path: 'rocket',
-          select: 'name id',
+          select: 'name id wikipedia',
         },
         {
           path: 'crew',

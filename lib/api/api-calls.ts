@@ -6,8 +6,8 @@ import {
   nextLaunchPayload,
   LaunchesIdsPayload,
   rocketsPreviewPayload,
-} from './api/endpoints'
-import { Dragon, Launch, Rocket } from './types/api'
+} from './endpoints'
+import { Dragon, Launch, Rocket } from '../types/api'
 
 export const getLaunch = async (id: string): Promise<Launch> => {
   const { data }: AxiosResponse = await axios(launchPayload(id))

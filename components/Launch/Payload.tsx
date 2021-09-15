@@ -1,7 +1,5 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { DragonCapsule, Payload } from '../../lib/types/api'
-import { State } from '../../lib/types/redux'
 import Text from '../Text/Text'
 import { DataRow } from './DataListItem'
 import { Expandable } from './Expandable'
@@ -11,9 +9,7 @@ interface Props {
   capsules: DragonCapsule[]
 }
 
-export const PayloadSection = ({ payloads, capsules }: Props) => {
-  const theme = useSelector((state: State) => state.theme)
-
+export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
   let isNoPayloadData = false
   let isDragonCapsule = false
 
@@ -38,15 +34,16 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
   for (let category of Object.keys(payloadCategories)) {
     if (payloadCategories[category].length > 0) {
       payloadDataToMap.push(
-        <Expandable key={category} title={category + 's'}>
+        <Expandable key={category} title={category}>
           {payloadCategories[category].map(
             (payload: { name: string; id: string }) => (
               <li key={payload.id}>
                 <Text
                   variant="subtitle1"
-                  color="mainText"
+                  color="textPrimary"
                   link
-                  href={`/payload/${payload.id}`}
+                  target="_blank"
+                  href={`https://api.spacexdata.com/v4/payloads/${payload.id}`}
                 >
                   {`• ${payload.name} (${category})`}
                 </Text>
@@ -64,7 +61,7 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
       if (payloadCategories[category].length > 0) isDragonCapsule = true
 
   return (
-    <div className="flex mt-12 w-full h-full flex-col space-y-2">
+    <div className="flex w-full h-full flex-col space-y-2">
       <Text classes="mb-4" divider variant="articleHeading2" color="textAccent">
         Payload
       </Text>
@@ -75,7 +72,7 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
       ) : (
         payloadDataToMap.map((element) => element)
       )}
-      <div className="flex h-full lg:pl-6 w-full h-72 flex-col space-y-2 ">
+      <div className="flex h-full lg:pl-6 w-full flex-col space-y-2 ">
         {capsules.length > 0 && isDragonCapsule
           ? capsules.map((capsule) => (
               <div key={capsule.id}>
@@ -93,7 +90,8 @@ export const PayloadSection = ({ payloads, capsules }: Props) => {
                       title="Serial number"
                       value={capsule.serial}
                       link
-                      href={`/capsule/${capsule.id}`}
+                      target="_blank"
+                      href={`https://api.spacexdata.com/v4/capsules/${capsule.id}`}
                     />
                     <DataRow title="Type" value={capsule.type} />
                     <DataRow

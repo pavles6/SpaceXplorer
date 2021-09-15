@@ -1,13 +1,12 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { State } from '../lib/types/redux'
+import { usePalette } from '../lib/palette/store'
 import Text from './Text/Text'
 
 export default function Footer() {
-  const theme = useSelector((state: State) => state.theme)
+  const theme = usePalette()
 
   return (
-    <div className={`${theme.surface} flex w-full py-4 mt-52 justify-center`}>
+    <footer className={`${theme.base.surface} flex w-full justify-center`}>
       <div className={`w-full max-w-screen-lg flex flex-col `}>
         <div className="w-full mt-6 flex flex-col md:flex-row justify-between">
           <div className="flex flex-col justify-start items-start space-y-2 m-4">
@@ -21,14 +20,11 @@ export default function Footer() {
             <Text link href="/" variant="subtitle2" color="text">
               Home
             </Text>
-            <Text link href="/launches" variant="subtitle2" color="text">
-              Launches
+            <Text link href="/search" variant="subtitle2" color="text">
+              Search
             </Text>
-            <Text link href="/rockets" variant="subtitle2" color="text">
-              Rockets
-            </Text>
-            <Text link href="/capsules" variant="subtitle2" color="text">
-              Capsules
+            <Text link href="/about" variant="subtitle2" color="text">
+              About
             </Text>
           </div>
           <div className="flex flex-col justify-start items-start space-y-2 m-4">
@@ -37,7 +33,7 @@ export default function Footer() {
               classes="uppercase font-semibold"
               color="textAccent"
             >
-              Project
+              Project resources
             </Text>
             <Text
               link
@@ -55,7 +51,12 @@ export default function Footer() {
             >
               Author
             </Text>
-            <Text link href="/" variant="subtitle2" color="text">
+            <Text
+              link
+              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE.md"
+              variant="subtitle2"
+              color="text"
+            >
               License
             </Text>
             <Text
@@ -75,36 +76,39 @@ export default function Footer() {
             >
               Tech stack
             </Text>
-            <Text link href="/" variant="subtitle2" color="text">
+            <Text
+              link
+              href="https://nextjs.org/"
+              variant="subtitle2"
+              color="text"
+            >
               Next.js
             </Text>
-            <Text link href="/" variant="subtitle2" color="text">
+            <Text
+              link
+              href="https://tailwindcss.com/"
+              variant="subtitle2"
+              color="text"
+            >
               TailwindCSS
             </Text>
-            <Text link href="/" variant="subtitle2" color="text">
-              Redux
-            </Text>
-          </div>
-          <div className="flex flex-col justify-start items-start space-y-2 m-4">
             <Text
-              variant="small1"
-              classes="uppercase font-semibold"
-              color="textAccent"
+              link
+              href="https://redux.js.org/"
+              variant="subtitle2"
+              color="text"
             >
-              More
-            </Text>
-            <Text link href="/" variant="subtitle2" color="text">
-              Preferences
+              Redux
             </Text>
           </div>
         </div>
 
-        <div className="w-full border-t border-white border-opacity-10 mt-4 pt-4">
+        <div className={`w-full border-t ${theme.base.border} mt-4 pt-4`}>
           <Text
             color="text"
-            classes="mb-2 mx-4 text-sm md:text-base text-left md:text-justify"
+            classes="mb-2 mx-4 text-sm md:text-base sm:text-center md:text-left md:text-justify"
           >
-            This project or its author is not affiliated, associated,
+            This project and its author are not affiliated, associated,
             authorized, endorsed by, or in any way officially connected with
             Space Exploration Technologies Corp (SpaceX), or any of its
             subsidiaries or its affiliates. The names SpaceX as well as related
@@ -113,17 +117,24 @@ export default function Footer() {
           </Text>
           <Text
             color="textAccent"
-            classes="mx-4 text-sm md:text-base text-left md:text-justify"
+            weight="font-semibold"
+            classes="mx-4 text-sm md:text-base text-center md:text-left md:text-justify"
           >
             This is a personal project, aiming to showcase my skills and
             knowledge in web development.
           </Text>
         </div>
-        <div className="w-full flex justify-center items-center mt-4 pt-8 border-t border-white border-opacity-10">
+        <div
+          className={`w-full flex justify-center items-center mt-4 py-6 border-t ${theme.base.border}`}
+        >
           <Text variant="subtitle2" align="text-center" color="text">
             Licensed under{' '}
-            <Text link href="#" color="mainText">
-              GPL v3.0 License
+            <Text
+              link
+              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE.md"
+              color="textPrimary"
+            >
+              MIT License
             </Text>
           </Text>
           <div className={`p-0.5 mx-2  rounded-xl bg-white`} />
@@ -132,6 +143,6 @@ export default function Footer() {
           </Text>
         </div>
       </div>
-    </div>
+    </footer>
   )
 }

@@ -42,9 +42,11 @@ export type TextVariant =
 export type TextColor =
   | 'text'
   | 'textAccent'
-  | 'mainText'
-  | 'mainTextAccent'
+  | 'textPrimary'
+  | 'textPrimaryAccent'
   | 'textSecondary'
+  | 'textDisabled'
+  | string
 
 export type TextDecoration = 'underline' | 'line-through' | 'no-underline'
 
@@ -86,7 +88,7 @@ export interface TextProps {
   /**Text alignment */
   align?: 'text-left' | 'text-center' | 'text-right' | 'text-justify'
   /**Supplied when `link` prop is `true` */
-  target?: string
+  target?: '_self' | '_blank'
   decoration?: TextDecoration
   children?: React.ReactNode | React.ReactNodeArray
   id?: string

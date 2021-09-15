@@ -1,28 +1,23 @@
 import {
-  BookmarkIcon,
-  CalendarIcon,
-  CubeIcon,
   DocumentTextIcon,
   FireIcon,
   LibraryIcon,
   LightningBoltIcon,
-  LocationMarkerIcon,
   VideoCameraIcon,
 } from '@heroicons/react/outline'
 import React from 'react'
 import { LaunchLinks } from '../../lib/types/api'
-import { formatDate } from '../../lib/utils/date-functions'
 import Text from '../Text/Text'
 import { DataRow } from './DataListItem'
-import { MediaLink, IMediaLink } from './MediaLink'
+import { LaunchMediaLink, IMediaLink } from './MediaLink'
 
 interface Props {
   details: string | null
   links: LaunchLinks
   rocketName: string
-  rocketId: string
+  rocketWikipediaPage: string
   name: string
-  date_unix: number
+  formattedDate: string
   launchpadName: string
   launchpadRegion: string
   launchpadId: string
@@ -30,12 +25,12 @@ interface Props {
   upcoming: boolean
 }
 
-export const OverviewSection = ({
+export const LaunchOverviewSection = ({
   details,
   links,
-  date_unix,
+  formattedDate,
   name,
-  rocketId,
+  rocketWikipediaPage,
   rocketName,
   launchOutcome,
   launchpadId,
@@ -46,7 +41,7 @@ export const OverviewSection = ({
   const mediaLinks: IMediaLink[] = [
     {
       url: links.webcast,
-      title: 'Youtube livestream',
+      title: 'YouTube livestream',
       Icon: VideoCameraIcon,
     },
     {
@@ -90,15 +85,15 @@ export const OverviewSection = ({
       </div>
       <Text
         align="text-justify"
-        classes="pt-4 xl:text-lg"
+        classes="pt-4"
         variant="subtitle2"
         color="text"
       >
         {details || 'No details are provided yet.'}
       </Text>
-      <div className="flex flex-wrap flex-col md:flex-row mt-10 lg:space-x-6 flex-row w-full items-start justify-center xl:justify-start">
+      <div className="flex flex-wrap flex-col md:flex-row mt-10 lg:space-x-6 w-full items-start justify-center xl:justify-start">
         {mediaLinks.map((link) => (
-          <MediaLink key={link.title} link={link} />
+          <LaunchMediaLink key={link.title} link={link} />
         ))}
       </div>
       <div className="flex w-full mt-12 flex-col space-y-2">
@@ -115,17 +110,16 @@ export const OverviewSection = ({
           title="Rocket"
           value={rocketName}
           link
-          href={`/rocket/${rocketId}`}
+          target="_blank"
+          href={rocketWikipediaPage}
         />
-        <DataRow
-          title="Date of launch"
-          value={formatDate(new Date(date_unix * 1000), 'MMMM D, YYYY.')}
-        />
+        <DataRow title="Date of launch" value={formattedDate} />
         <DataRow
           title="Launchpad"
           value={`${launchpadName}, ${launchpadRegion}`}
           link
-          href={`/launchpad/${launchpadId}`}
+          target="_blank"
+          href={`https://api.spacexdata.com/v4/launchpads/${launchpadId}`}
         />
         <DataRow
           title="Outcome"

@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { State } from '../../lib/types/redux'
+import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 import { TimerNode } from './LaunchesPreview'
+import { useTheme } from 'next-themes'
 
 interface Props {
   timer: TimerNode[]
 }
 
 export const Countdown = ({ timer }: Props) => {
-  const theme = useSelector((state: State) => state.theme)
+  const theme = usePalette()
+
+  const themeMetadata = useTheme()
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <>
       {timer.map((item, i) => (
         <React.Fragment key={item.type}>
           <div className="flex flex-col items-center justify-center">
             <div
-              className={` md:p-16 flex justify-center items-center rounded-lg md:${theme.surface}`}
+              className={` md:p-16 flex justify-center items-center rounded-lg ${
+                theme.md[`surface`]
+              }`}
             >
               <Text
                 color="textAccent"
@@ -31,8 +42,14 @@ export const Countdown = ({ timer }: Props) => {
               {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
             </Text>
           </div>
-          {i !== timer.length - 1 ? (
-            <div className="md:hidden p-1 rounded-xl bg-white" />
+          {i !== timer.length - 1 && mounted ? (
+            <div
+              className={`md:hidden p-1 rounded-xl ${
+                themeMetadata.theme === 'dark'
+                  ? theme.base['light:surface']
+                  : theme.base['dark:surface']
+              }`}
+            />
           ) : null}
         </React.Fragment>
       ))}

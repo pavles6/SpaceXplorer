@@ -1,7 +1,5 @@
-import { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
 import Text from '../Text/Text'
-import { State } from '../../lib/types/redux'
 
 interface Props {
   spacing?: string
@@ -10,6 +8,7 @@ interface Props {
   link?: boolean
   href?: string
   classes?: string
+  target?: '_blank' | '_self'
 }
 
 export const DataRow = ({
@@ -19,9 +18,8 @@ export const DataRow = ({
   spacing,
   link,
   href,
+  target = '_self',
 }: Props) => {
-  const theme = useSelector((state: State) => state.theme)
-
   return (
     <div
       className={`flex ${classes || ''} justify-between lg:justify-start ${
@@ -37,9 +35,10 @@ export const DataRow = ({
         classes={`flex-shrink ${link ? 'underline' : ''}`}
         link={link}
         href={href}
+        target={target}
         variant="subtitle1"
         align="text-right"
-        color={link ? 'mainText' : 'textAccent'}
+        color={link ? 'textPrimary' : 'textAccent'}
       >{`${value}`}</Text>
     </div>
   )

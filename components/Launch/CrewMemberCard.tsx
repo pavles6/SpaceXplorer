@@ -2,10 +2,9 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { CrewMember } from '../../lib/types/api'
 import { Transition } from '@headlessui/react'
 import Text from '../Text/Text'
-import { useSelector } from 'react-redux'
-import { State } from '../../lib/types/redux'
 import { useMediaQuery } from 'react-responsive'
 import Image from 'next/image'
+import { usePalette } from '../../lib/palette/store'
 
 interface Props extends CrewMember {
   key: React.Key
@@ -20,11 +19,13 @@ export default function CrewMemberCard({
 }: Props): ReactElement {
   const [showMemberInfo, setShowMemberInfo] = useState(false)
 
-  const [isClient, setIsClient] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setIsClient(true)
+    setMounted(true)
   }, [])
+
+  const theme = usePalette()
 
   const isSmallScreen = useMediaQuery({ query: '(max-width: 767px)' })
 
@@ -47,7 +48,7 @@ export default function CrewMemberCard({
         `}
       >
         <Transition
-          show={showMemberInfo || (isSmallScreen && isClient)}
+          show={showMemberInfo || (isSmallScreen && mounted)}
           enter="transition-opacity duration-150"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -58,25 +59,27 @@ export default function CrewMemberCard({
           bg-black bg-opacity-60 transition"
         >
           <Text
-            classes="text-xl md:text-2xl"
+            classes={`cursor-default text-xl md:text-2xl ${theme.base.textPrimary}`}
             weight="font-semibold"
-            color="mainText"
             align="text-center"
           >
             {name}
           </Text>
-          <Text classes="sm:text-base md:text-lg" color="textAccent">
+          <Text
+            classes={`cursor-default sm:text-base md:text-lg ${theme.base['dark:textAccent']}`}
+          >
             {`Agency: ${agency}`}
           </Text>
-          <Text classes="sm:text-base md:text-lg" color="textAccent">
+          <Text
+            classes={`sm:text-base md:text-lg cursor-default ${theme.base['dark:textAccent']}`}
+          >
             {`No. of missions: ${launches.length}`}
           </Text>
           {wikipedia ? (
             <Text
-              target="__blank"
-              classes="sm:text-base md:text-lg"
+              target="_blank"
+              classes={`sm:text-base md:text-lg ${theme.base['dark:textAccent']}`}
               decoration="underline"
-              color="mainText"
               weight="font-semibold"
               link
               href={wikipedia}

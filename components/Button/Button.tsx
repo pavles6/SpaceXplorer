@@ -1,9 +1,7 @@
 import React, { FunctionComponent, ReactElement } from 'react'
-import { useSelector } from 'react-redux'
-import Link from 'next/link'
-import { Theme } from '../../lib/types/theme'
 import { TextProps } from '../Text/types'
 import Text from '../Text/Text'
+import { usePalette } from '../../lib/palette/store'
 
 interface ButtonProps extends TextProps {
   click?: Function
@@ -11,8 +9,9 @@ interface ButtonProps extends TextProps {
   buttonVariant?: 'link' | 'button'
   iconClasses?: string
   buttonClasses?: string
-  target?: string
+  target?: '_self' | '_blank'
   id?: string
+  iconColor?: string
 }
 
 export default function Button({
@@ -26,10 +25,11 @@ export default function Button({
   href,
   color,
   icon: Icon,
+  iconColor,
   id,
   target = '_self',
 }: ButtonProps): ReactElement {
-  const theme = useSelector((state: { theme: Theme }) => state.theme)
+  const theme = usePalette()
 
   const iconButton = !children && Icon
 
@@ -55,9 +55,9 @@ export default function Button({
         ) : null}
         {Icon ? (
           <Icon
-            className={`${theme.textAccent} ${!iconButton ? 'absolute' : ''} ${
-              iconClasses || 'h-8 w-8'
-            }`}
+            className={`${theme.base.textAccent} ${
+              !iconButton ? 'absolute' : ''
+            } ${iconClasses || 'h-8 w-8'}`}
           />
         ) : null}
       </Text>
@@ -77,9 +77,9 @@ export default function Button({
       ) : null}
       {Icon ? (
         <Icon
-          className={`${theme.textAccent} ${!iconButton ? 'absolute' : ''} ${
-            iconClasses || 'h-8 w-8'
-          }`}
+          className={`${!iconColor ? theme.base.textAccent : iconColor} ${
+            !iconButton ? 'absolute' : ''
+          } ${iconClasses || 'h-8 w-8'}`}
         />
       ) : null}
     </button>
