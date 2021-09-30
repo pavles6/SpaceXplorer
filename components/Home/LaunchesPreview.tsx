@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
-import { calculateCountdown } from '../../lib/utils/date-functions'
-import Link from 'next/link'
+import {
+  calculateCountdown,
+  getDateFormat,
+} from '../../lib/utils/date-functions'
 import { Launch } from '../../lib/types/api'
 import { formatDate } from '../../lib/utils/date-functions'
 import { Countdown } from './Countdown'
 import { usePalette } from '../../lib/palette/store'
 import { Palette } from '../../lib/types/theme'
+import { LaunchCard } from '../common/LaunchCard'
 
 export interface TimerNode {
   type: string
@@ -17,16 +20,10 @@ export interface TimerNode {
 interface Props {
   nextLaunch: Launch
   recentLaunches: Launch[]
-  isHourPrecision: boolean
 }
 
-export default function LaunchesPreview({
-  nextLaunch,
-  recentLaunches,
-  isHourPrecision,
-}: Props) {
+export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
   const theme = usePalette()
-
   const [timer, setTimer] = useState<TimerNode[]>([
     {
       type: 'days',
@@ -63,7 +60,7 @@ export default function LaunchesPreview({
   }
 
   useEffect(() => {
-    if (isHourPrecision) {
+    if (nextLaunch.date_precision === 'hour') {
       startTimer()
       return () => {
         window.clearInterval(countdownInterval)
@@ -91,7 +88,16 @@ export default function LaunchesPreview({
           </Text>
         </div>
         <div className="flex md:space-x-6 justify-around items-center max-w-screen-sm w-full">
-          {isHourPrecision ? <Countdown timer={timer} /> : null}
+          {nextLaunch.date_precision === 'hour' ? (
+            <Countdown timer={timer} />
+          ) : (
+            <Text variant="title1">
+              {formatDate(
+                new Date(nextLaunch.date_unix * 1000),
+                getDateFormat(nextLaunch.date_precision)
+              )}
+            </Text>
+          )}
         </div>
       </div>
 
@@ -105,51 +111,13 @@ export default function LaunchesPreview({
           >
             Recent launches
           </Text>
-          <ul className="flex flex-col md:flex-row md:flex-wrap justify-center items-center max-w-screen-lg">
+          <div className="flex flex-col md:flex-row md:flex-wrap justify-center items-center max-w-screen-lg">
             {recentLaunches
-              ? recentLaunches.map((launch, i) => {
-                  return (
-                    <Link key={launch.id} href={`/launch/${launch.id}`}>
-                      <a
-                        className={`transition transform hover:-translate-y-1 cursor-pointer w-72 h-40 p-4 border ${theme.base.border} rounded-xl sm:mx-4 my-4`}
-                      >
-                        <Text
-                          variant="h4"
-                          color="textPrimary"
-                          weight="font-semibold"
-                          classes="truncate"
-                        >
-                          {launch.name}
-                        </Text>
-                        <Text
-                          variant="subtitle1"
-                          color="text"
-                          weight="font-semibold"
-                        >
-                          {`${formatDate(
-                            new Date(launch.date_unix * 1000),
-                            'MMMM, YYYY.'
-                          )} ${launch.upcoming ? '- Upcoming' : ''}`}
-                        </Text>
-                        <Text variant="subtitle1" color="text"></Text>
-                        <Text variant="subtitle1" color="text">
-                          {`Outcome: ${
-                            launch.success === null
-                              ? 'N/A'
-                              : launch.success
-                              ? 'Successful'
-                              : 'Failed'
-                          }`}
-                        </Text>
-                        <Text variant="subtitle1" color="text">{`Rocket: ${
-                          launch.rocket!.name
-                        }`}</Text>
-                      </a>
-                    </Link>
-                  )
+              ? recentLaunches.map((launch) => {
+                  return <LaunchCard key={launch.id} {...launch} />
                 })
               : null}
-          </ul>
+          </div>
         </div>
       </div>
       <div className="flex flex-col items-center mt-12 lg:mt-52 mb-12 justify-end">

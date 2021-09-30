@@ -141,6 +141,7 @@ export const getStaticProps = async ({ params }) => {
     props: {
       launchData,
     },
+    revalidate: 10,
   }
 }
 

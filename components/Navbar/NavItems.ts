@@ -1,5 +1,6 @@
 export interface INavItem {
   variant: 'button' | 'link'
+  target?: '_self' | '_blank'
   title?: string
   path?: string
   active?: boolean
@@ -14,15 +15,16 @@ export const navItems: INavItem[] = [
     variant: 'link',
   },
   {
-    path: '/search',
+    path: '/search?date_range=newest',
     title: 'Search',
     active: false,
     variant: 'link',
   },
   {
-    path: '/about',
+    path: 'https://github.com/pavles6/SpaceXplorer/tree/master#readme',
     title: 'About',
     active: false,
     variant: 'link',
+    target: '_blank',
   },
 ]

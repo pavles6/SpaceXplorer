@@ -42,7 +42,7 @@ export const LaunchGallerySection = ({ images, name }: Props) => {
             />
             <Button
               iconColor={theme.base['dark:iconAccent']}
-              buttonClasses="absolute z-40 top-1/2 left-0"
+              classes="absolute z-40 top-1/2 left-0"
               iconClasses="w-12 h-12"
               click={() => {
                 if (imageIndex === 0) setImageIndex(images.length - 1)
@@ -52,7 +52,7 @@ export const LaunchGallerySection = ({ images, name }: Props) => {
             />
             <Button
               iconColor={theme.base['dark:iconAccent']}
-              buttonClasses="absolute z-40 top-1/2 right-0"
+              classes="absolute z-40 top-1/2 right-0"
               iconClasses="w-12 h-12"
               icon={ChevronRightIcon}
               click={() => {

@@ -102,7 +102,7 @@ export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
                       }
                     />
                     <DataRow
-                      title="Times reused"
+                      title="Times used"
                       value={capsule.reuse_count.toString()}
                     />
                     <DataRow

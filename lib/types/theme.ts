@@ -96,6 +96,9 @@ interface PaletteDraft {
   focus: {
     [K in PaletteFields]: string
   }
+  disabled: {
+    [K in PaletteFields]: string
+  }
 }
 
 export interface Palette extends DeepPartial<PaletteDraft> {}

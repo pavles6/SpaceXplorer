@@ -25,7 +25,7 @@ export const Countdown = ({ timer }: Props) => {
         <React.Fragment key={item.type}>
           <div className="flex flex-col items-center justify-center">
             <div
-              className={` md:p-16 flex justify-center items-center rounded-lg ${
+              className={`md:p-16 flex justify-center items-center rounded-lg ${
                 theme.md[`surface`]
               }`}
             >

@@ -47,3 +47,26 @@ export function calculateCountdown(
     return null
   }
 }
+
+export function getDateFormat(date_precision: string): string {
+  let dateFormat
+
+  switch (date_precision) {
+    case 'hour':
+    case 'day':
+      dateFormat = 'MMMM D, YYYY.'
+      break
+    case 'month':
+      dateFormat = 'MMMM, YYYY.'
+      break
+    case 'half':
+    case 'quarter':
+    case 'year':
+      dateFormat = 'YYYY.'
+      break
+    default:
+      dateFormat = null
+  }
+
+  return dateFormat
+}

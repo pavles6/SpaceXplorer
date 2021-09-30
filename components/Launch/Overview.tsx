@@ -65,11 +65,14 @@ export const LaunchOverviewSection = ({
       Icon: LightningBoltIcon,
     },
   ]
-  let shouldSort = false
-  mediaLinks.forEach((link) => (link.url === null ? (shouldSort = true) : null))
-  if (shouldSort) {
-    mediaLinks.sort((link, _) => (link.url === null ? 1 : -1))
-  }
+
+  for (let link of mediaLinks)
+    if (link.url === null) {
+      // put unavailable links at the end
+      mediaLinks.forEach((link, i) => {
+        if (link.url === null) mediaLinks.push(mediaLinks.splice(i, 1)[0])
+      })
+    }
 
   return (
     <div className="flex flex-col justify-center">
