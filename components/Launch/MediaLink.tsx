@@ -42,7 +42,9 @@ export const LaunchMediaLink = ({ link: { Icon, title, url } }: Props) => {
           }`}
         />
         <Text
-          color={isLink ? (hovered ? 'textAccent' : 'text') : 'textDisabled'}
+          color={
+            isLink ? (hovered ? 'dark:textAccent' : 'text') : 'textDisabled'
+          }
         >
           {title}
         </Text>

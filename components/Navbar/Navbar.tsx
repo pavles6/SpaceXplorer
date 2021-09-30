@@ -64,7 +64,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
       >
         <Button
           icon={MenuIcon}
-          buttonClasses="mx-2 lg:hidden transition"
+          classes="mx-2 lg:hidden transition"
           click={() => {
             setMenuOpened(true)
           }}
@@ -81,28 +81,29 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
 
         <div className="hidden lg:flex flex-1 flex-row items-center h-10 justify-end space-x-5">
           {mounted
-            ? navbarLinks.map((link) => {
+            ? navbarLinks.map(({ active, path, title, target = '_self' }) => {
                 return (
-                  <Link key={link.title} href={link.path}>
+                  <Link key={title} href={path}>
                     <a
+                      target={target}
                       className={`flex items-center justify-center  transition duration-150 ${
-                        link.active ? 'pointer-events-none cursor-default' : ''
+                        active ? 'pointer-events-none cursor-default' : ''
                       }`}
                     >
                       <Text
                         classes={`font-semibold uppercase ${
-                          link.active
+                          active
                             ? theme.base.textPrimary
                             : theme.base.textAccent
                         } ${
-                          link.active
+                          active
                             ? ''
                             : themeType === 'light'
                             ? `hover:${theme.base['dark:textSecondary']}`
                             : `dark:hover:${theme.base['light:textSecondary']}`
                         }`}
                       >
-                        {link.title}
+                        {title}
                       </Text>
                     </a>
                   </Link>

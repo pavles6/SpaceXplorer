@@ -99,7 +99,6 @@ export default function HomePage({
         className={`transition flex flex-col items-center h-full ${theme.base.surfaceBackground}  `}
       >
         <LaunchesPreview
-          isHourPrecision={nextLaunchData.date_precision === 'hour'}
           recentLaunches={recentLaunchesData}
           nextLaunch={nextLaunchData}
         />
@@ -110,7 +109,7 @@ export default function HomePage({
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const nextLaunchData = await getNextLaunch()
   const recentLaunchesData = await getRecentLaunches()
 

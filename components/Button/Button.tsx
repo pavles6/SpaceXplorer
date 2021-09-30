@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react'
-import { TextProps } from '../Text/types'
-import Text from '../Text/Text'
+import { TextProps } from '../../lib/types/Text'
+import Text, { useTextVariant } from '../Text/Text'
 import { usePalette } from '../../lib/palette/store'
 
 interface ButtonProps extends TextProps {
@@ -12,13 +12,13 @@ interface ButtonProps extends TextProps {
   target?: '_self' | '_blank'
   id?: string
   iconColor?: string
+  disabled?: boolean
 }
 
 export default function Button({
   click,
   buttonVariant = 'button',
   variant = 'subtitle1',
-  buttonClasses = '',
   children = '',
   iconClasses,
   classes,
@@ -27,6 +27,7 @@ export default function Button({
   icon: Icon,
   iconColor,
   id,
+  disabled = false,
   target = '_self',
 }: ButtonProps): ReactElement {
   const theme = usePalette()
@@ -66,15 +67,12 @@ export default function Button({
 
   return (
     <button
+      disabled={disabled}
       id={id}
-      className={`${buttonClasses} focus:outline-none`}
+      className={`${classes} focus:outline-none ${useTextVariant(variant)}`}
       onClick={() => click()}
     >
-      {children ? (
-        <Text variant={variant} color={color} classes={classes}>
-          {children}
-        </Text>
-      ) : null}
+      {children ? children : null}
       {Icon ? (
         <Icon
           className={`${!iconColor ? theme.base.textAccent : iconColor} ${

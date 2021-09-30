@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { QueryObject, QueryTypes } from '../types/query'
 import { IEndpointPayload } from './IEndpoints'
 
 interface RequestConfig extends AxiosRequestConfig {
@@ -79,15 +80,15 @@ export const recentLaunchesPayload: RequestConfig = {
   data: {
     options: {
       limit: 5,
-      select: 'date_unix name id upcoming success rocket',
+      select: 'date_unix date_precision name id upcoming success rocket crew',
       sort: {
         date_unix: 'desc',
       },
       populate: [{ path: 'rocket', select: 'name' }],
     },
     query: {
-      success: {
-        $eq: true,
+      upcoming: {
+        $eq: false,
       },
       date_precision: {
         $eq: 'hour',
@@ -110,4 +111,138 @@ export const LaunchesIdsPayload: RequestConfig = {
       select: 'id',
     },
   },
+}
+
+export const RocketTypesPayload: RequestConfig = {
+  method: 'POST',
+  url: 'https://api.spacexdata.com/v4/rockets/query',
+  data: {
+    options: {
+      pagination: false,
+      select: 'name',
+    },
+  },
+}
+
+export const PayloadTypesPayload: RequestConfig = {
+  method: 'POST',
+  url: 'https://api.spacexdata.com/v4/payloads/query',
+  data: {
+    options: {
+      pagination: false,
+      select: 'type',
+    },
+  },
+}
+
+export const queryLaunchesPayload = (query: QueryObject): RequestConfig => {
+  const mongoQuery = {} as any
+  const sort = {} as any
+  const populate = [{ path: 'rocket', select: 'name' }] as any
+
+  const {
+    q,
+    date_range,
+    has_images,
+    launch_type,
+    outcome,
+    payload_type,
+    rocket,
+  } = query
+
+  if (q)
+    mongoQuery.name = {
+      $regex: q,
+      $options: 'i',
+    }
+
+  if (date_range) {
+    if (date_range === 'newest') {
+      mongoQuery.upcoming = {
+        $eq: false,
+      }
+      sort.date_unix = 'desc'
+    } else if (date_range === 'upcoming') {
+      ;(mongoQuery.upcoming = {
+        $eq: true,
+      }),
+        (sort.date_unix = 'asc')
+    } else if (date_range === 'oldest') {
+      mongoQuery.upcoming = {
+        $eq: false,
+      }
+      sort.date_unix = 'asc'
+    } else {
+      const range = date_range.split('_')
+      if (range.length === 2) {
+        mongoQuery.date_unix = {
+          $gte: (new Date(range[0]) as any) / 1000,
+          $lt: (new Date(range[1]) as any) / 1000,
+        }
+        sort.date_unix = 'asc'
+      }
+    }
+  }
+
+  if (has_images)
+    mongoQuery['links.flickr.original.1'] = {
+      $exists: true,
+    }
+
+  if (launch_type === 'crew')
+    mongoQuery['crew.1'] = {
+      $exists: true,
+    }
+
+  if (launch_type === 'non-crew')
+    mongoQuery['crew.1'] = {
+      $exists: false,
+    }
+
+  if (outcome === 'successful')
+    mongoQuery.success = {
+      $eq: true,
+    }
+
+  if (outcome === 'failed')
+    mongoQuery.success = {
+      $eq: false,
+    }
+
+  if (payload_type) {
+    populate.push({
+      path: 'payloads',
+      match: { type: payload_type },
+    })
+
+    mongoQuery.payloads = {
+      $exists: true,
+      $not: {
+        $size: 0,
+      },
+    }
+  }
+
+  if (rocket) {
+    populate.push({
+      path: 'rocket',
+      match: { name: rocket },
+      select: 'name',
+    })
+  }
+
+  return {
+    method: 'POST',
+    url: 'https://api.spacexdata.com/v4/launches/query',
+    data: {
+      options: {
+        limit: 12,
+        page: query.page || 1,
+        select: 'name id date_unix date_precision success crew rocket upcoming',
+        sort,
+        populate,
+      },
+      query: mongoQuery,
+    },
+  }
 }

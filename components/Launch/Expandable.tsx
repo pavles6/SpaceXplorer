@@ -1,5 +1,5 @@
 import { Disclosure, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon } from '@heroicons/react/solid'
 import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 
@@ -29,14 +29,16 @@ export const Expandable = ({ title, children }: ExpandableProps) => {
               />
             </Disclosure.Button>
             <Transition
+              show={open}
               enter="transition duration-150 ease-out"
-              enterFrom="transform opacity-0"
-              enterTo="transform opacity-100"
-              leave="transition duration-75 ease-out"
-              leaveFrom="transform opacity-100"
-              leaveTo="transform opacity-0"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition duration-150 ease-out"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
               <Disclosure.Panel
+                static
                 as="ul"
                 className="p-4 space-y-2 transition duration-300 w-full flex flex-wrap  flex-col"
               >

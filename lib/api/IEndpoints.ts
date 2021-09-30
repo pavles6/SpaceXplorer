@@ -1,9 +1,9 @@
 interface OptionsParameters {
   select?: Object | string
   sort?: Object | string
-  offset?: number
-  page?: number
-  limit?: number
+  offset?: number | string
+  page?: number | string
+  limit?: number | string
   pagination?: boolean
   populate?: Array<string> | Object | string
 }

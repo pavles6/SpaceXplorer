@@ -1,7 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
 import { usePalette } from '../../lib/palette/store'
-import { TextProps, TextVariantMapping, TextWeight, TwClass } from './types'
+import {
+  TextProps,
+  TextVariantMapping,
+  TextWeight,
+  TwClass,
+} from '../../lib/types/Text'
 
 const defaultWeights: TextVariantMapping<TextWeight> = {
   h1: 'font-bold',
@@ -34,6 +39,9 @@ const textVariants: TextVariantMapping<TwClass> = {
   articleHeading2: 'text-xl lg:text-2xl xl:text-3xl',
   articleHeading3: 'text-lg lg:text-xl xl:text-2xl',
 }
+
+export const useTextVariant = (variant: TwClass, weight?: TextWeight) =>
+  `${textVariants[variant]} ${defaultWeights[variant] || weight}`
 
 export default function Text({
   link = false,

@@ -25,7 +25,7 @@ const darkTheme: Colors = {
 
 const lightTheme: Colors = {
   surfaceDisabled: 'bg-gray-400',
-  textDisabled: 'text-gray-800',
+  textDisabled: 'text-gray-400',
   colorDisabled: 'gray-800',
   surfaceBackground: 'bg-gray-200',
   surface: 'bg-gray-100',
@@ -39,7 +39,7 @@ const lightTheme: Colors = {
 
 const palette: Palette = {}
 
-const extension = [
+const extensions = [
   'base',
   'xs',
   'sm',
@@ -49,15 +49,16 @@ const extension = [
   '2xl',
   'hover',
   'focus',
+  'disabled',
 ]
 
-for (let ext of extension) palette[ext] = {}
+for (let ext of extensions) palette[ext] = {}
 
 palette.base = { ...mainPalette }
 
 for (let key of Object.keys(darkTheme)) {
   if (key === 'border') {
-    for (let ext of extension)
+    for (let ext of extensions)
       palette[ext][`${key}`] = `${
         ext === 'base' ? '' : ext + ':'
       }dark:border-opacity-10 ${
@@ -66,17 +67,17 @@ for (let key of Object.keys(darkTheme)) {
         ext === 'base' ? '' : ext + ':'
       }dark:${darkTheme[key]}`
   } else {
-    for (let ext of extension)
+    for (let ext of extensions)
       palette[ext][`light:${key}`] = `${ext === 'base' ? '' : ext + ':'}${
         lightTheme[key]
       }`
 
-    for (let ext of extension)
+    for (let ext of extensions)
       palette[ext][`dark:${key}`] = `${
-        ext === 'base' ? '' : ext === 'hover' ? ext + ':dark:' : ext + ':'
+        ext === 'base' ? '' : ext === 'hover' ? `dark:${ext}:` : ext + ':'
       }${darkTheme[key]}`
 
-    for (let ext of extension)
+    for (let ext of extensions)
       palette[ext][`${key}`] = `${ext === 'base' ? '' : ext + ':'}${
         lightTheme[key]
       } ${ext === 'base' ? '' : ext + ':'}dark:${darkTheme[key]}`

@@ -44,7 +44,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
           as={Fragment}
         >
           <div
-            className={`h-screen w-2/3 max-w-lg relative z-50 flex flex-col items-center ${theme.base.surface}`}
+            className={`h-screen w-2/3 max-w-lg relative z-50 flex flex-col items-center ${theme.base.surfaceBackground}`}
           >
             <div className="h-16 w-full flex justify-between items-center">
               <Text
@@ -63,17 +63,23 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
                 }}
               />
             </div>
-            <div className="px-4 w-full">
+            <div className={`px-4 w-full flex flex-col`}>
               {navLinks.map((link: INavItem) => {
                 return (
-                  <div
-                    className={`py-4 pl-2 ${
-                      !link.active ? 'hover:bg-white' : ''
-                    } transition rounded-lg hover:bg-opacity-10`}
+                  <Text
+                    link
+                    variant="subtitle1"
+                    color="textAccent"
+                    href={link.path}
+                    classes={`py-4 my-2 pl-2 transition rounded-lg ${
+                      !link.active
+                        ? theme.hover.surface
+                        : `cursor-default pointer-events-none ${theme.base.surface}`
+                    } `}
                     key={link.title}
                   >
-                    pisha
-                  </div>
+                    {link.title}
+                  </Text>
                 )
               })}
               <div className="border-t-2 mt-4 border-white border-opacity-10" />

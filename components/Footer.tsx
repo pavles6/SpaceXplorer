@@ -23,7 +23,12 @@ export default function Footer() {
             <Text link href="/search" variant="subtitle2" color="text">
               Search
             </Text>
-            <Text link href="/about" variant="subtitle2" color="text">
+            <Text
+              link
+              href="https://github.com/pavles6/SpaceXplorer/tree/master#readme"
+              variant="subtitle2"
+              color="text"
+            >
               About
             </Text>
           </div>
@@ -94,11 +99,11 @@ export default function Footer() {
             </Text>
             <Text
               link
-              href="https://redux.js.org/"
+              href="https://headlessui.dev/"
               variant="subtitle2"
               color="text"
             >
-              Redux
+              HeadlessUI
             </Text>
           </div>
         </div>
@@ -137,7 +142,7 @@ export default function Footer() {
               MIT License
             </Text>
           </Text>
-          <div className={`p-0.5 mx-2  rounded-xl bg-white`} />
+          <div className={`p-0.5 mx-2  rounded-xl bg-black dark:bg-white`} />
           <Text variant="subtitle2" color="text">
             {new Date().getFullYear()}
           </Text>
