@@ -10,14 +10,14 @@ export type QueryTypes =
   | 'has_images'
   | 'page'
 
-export interface QueryObject {
+export interface QueryParameters {
   q?: string
   launch_type?: 'crew' | 'non-crew'
   date_range?: string | 'newest' | 'oldest' | 'upcoming'
   rocket?: string
   payload_type?: string
   outcome?: 'successful' | 'failed' | 'N/A'
-  has_images?: boolean
+  has_images?: 'images'
   page?: number | string
 }
 
@@ -43,4 +43,8 @@ export type QueryResult = {
   hasNextPage: boolean
   prevPage: number | null
   nextPage: number | null
+}
+
+export type QueryFilters = {
+  [K in QueryTypes]: string | any
 }

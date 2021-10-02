@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Text from '../Text/Text'
 import { INavItem, navItems } from './NavItems'
 import Button from '../Button/Button'
@@ -37,7 +37,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
     const links = [...navbarLinks]
 
     links.map((link, i) =>
-      router.asPath === link.path
+      link.path.split('?')[0] === router.route
         ? (links[i].active = true)
         : (links[i].active = false)
     )

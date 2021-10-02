@@ -1,6 +1,7 @@
 import { Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
-import React, { Fragment } from 'react'
+import { useRouter } from 'next/router'
+import React, { Fragment, useEffect, useState } from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
@@ -14,6 +15,10 @@ interface Props {
 
 export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
   const theme = usePalette()
+
+  const router = useRouter()
+
+  const [mounted, setMounted] = useState(false)
 
   return (
     <Transition
@@ -57,7 +62,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
               </Text>
               <Button
                 icon={XIcon}
-                buttonClasses="mr-2 transition"
+                classes="mr-2 transition"
                 click={() => {
                   closeMenu(false)
                 }}

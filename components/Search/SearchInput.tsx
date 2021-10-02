@@ -23,10 +23,10 @@ export const SearchInput = ({ value, changed }: Props) => {
       >
         <input
           onChange={(e) => changed(e.target.value)}
-          placeholder="Type something... (e.g. Crew-2)"
+          placeholder="Type something... (e.g. Crew-2, Starlink)"
           type="search"
           value={value}
-          className={`px-4 bg-transparent h-full w-full focus:outline-none ${theme.base['light:textSecondary']} text-lg`}
+          className={`px-4 bg-transparent h-full w-full focus:outline-none ${theme.base['light:textSecondary']} text-sm lg:text-lg`}
         />
       </form>
     </div>

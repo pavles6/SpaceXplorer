@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
-import { QueryObject, QueryTypes } from '../types/query'
+import { QueryParameters, QueryTypes } from '../types/query'
 import { IEndpointPayload } from './IEndpoints'
 
 interface RequestConfig extends AxiosRequestConfig {
@@ -135,7 +135,7 @@ export const PayloadTypesPayload: RequestConfig = {
   },
 }
 
-export const queryLaunchesPayload = (query: QueryObject): RequestConfig => {
+export const queryLaunchesPayload = (query: QueryParameters): RequestConfig => {
   const mongoQuery = {} as any
   const sort = {} as any
   const populate = [{ path: 'rocket', select: 'name' }] as any
@@ -184,7 +184,7 @@ export const queryLaunchesPayload = (query: QueryObject): RequestConfig => {
     }
   }
 
-  if (has_images)
+  if (has_images === 'images')
     mongoQuery['links.flickr.original.1'] = {
       $exists: true,
     }

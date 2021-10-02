@@ -1,7 +1,10 @@
+import { Transition } from '@headlessui/react'
 import { FilterIcon, ViewGridIcon, XIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
+import Link from 'next/link'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { traceDeprecation } from 'process'
 import React, { FormEventHandler, useEffect, useState } from 'react'
 import Button from '../components/Button/Button'
 import { LaunchCard } from '../components/common/LaunchCard'
@@ -9,25 +12,31 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
 import { SearchHeader } from '../components/Search/Header'
 import { PaginationControls } from '../components/Search/PaginationControls'
+import { ResultGrid } from '../components/Search/ResultGrid'
+import { SearchControls } from '../components/Search/SearchControls'
 import { SearchInput } from '../components/Search/SearchInput'
+import Text from '../components/Text/Text'
 import {
   getPayloadTypes,
   getRocketTypes,
   queryLaunches,
 } from '../lib/api/api-calls'
 import { usePalette } from '../lib/palette/store'
-import { QueryObject, QueryResult, QueryTypes } from '../lib/types/query'
+import {
+  QueryFilters,
+  QueryParameters,
+  QueryResult,
+  QueryTypes,
+} from '../lib/types/query'
+import { formatDate, getDateFormat } from '../lib/utils/date-functions'
 import { useIsMount } from '../lib/utils/useIsMount'
+import { ResultList } from '../components/Search/ResultList'
 
 interface Props {
   rocketTypes: string[]
   payloadTypes: string[]
   result: QueryResult
-  appliedFilters: QueryObject
-}
-
-type QueryFilters = {
-  [K in QueryTypes]: string | any
+  appliedFilters: QueryParameters
 }
 
 export default function SearchPage({
@@ -38,13 +47,11 @@ export default function SearchPage({
 }: Props) {
   const theme = usePalette()
 
-  console.log(appliedFilters)
-
   const router = useRouter()
 
   const isFirstRender = useIsMount()
 
-  const [resultsView, setResultsView] = useState<'grid' | 'table'>('grid')
+  const [resultsView, setResultsView] = useState<'grid' | 'list'>('list')
 
   const [filters, setFilters] = useState<QueryFilters>({
     q: appliedFilters.q || '',
@@ -97,6 +104,8 @@ export default function SearchPage({
     }
   }, [])
 
+  const isResults = result.docs.length !== 0
+
   return (
     <>
       <Head>
@@ -122,65 +131,22 @@ export default function SearchPage({
         <div
           className={`mb-24 pt-4 min-h-full w-full max-w-4xl ${theme.base.surfaceBackground}`}
         >
-          <div
-            className={`h-16 w-full flex justify-between items-center border-b ${theme.base.border} px-4 my-4`}
-          >
-            <div className="flex space-x-2">
-              {Object.keys(appliedFilters).map((filter) => {
-                if (filters[filter] && filter !== 'page') {
-                  let formattedTitle: string =
-                    filters[filter].toString().slice(0, 1)[0].toUpperCase() +
-                    filters[filter]
-                      .toString()
-                      .substr(1, filters[filter].toString().length)
-
-                  if (formattedTitle.includes('_')) {
-                    formattedTitle = formattedTitle.replace('_', ' ')
-                  }
-                  return (
-                    <Button
-                      variant="subtitle1"
-                      click={() => removeFilter(filter as QueryTypes)}
-                      key={filter}
-                      classes={`flex items-center justify-center py-2 px-4 rounded-md ${theme.base.surface}`}
-                    >
-                      {formattedTitle}
-                      <XIcon className="ml-4 w-5 h-5" />
-                    </Button>
-                  )
-                }
-              })}
-            </div>
-            <div className="flex space-x-2">
-              <Button
-                classes="block 2xl:hidden"
-                icon={FilterIcon}
-                click={() => {}}
-              />
-              <Button
-                icon={ViewGridIcon}
-                click={() => {
-                  setResultsView(resultsView === 'grid' ? 'table' : 'grid')
-                }}
-              />
-            </div>
-          </div>
-          <div className="justify-center flex w-full flex-row flex-wrap ">
-            {result.docs.length !== 0
-              ? result.docs.map((el) => (
-                  <LaunchCard
-                    key={el.id}
-                    name={el.name}
-                    date_unix={el.date_unix}
-                    date_precision={el.date_precision}
-                    rocket={el.rocket}
-                    id={el.id}
-                    success={el.success}
-                    upcoming={el.upcoming}
-                    crew={el.crew}
-                  />
-                ))
-              : 'No results'}
+          <SearchControls
+            appliedFilters={appliedFilters}
+            filters={filters}
+            removeFilter={removeFilter}
+            resultsView={resultsView}
+            setResultsView={setResultsView}
+          />
+          <div className="flex">
+            {isResults ? (
+              <>
+                <ResultGrid resultsView={resultsView} launches={result.docs} />
+                <ResultList resultsView={resultsView} launches={result.docs} />
+              </>
+            ) : (
+              'No results'
+            )}
           </div>
           <PaginationControls
             currentPage={filters.page}
@@ -202,7 +168,7 @@ export default function SearchPage({
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   console.log(ctx.query)
 
-  const query: QueryObject = {
+  const query: QueryParameters = {
     date_range: (ctx.query.date_range || null) as any,
     has_images: (ctx.query.has_images || null) as any,
     launch_type: (ctx.query.launch_type || null) as any,
