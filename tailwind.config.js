@@ -39,9 +39,9 @@ module.exports = {
       },
       backgroundImage: (theme) => ({
         'landing-image-gradient':
-          'linear-gradient(45deg, rgba(185,28,28,0.5) 20%, rgba(55, 65, 81, 0.8) 60%)',
+          'linear-gradient(45deg, rgba(55, 65, 81, 0.75) 20%, rgba(185,28,28,0.4) 60%)',
         'launch-image-gradient':
-          'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(31, 41, 55, 0.75) 115%)',
+          'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(31, 41, 55, 0.8) 115%)',
       }),
       zIndex: {
         '-2': '-2',

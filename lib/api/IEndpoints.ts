@@ -1,4 +1,4 @@
-interface OptionsParameters {
+export interface OptionsParameters {
   select?: Object | string
   sort?: Object | string
   offset?: number | string

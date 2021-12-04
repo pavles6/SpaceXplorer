@@ -1,20 +1,20 @@
 import axios, { AxiosResponse } from 'axios'
 import {
-  dragonsPreviewPayload,
-  recentLaunchesPayload,
-  launchPayload,
-  nextLaunchPayload,
+  DragonsPreviewPayload,
+  RecentLaunchesPayload,
+  LaunchesPayload,
+  NextLaunchPayload,
   LaunchesIdsPayload,
-  rocketsPreviewPayload,
+  RocketsPreviewPayload,
   RocketTypesPayload,
   PayloadTypesPayload,
-  queryLaunchesPayload,
+  QueryLaunchesPayload,
 } from './endpoints'
 import { Dragon, Launch, Rocket } from '../types/api'
-import { QueryObject, QueryResult } from '../types/query'
+import { QueryParameters, QueryResult } from '../types/query'
 
 export const getLaunch = async (id: string): Promise<Launch> => {
-  const { data }: AxiosResponse = await axios(launchPayload(id))
+  const { data }: AxiosResponse = await axios(LaunchesPayload(id))
 
   return data.docs[0]
 }
@@ -31,7 +31,7 @@ export const getLaunchesIds = async (): Promise<object[]> => {
 export const getDragonsPreview = async (): Promise<Dragon[]> => {
   const {
     data: { docs },
-  }: AxiosResponse = await axios(dragonsPreviewPayload)
+  }: AxiosResponse = await axios(DragonsPreviewPayload)
 
   return docs
 }
@@ -39,7 +39,7 @@ export const getDragonsPreview = async (): Promise<Dragon[]> => {
 export const getRocketsPreview = async (): Promise<Rocket[]> => {
   const {
     data: { docs },
-  }: AxiosResponse = await axios(rocketsPreviewPayload)
+  }: AxiosResponse = await axios(RocketsPreviewPayload)
 
   return docs
 }
@@ -47,7 +47,7 @@ export const getRocketsPreview = async (): Promise<Rocket[]> => {
 export const getNextLaunch = async (): Promise<Launch> => {
   const {
     data: { name, date_unix, id, date_precision },
-  }: AxiosResponse = await axios(nextLaunchPayload)
+  }: AxiosResponse = await axios(NextLaunchPayload)
 
   return {
     name,
@@ -58,46 +58,29 @@ export const getNextLaunch = async (): Promise<Launch> => {
 }
 
 export const getRecentLaunches = async (): Promise<Launch[]> => {
-  const { data }: AxiosResponse = await axios(recentLaunchesPayload)
+  const { data }: AxiosResponse = await axios(RecentLaunchesPayload)
   return data.docs
 }
 
 export const queryLaunches = async (
-  query: QueryObject
+  query: QueryParameters
 ): Promise<QueryResult> => {
-  let populatedField = null
-
-  if (query.payload_type) populatedField = 'payloads'
-
-  if (query.rocket) populatedField = 'rocket'
-
-  const { data }: AxiosResponse = await axios(queryLaunchesPayload(query))
-
-  if (populatedField)
-    data.docs = data.docs.map((doc) => {
-      if (doc[populatedField] !== null || doc[populatedField].length > 0)
-        return doc
-    })
+  const requestPayload = QueryLaunchesPayload(query)
+  const { data }: AxiosResponse = await axios(requestPayload)
 
   return data
 }
 
-export const getRocketTypes = async (): Promise<string[]> => {
+export const getRocketTypes = async (): Promise<
+  Array<{
+    id: string
+    name: string
+  }>
+> => {
   const { data }: AxiosResponse = await axios(RocketTypesPayload)
   const rockets = []
 
-  data.docs.forEach((doc) => rockets.push(doc.name))
+  data.docs.forEach((doc) => rockets.push({ name: doc.name, id: doc.id }))
 
-  return rockets
-}
-
-export const getPayloadTypes = async (): Promise<string[]> => {
-  const { data }: AxiosResponse = await axios(PayloadTypesPayload)
-  const payloads = []
-
-  data.docs.forEach((doc) =>
-    payloads.includes(doc.type) ? null : payloads.push(doc.type)
-  )
-
-  return payloads
+  return rockets as any
 }

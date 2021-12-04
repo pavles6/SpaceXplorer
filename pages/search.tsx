@@ -1,13 +1,8 @@
-import { Transition } from '@headlessui/react'
-import { FilterIcon, ViewGridIcon, XIcon } from '@heroicons/react/solid'
+import { FilterIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
-import Link from 'next/link'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { traceDeprecation } from 'process'
-import React, { FormEventHandler, useEffect, useState } from 'react'
-import Button from '../components/Button/Button'
-import { LaunchCard } from '../components/common/LaunchCard'
+import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
 import { SearchHeader } from '../components/Search/Header'
@@ -16,11 +11,7 @@ import { ResultGrid } from '../components/Search/ResultGrid'
 import { SearchControls } from '../components/Search/SearchControls'
 import { SearchInput } from '../components/Search/SearchInput'
 import Text from '../components/Text/Text'
-import {
-  getPayloadTypes,
-  getRocketTypes,
-  queryLaunches,
-} from '../lib/api/api-calls'
+import { getRocketTypes, queryLaunches } from '../lib/api/api-calls'
 import { usePalette } from '../lib/palette/store'
 import {
   QueryFilters,
@@ -28,13 +19,19 @@ import {
   QueryResult,
   QueryTypes,
 } from '../lib/types/query'
-import { formatDate, getDateFormat } from '../lib/utils/date-functions'
 import { useIsMount } from '../lib/utils/useIsMount'
 import { ResultList } from '../components/Search/ResultList'
+import { FilterDropdown } from '../components/Search/FilterDropdown'
+import { FilterDropdownField } from '../components/Search/FilterDropdownField'
+
+interface RockeyPayloadFilterType {
+  name: string
+  id: string
+}
 
 interface Props {
-  rocketTypes: string[]
-  payloadTypes: string[]
+  rocketTypes: RockeyPayloadFilterType[]
+  payloadTypes: RockeyPayloadFilterType[]
   result: QueryResult
   appliedFilters: QueryParameters
 }
@@ -53,23 +50,29 @@ export default function SearchPage({
 
   const [resultsView, setResultsView] = useState<'grid' | 'list'>('list')
 
+  console.log(result)
+
   const [filters, setFilters] = useState<QueryFilters>({
     q: appliedFilters.q || '',
     date_range: appliedFilters.date_range || '',
     launch_type: appliedFilters.launch_type || '',
     outcome: appliedFilters.outcome || '',
-    rocket: appliedFilters.rocket || '',
-    payload_type: appliedFilters.payload_type || '',
+    rocket: appliedFilters.rocket
+      ? rocketTypes.find((type) => type.id === appliedFilters.rocket)
+      : '',
+    payload_type: appliedFilters.payload_type
+      ? payloadTypes.find((type) => type.id === appliedFilters.payload_type)
+      : '',
     page: appliedFilters.page || 1,
     has_images: appliedFilters.has_images || '',
   })
-
-  console.log(result)
 
   const applyFilters = () => {
     const query = {
       ...router.query,
       ...filters,
+      rocket: filters.rocket?.id || '',
+      payload_type: filters.payload_type?.id || '',
     }
 
     Object.keys(query).map((filter) =>
@@ -125,20 +128,95 @@ export default function SearchPage({
           value={filters.q}
         />
       </header>
-      <div
-        className={`w-full flex justify-center ${theme.base.surfaceBackground}`}
-      >
+      <div className={`w-full flex ${theme.base.surfaceBackground}`}>
         <div
-          className={`mb-24 pt-4 min-h-full w-full max-w-4xl ${theme.base.surfaceBackground}`}
+          className={`mb-24 pt-4 min-h-full justify-center flex w-full ${theme.base.surfaceBackground}`}
         >
-          <SearchControls
-            appliedFilters={appliedFilters}
-            filters={filters}
-            removeFilter={removeFilter}
-            resultsView={resultsView}
-            setResultsView={setResultsView}
-          />
-          <div className="flex">
+          <div className={`h-full w-full flex flex-col max-w-md mr-8`}>
+            <div
+              className={`${theme.base.border} border-b flex h-16 items-center justify-start w-full mx-4 mt-4`}
+            >
+              <Text
+                variant="h4"
+                color="textAccent"
+                classes="flex items-center h-full pl-2"
+              >
+                Filters{' '}
+                <FilterIcon
+                  className={`ml-2 w-8 h-8 ${theme.base.textAccent}`}
+                />
+              </Text>
+            </div>
+            <FilterDropdown title="Date">
+              <FilterDropdownField
+                title="Newest"
+                checked={filters.date_range === 'newest'}
+                changed={() =>
+                  setFilters({
+                    ...filters,
+                    date_range: filters.date_range === 'newest' ? '' : 'newest',
+                  })
+                }
+              />
+              <FilterDropdownField
+                title="Oldest"
+                checked={filters.date_range === 'oldest'}
+                changed={() =>
+                  setFilters({
+                    ...filters,
+                    date_range: filters.date_range === 'oldest' ? '' : 'oldest',
+                  })
+                }
+              />
+            </FilterDropdown>
+            <FilterDropdown title="Type">
+              <FilterDropdownField
+                title="Crew"
+                checked={filters.launch_type === 'crew'}
+                changed={() =>
+                  setFilters({
+                    ...filters,
+                    launch_type: filters.launch_type === 'crew' ? '' : 'crew',
+                  })
+                }
+              />
+              <FilterDropdownField
+                title="Non crew"
+                checked={filters.launch_type === 'non-crew'}
+                changed={() =>
+                  setFilters({
+                    ...filters,
+                    launch_type:
+                      filters.launch_type === 'non-crew' ? '' : 'non-crew',
+                  })
+                }
+              />
+            </FilterDropdown>
+            <FilterDropdown title="Rocket">
+              {rocketTypes.map((rocket) => (
+                <FilterDropdownField
+                  title={rocket.name}
+                  checked={filters.rocket.id === rocket.id}
+                  changed={() =>
+                    setFilters({
+                      ...filters,
+                      rocket: filters.rocket === rocket ? '' : rocket,
+                    })
+                  }
+                />
+              ))}
+            </FilterDropdown>
+            <FilterDropdown title="Outcome"></FilterDropdown>
+            <FilterDropdown title="Other"></FilterDropdown>
+          </div>
+          <div className="flex flex-col w-full ml-8 max-w-4xl">
+            <SearchControls
+              appliedFilters={appliedFilters}
+              filters={filters}
+              removeFilter={removeFilter}
+              resultsView={resultsView}
+              setResultsView={setResultsView}
+            />
             {isResults ? (
               <>
                 <ResultGrid resultsView={resultsView} launches={result.docs} />
@@ -147,17 +225,17 @@ export default function SearchPage({
             ) : (
               'No results'
             )}
+            <PaginationControls
+              currentPage={filters.page}
+              limit={result.limit}
+              resultCurrentPage={result.page}
+              setCurrentPage={(page) => {
+                setFilters({ ...filters, page })
+              }}
+              totalDocs={result.totalDocs}
+              totalPages={result.totalPages}
+            />
           </div>
-          <PaginationControls
-            currentPage={filters.page}
-            limit={result.limit}
-            resultCurrentPage={result.page}
-            setCurrentPage={(page) => {
-              setFilters({ ...filters, page })
-            }}
-            totalDocs={result.totalDocs}
-            totalPages={result.totalPages}
-          />
         </div>
       </div>
       <Footer />
@@ -179,9 +257,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     rocket: (ctx.query.rocket || null) as any,
   }
 
+  console.log(await getRocketTypes())
+
   return {
     props: {
-      payloadTypes: await getPayloadTypes(),
       rocketTypes: await getRocketTypes(),
       result: await queryLaunches(query),
       appliedFilters: query,

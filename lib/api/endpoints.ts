@@ -1,17 +1,16 @@
 import { AxiosRequestConfig } from 'axios'
 import { QueryParameters, QueryTypes } from '../types/query'
-import { IEndpointPayload } from './IEndpoints'
+import { IEndpointPayload, OptionsParameters } from './IEndpoints'
 
 interface RequestConfig extends AxiosRequestConfig {
   data?: IEndpointPayload
 }
 
-export const launchPayload = (id: string): RequestConfig => ({
+export const LaunchesPayload = (id: string): RequestConfig => ({
   method: 'POST',
   url: 'https://api.spacexdata.com/v4/launches/query',
   data: {
     options: {
-      pagination: false,
       select:
         'date_unix date_precision name upcoming success details rocket links.wikipedia links.article links.webcast links.reddit.campaign links.reddit.launch links.flickr.original crew capsules payloads launchpad landpad id',
       populate: [
@@ -44,6 +43,7 @@ export const launchPayload = (id: string): RequestConfig => ({
           ],
         },
       ],
+      pagination: false,
     },
     query: {
       _id: id,
@@ -51,7 +51,7 @@ export const launchPayload = (id: string): RequestConfig => ({
   },
 })
 
-export const dragonsPreviewPayload: RequestConfig = {
+export const DragonsPreviewPayload: RequestConfig = {
   method: 'POST',
   url: 'https://api.spacexdata.com/v4/dragons/query',
   data: {
@@ -62,7 +62,7 @@ export const dragonsPreviewPayload: RequestConfig = {
   },
 }
 
-export const rocketsPreviewPayload: RequestConfig = {
+export const RocketsPreviewPayload: RequestConfig = {
   method: 'POST',
   url: 'https://api.spacexdata.com/v4/rockets/query',
   data: {
@@ -74,7 +74,7 @@ export const rocketsPreviewPayload: RequestConfig = {
   },
 }
 
-export const recentLaunchesPayload: RequestConfig = {
+export const RecentLaunchesPayload: RequestConfig = {
   method: 'POST',
   url: 'https://api.spacexdata.com/v4/launches/query',
   data: {
@@ -97,7 +97,7 @@ export const recentLaunchesPayload: RequestConfig = {
   },
 }
 
-export const nextLaunchPayload: RequestConfig = {
+export const NextLaunchPayload: RequestConfig = {
   method: 'GET',
   url: 'https://api.spacexdata.com/v4/launches/next',
 }
@@ -135,7 +135,7 @@ export const PayloadTypesPayload: RequestConfig = {
   },
 }
 
-export const queryLaunchesPayload = (query: QueryParameters): RequestConfig => {
+export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
   const mongoQuery = {} as any
   const sort = {} as any
   const populate = [{ path: 'rocket', select: 'name' }] as any
@@ -226,10 +226,14 @@ export const queryLaunchesPayload = (query: QueryParameters): RequestConfig => {
   if (rocket) {
     populate.push({
       path: 'rocket',
-      match: { name: rocket },
       select: 'name',
     })
+    mongoQuery.rocket = {
+      $eq: rocket,
+    }
   }
+
+  
 
   return {
     method: 'POST',
