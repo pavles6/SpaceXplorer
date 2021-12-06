@@ -75,7 +75,7 @@ export default function HomePage({
               weight="font-semibold"
               align="text-center"
             >
-              Explore each SpaceX launch, and discover their details
+              Explore SpaceX launches and discover their details
             </Text>
             <Text
               link
