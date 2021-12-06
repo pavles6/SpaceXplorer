@@ -8,7 +8,6 @@ import {
 import { Launch } from '../../lib/types/api'
 import { formatDate } from '../../lib/utils/date-functions'
 import { Countdown } from './Countdown'
-import { usePalette } from '../../lib/palette/store'
 import { LaunchCard } from '../common/LaunchCard'
 
 export interface TimerNode {
@@ -22,7 +21,6 @@ interface Props {
 }
 
 export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
-  const theme = usePalette()
   const [timer, setTimer] = useState<TimerNode[]>([
     {
       type: 'days',
@@ -68,18 +66,16 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
   }, [nextLaunch])
 
   return (
-    <div
-      className={`w-full min-h-min  ${theme.base.surfaceBackground} flex flex-col`}
-    >
+    <div className="w-full min-h-min  bg-surfaceSecondary dark:bg-surfaceSecondaryDark flex flex-col">
       <div className="mt-12 flex flex-col justify-center items-center">
-        <Text color="textAccent" variant="h4">
+        <Text color="text-textAccent dark:text-textAccentDark" variant="h4">
           Next Launch:
         </Text>
         <div className="m-6">
           <Text
             link
             href={`/launch/${nextLaunch.id}`}
-            color="textPrimary"
+            color="text-primary"
             variant="h1"
             decoration="underline"
           >
@@ -103,7 +99,7 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
       <div className="flex justify-center mt-12">
         <div className="flex flex-col w-full items-center">
           <Text
-            color="textAccent"
+            color="text-textAccent dark:text-textAccentDark"
             size="text-2xl"
             weight={'font-semibold'}
             classes="mb-6 lg:text-3xl"
@@ -124,8 +120,8 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
           buttonVariant="link"
           href="/search"
           variant="title1"
-          color="dark:textAccent"
-          classes={`transition transform hover:-translate-y-1 ${theme.base.surfacePrimary} rounded-lg px-20 py-5`}
+          color="text-white"
+          classes={`transition transform hover:-translate-y-1 bg-primary rounded-lg px-20 py-5`}
         >
           Browse all launches
         </Button>

@@ -73,8 +73,8 @@ export interface TextProps {
   variant?: TextVariant
   /**Tailwindcss color class */
   color?: TextColor
-  /**Fixed text size, can affect UI on different screen sizes*/
-  size?: TextSize
+  /**Fixed text size, one or more classes(for different viewports)*/
+  size?: TextSize | string
   /**Tailwindcss font weight class */
   weight?: TextWeight
   /**Additional optional styles */

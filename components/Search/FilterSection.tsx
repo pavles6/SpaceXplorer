@@ -1,5 +1,4 @@
 import React from 'react'
-import { usePalette } from '../../lib/palette/store'
 import { QueryFilters } from '../../lib/types/query'
 import Text from '../Text/Text'
 import { FilterDropdown } from './FilterDropdown'
@@ -12,13 +11,9 @@ interface Props {
 }
 
 export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
-  const theme = usePalette()
-
   return (
     <>
-      <div
-        className={`${theme.base.border} border-b flex h-16 items-center justify-start w-full mt-4`}
-      >
+      <div className="border-borderColor dark:border-borderColorDark border-b flex h-16 items-center justify-start w-full mt-4">
         <Text
           variant="h4"
           color="textAccent"
@@ -35,6 +30,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           changeFilter={() =>
             setFilters({
               ...filters,
+              page: 1,
               launch_type: filters.launch_type === 'crew' ? '' : 'crew',
             })
           }
@@ -46,6 +42,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           changeFilter={() =>
             setFilters({
               ...filters,
+              page: 1,
               launch_type: filters.launch_type === 'non-crew' ? '' : 'non-crew',
             })
           }
@@ -61,6 +58,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
             changeFilter={() =>
               setFilters({
                 ...filters,
+                page: 1,
                 rocket: filters.rocket.includes(rocket.id)
                   ? (filters.rocket as Array<string>).filter(
                       (filterRocket) => filterRocket !== rocket.id
@@ -79,6 +77,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           changeFilter={() =>
             setFilters({
               ...filters,
+              page: 1,
               outcome: filters.outcome === 'successful' ? '' : 'successful',
             })
           }
@@ -90,6 +89,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           changeFilter={() =>
             setFilters({
               ...filters,
+              page: 1,
               outcome: filters.outcome === 'failed' ? '' : 'failed',
             })
           }
@@ -103,6 +103,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           changeFilter={() =>
             setFilters({
               ...filters,
+              page: 1,
               has_images: filters.has_images === 'images' ? '' : 'images',
             })
           }

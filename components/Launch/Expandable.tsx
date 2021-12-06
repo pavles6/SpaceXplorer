@@ -1,6 +1,5 @@
 import { Disclosure, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 
 interface ExpandableProps {
@@ -9,22 +8,22 @@ interface ExpandableProps {
 }
 
 export const Expandable = ({ title, children }: ExpandableProps) => {
-  const theme = usePalette()
-
   return (
     <div className="w-full h-full">
       <Disclosure>
         {({ open }) => (
           <>
             <Disclosure.Button
-              className={`flex items-center justify-between space-x-4 focus:outline-none w-full ${theme.base.surface} rounded-xl p-4`}
+              className={`flex items-center justify-between space-x-4 focus:outline-none w-full bg-surfacePrimary dark:bg-surfacePrimaryDark rounded-xl p-4`}
             >
               <Text variant="title1" color="textAccent">
                 {title}
               </Text>
               <ChevronDownIcon
                 className={`${open ? 'transform rotate-180' : ''} w-5 h-5 ${
-                  open ? theme.base.textPrimary : theme.base.text
+                  open
+                    ? 'text-primary dark:text-primary'
+                    : 'text-textMain dark:text-textMainDark'
                 } mx-2 transition duration-300`}
               />
             </Disclosure.Button>

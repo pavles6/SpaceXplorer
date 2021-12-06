@@ -1,5 +1,4 @@
 import React from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
 
@@ -20,8 +19,6 @@ export const PaginationControls = ({
   totalPages,
   resultCurrentPage,
 }: Props) => {
-  const theme = usePalette()
-
   return (
     <div
       className={`${
@@ -46,13 +43,13 @@ export const PaginationControls = ({
         <Button
           disabled={Number(currentPage) - 1 === 0 ? true : false}
           click={() => setCurrentPage(Number(currentPage) - 1)}
-          classes={`${theme.disabled.textDisabled} font-semibold ${theme.base.surface} ${theme.base.textAccent} px-4 py-3 rounded-md disabled:cursor-not-allowed`}
+          classes="disabled:text-textMain dark:disabled:text-disabledDark font-semibold bg-surfacePrimary dark:bg-surfacePrimaryDark text-textAccent dark:text-textAccentDark px-4 py-3 rounded-md disabled:cursor-not-allowed disabled:bg-opacity-50 dark:disabled:bg-opacity-100"
         >
           Previous
         </Button>
         <Button
           click={() => setCurrentPage(Number(currentPage) + 1)}
-          classes={`${theme.disabled.textDisabled} font-semibold ${theme.base.surface} ${theme.base.textAccent} px-4 py-3 rounded-md disabled:cursor-not-allowed`}
+          classes="disabled:text-textMain dark:disabled:text-disabledDark font-semibold bg-surfacePrimary dark:bg-surfacePrimaryDark text-textAccent dark:text-textAccentDark px-4 py-3 rounded-md disabled:cursor-not-allowed disabled:bg-opacity-50 dark:disabled:bg-opacity-100"
           disabled={
             currentPage === totalPages || totalDocs < limit ? true : false
           }

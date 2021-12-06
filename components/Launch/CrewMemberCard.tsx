@@ -4,7 +4,6 @@ import { Transition } from '@headlessui/react'
 import Text from '../Text/Text'
 import { useMediaQuery } from 'react-responsive'
 import Image from 'next/image'
-import { usePalette } from '../../lib/palette/store'
 
 interface Props extends CrewMember {
   key: React.Key
@@ -24,8 +23,6 @@ export default function CrewMemberCard({
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  const theme = usePalette()
 
   const isSmallScreen = useMediaQuery({ query: '(max-width: 767px)' })
 
@@ -59,26 +56,22 @@ export default function CrewMemberCard({
           bg-black bg-opacity-60 transition"
         >
           <Text
-            classes={`cursor-default text-xl md:text-2xl ${theme.base.textPrimary}`}
+            classes="cursor-default text-xl md:text-2xl text-primary dark:text-primary"
             weight="font-semibold"
             align="text-center"
           >
             {name}
           </Text>
-          <Text
-            classes={`cursor-default sm:text-base md:text-lg ${theme.base['dark:textAccent']}`}
-          >
+          <Text classes="cursor-default sm:text-base md:text-lg text-textAccentDark">
             {`Agency: ${agency}`}
           </Text>
-          <Text
-            classes={`sm:text-base md:text-lg cursor-default ${theme.base['dark:textAccent']}`}
-          >
+          <Text classes="sm:text-base md:text-lg cursor-default text-textAccentDark">
             {`No. of missions: ${launches.length}`}
           </Text>
           {wikipedia ? (
             <Text
               target="_blank"
-              classes={`sm:text-base md:text-lg ${theme.base['dark:textAccent']}`}
+              classes="sm:text-base md:text-lg text-textAccentDark"
               decoration="underline"
               weight="font-semibold"
               link

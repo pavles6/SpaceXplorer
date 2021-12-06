@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 import { useTheme } from 'next-themes'
 import { TextColor } from '../../lib/types/Text'
@@ -28,20 +27,16 @@ export const LaunchBadge = ({
   icon: Icon,
   classes = '',
 }: Props) => {
-  const theme = usePalette()
-
-  const themeMetadata = useTheme()
-
   const styles: BadgeStyles = {
     success: {
-      container: `${theme.base.surfacePrimary}`,
-      text: `${theme.base['dark:textAccent']}`,
-      icon: `${theme.base['dark:iconAccent']}`,
+      container: `bg-primary`,
+      text: `text-textAccentDark`,
+      icon: `text-iconAccentDark`,
     },
     failure: {
-      container: ` ${theme.base.surfaceDisabled}`,
-      text: `${theme.base.textAccent}`,
-      icon: `${theme.base.iconAccent}`,
+      container: `bg-disabled dark:bg-disabledDark bg-opacity-30 dark:bg-opacity-30`,
+      text: `text-textAccent dark:text-textAccentDark`,
+      icon: `text-iconAccent dark:text-iconAccentDark`,
     },
   }
 

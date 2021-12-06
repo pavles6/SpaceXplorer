@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React from 'react'
-import { usePalette } from '../../lib/palette/store'
 import {
   TextProps,
   TextVariantMapping,
@@ -58,23 +57,21 @@ export default function Text({
   variant,
   id,
 }: TextProps) {
-  const theme = usePalette()
-
-  const defaultColor = theme.base.text
+  const defaultColor = 'text dark:darkText'
 
   let styles = null
   let output = null
 
-  const titleDividerStyles = `pb-3 border-b ${theme.base.border}`
+  const titleDividerStyles = `pb-3 border-b border-gray-400 dark:border-opacity-20 border-opacity-30`
 
   if (variant)
     styles = `${textVariants[variant]} ${defaultWeights[variant] || weight} ${
-      theme.base[color] || defaultColor
+      color || defaultColor
     } ${align || 'text-left'} ${divider ? titleDividerStyles : ''} ${weight} ${
       size || ''
     } ${decoration} ${classes || ''}`
   else {
-    styles = `${theme.base[color]} ${align || 'text-left'} ${
+    styles = `${color} ${align || 'text-left'} ${
       divider ? titleDividerStyles : ''
     } ${weight || 'font-normal'} ${size || 'text-base'} ${decoration} ${
       classes || ''

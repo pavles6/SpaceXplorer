@@ -1,7 +1,6 @@
 import { Disclosure, Transition } from '@headlessui/react'
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid'
 import React, { Fragment, ReactElement } from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 
 interface Props {
@@ -17,16 +16,12 @@ export const FilterDropdown = ({
   fieldsChecked,
   defaultOpen = false,
 }: Props) => {
-  const theme = usePalette()
-
   return (
     <Disclosure defaultOpen={defaultOpen}>
       {({ open }) => (
         <>
           <Disclosure.Button className="focus:outline-none">
-            <div
-              className={`${theme.base.border} transform py-5 border-b flex items-center justify-between`}
-            >
+            <div className="border-borderColor dark:border-borderColorDark transform py-5 border-b flex items-center justify-between">
               <Text variant="subtitle1" color="textAccent" classes="pl-2">
                 {title}
                 <Transition
@@ -39,15 +34,13 @@ export const FilterDropdown = ({
                   leaveTo="opacity-0"
                   as={Fragment}
                 >
-                  <span
-                    className={`inline-flex ml-1.5 w-2 h-2 rounded-full ${theme.base.surfacePrimary}`}
-                  />
+                  <span className="inline-flex ml-1.5 w-2 h-2 rounded-full bg-primary" />
                 </Transition>
               </Text>
               {open ? (
-                <MinusIcon className={`w-4 h-4 ${theme.base.iconSecondary}`} />
+                <MinusIcon className="w-4 h-4 text-icon dark:text-iconDark" />
               ) : (
-                <PlusIcon className={`w-4 h-4 ${theme.base.iconSecondary}`} />
+                <PlusIcon className="w-4 h-4 text-icon dark:text-iconDark" />
               )}
             </div>
           </Disclosure.Button>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 import { TimerNode } from './LaunchesPreview'
 import { useTheme } from 'next-themes'
@@ -9,8 +8,6 @@ interface Props {
 }
 
 export const Countdown = ({ timer }: Props) => {
-  const theme = usePalette()
-
   const themeMetadata = useTheme()
 
   const [mounted, setMounted] = useState(false)
@@ -24,11 +21,7 @@ export const Countdown = ({ timer }: Props) => {
       {timer.map((item, i) => (
         <React.Fragment key={item.type}>
           <div className="flex flex-col items-center justify-center">
-            <div
-              className={`md:p-16 flex justify-center items-center rounded-lg ${
-                theme.md[`surface`]
-              }`}
-            >
+            <div className="md:p-16 flex justify-center items-center rounded-lg md:bg-surfacePrimary md:dark:bg-surfacePrimaryDark">
               <Text
                 color="textAccent"
                 weight="font-semibold"
@@ -38,7 +31,10 @@ export const Countdown = ({ timer }: Props) => {
                 {item.value}
               </Text>
             </div>
-            <Text variant="subtitle1" color="text">
+            <Text
+              variant="subtitle1"
+              color="text-textMain dark:text-textMainDark"
+            >
               {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
             </Text>
           </div>
@@ -46,8 +42,8 @@ export const Countdown = ({ timer }: Props) => {
             <div
               className={`md:hidden p-1 rounded-xl ${
                 themeMetadata.theme === 'dark'
-                  ? theme.base['light:surface']
-                  : theme.base['dark:surface']
+                  ? 'bg-surfacePrimary'
+                  : 'bg-surfacePrimaryDark'
               }`}
             />
           ) : null}

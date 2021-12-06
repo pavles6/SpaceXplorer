@@ -38,7 +38,9 @@ export const DataRow = ({
         target={target}
         variant="subtitle1"
         align="text-right"
-        color={link ? 'textPrimary' : 'textAccent'}
+        color={
+          link ? 'text-primary' : 'text-textAccent dark:text-textAccentDark'
+        }
       >{`${value}`}</Text>
     </div>
   )

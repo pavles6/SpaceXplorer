@@ -1,7 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react'
 import { TextProps } from '../../lib/types/Text'
 import Text, { useTextVariant } from '../Text/Text'
-import { usePalette } from '../../lib/palette/store'
 
 interface ButtonProps extends TextProps {
   click?: Function
@@ -32,8 +31,6 @@ export default function Button({
   target = '_self',
   notificationBadge = false,
 }: ButtonProps): ReactElement {
-  const theme = usePalette()
-
   const iconButton = !children && Icon
 
   if (buttonVariant === 'link') {
@@ -58,9 +55,11 @@ export default function Button({
         ) : null}
         {Icon ? (
           <Icon
-            className={`${theme.base.textAccent} ${
-              !iconButton ? 'absolute' : ''
-            } ${iconClasses || 'h-8 w-8'}`}
+            className={`${
+              !iconColor
+                ? 'text-textAccent dark:text-textAccentDark'
+                : iconColor
+            } ${!iconButton ? 'absolute' : ''} ${iconClasses || 'h-8 w-8'}`}
           />
         ) : null}
       </Text>
@@ -77,16 +76,14 @@ export default function Button({
       {children ? children : null}
       {Icon ? (
         <Icon
-          className={`${!iconColor ? theme.base.text : iconColor} ${
-            !iconButton ? 'absolute' : ''
-          } ${iconClasses || 'h-8 w-8'}`}
+          className={`${
+            !iconColor ? 'text-textAccent dark:text-textAccentDark' : iconColor
+          } ${!iconButton ? 'absolute' : ''} ${iconClasses || 'h-8 w-8'}`}
         />
       ) : null}
       {notificationBadge ? (
         <div className="relative">
-          <span
-            className={`absolute -top-10 -right-1 ml-1.5 w-2 h-2 rounded-full ${theme.base.surfacePrimary}`}
-          />
+          <span className="absolute -top-10 -right-1 ml-1.5 w-2 h-2 rounded-full bg-primary" />
         </div>
       ) : null}
     </button>

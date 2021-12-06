@@ -7,7 +7,6 @@ import Text from '../components/Text/Text'
 import { getRecentLaunches, getNextLaunch } from '../lib/api/api-calls'
 import { Launch } from '../lib/types/api'
 import Image from 'next/image'
-import { usePalette } from '../lib/palette/store'
 
 interface Props {
   nextLaunchData: Launch
@@ -18,8 +17,6 @@ export default function HomePage({
   nextLaunchData,
   recentLaunchesData,
 }: Props) {
-  const theme = usePalette()
-
   const [navbarColor, setNavbarColor] = useState('bg-transparent')
 
   const [navbarShadow, setNavbarShadow] = useState(false)
@@ -30,7 +27,7 @@ export default function HomePage({
     )
     if (landingImageContainer)
       if (window.scrollY >= landingImageContainer.clientHeight / 3) {
-        setNavbarColor(theme.base['dark:surface'])
+        setNavbarColor('bg-surfacePrimaryDark')
         setNavbarShadow(true)
       } else {
         setNavbarColor('bg-transparent')
@@ -54,7 +51,6 @@ export default function HomePage({
         <title>SpaceXplorer</title>
       </Head>
 
-      {/* Header */}
       <Navbar isShadow={navbarShadow} backgroundColor={navbarColor} />
 
       <div className="w-full">
@@ -63,6 +59,7 @@ export default function HomePage({
           className="flex items-center justify-center w-full lg:h-pageHeader md:h-pageHeaderMd sm:h-pageHeaderSm h-pageHeaderXs relative"
         >
           <Image
+            priority
             quality={100}
             src="/img/landing-header.jpg"
             layout="fill"
@@ -70,7 +67,7 @@ export default function HomePage({
           />
           <div className="w-full h-full bg-landing-image-gradient absolute z-20" />
           <div className="absolute z-30 w-11/12 md:w-full flex flex-col justify-center">
-            <Text variant="h1" color="dark:textAccent" align="text-center">
+            <Text variant="h1" color="text-white" align="text-center">
               SpaceXplorer: The SpaceX launch explorer
             </Text>
             <Text
@@ -85,7 +82,7 @@ export default function HomePage({
               href="https://github.com/r-spacex/SpaceX-API"
               variant="subtitle1"
               decoration="underline"
-              color="dark:textAccent"
+              color="text-white"
               weight="font-semibold"
               align="text-center"
             >
@@ -94,9 +91,7 @@ export default function HomePage({
           </div>
         </div>
       </div>
-      <div
-        className={`transition flex flex-col items-center h-full ${theme.base.surfaceBackground}  `}
-      >
+      <div className="transition flex flex-col items-center h-full bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
         <LaunchesPreview
           recentLaunches={recentLaunchesData}
           nextLaunch={nextLaunchData}

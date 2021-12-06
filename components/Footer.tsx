@@ -1,15 +1,10 @@
 import React from 'react'
-import { usePalette } from '../lib/palette/store'
 import Text from './Text/Text'
 
 export default function Footer() {
-  const theme = usePalette()
-
   return (
-    <footer
-      className={`mt-32 ${theme.base.surface} flex w-full justify-center`}
-    >
-      <div className={`w-full max-w-screen-lg flex flex-col `}>
+    <footer className="mt-32 bg-surfacePrimary dark:bg-surfacePrimaryDark flex w-full justify-center">
+      <div className="w-full max-w-screen-lg flex flex-col">
         <div className="w-full mt-6 flex flex-col md:flex-row justify-between">
           <div className="flex flex-col justify-start items-start space-y-2 m-4">
             <Text
@@ -110,7 +105,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className={`w-full border-t ${theme.base.border} mt-4 pt-4`}>
+        <div className="w-full border-t border-gray-400 dark:border-opacity-20 border-opacity-30 mt-4 pt-4">
           <Text
             color="text"
             classes="mb-2 mx-4 text-sm md:text-base sm:text-center md:text-left md:text-justify"
@@ -131,15 +126,13 @@ export default function Footer() {
             and knowledge of web development.
           </Text>
         </div>
-        <div
-          className={`w-full flex justify-center items-center mt-4 py-6 border-t ${theme.base.border}`}
-        >
+        <div className="w-full flex justify-center items-center mt-4 py-6 border-t border-gray-400 dark:border-opacity-20 border-opacity-30">
           <Text variant="subtitle2" align="text-center" color="text">
             Licensed under{' '}
             <Text
               link
               href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE.md"
-              color="textPrimary"
+              color="text-primary"
             >
               MIT License
             </Text>

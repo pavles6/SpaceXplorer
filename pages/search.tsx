@@ -9,7 +9,6 @@ import { PaginationControls } from '../components/Search/PaginationControls'
 import { SearchControls } from '../components/Search/SearchControls'
 import { SearchInput } from '../components/Search/SearchInput'
 import { getRocketTypes, queryLaunches } from '../lib/api/api-calls'
-import { usePalette } from '../lib/palette/store'
 import { QueryFilters, QueryParameters, QueryResult } from '../lib/types/query'
 import { useIsMount } from '../lib/utils/useIsMount'
 import { ResultList } from '../components/Search/ResultList'
@@ -31,8 +30,6 @@ export default function SearchPage({
   rocketTypes,
   appliedFilters,
 }: Props) {
-  const theme = usePalette()
-
   const router = useRouter()
 
   const isFirstRender = useIsMount()
@@ -125,24 +122,21 @@ export default function SearchPage({
           filters.q.length > 0 ? `${filters.q} - ` : ''
         }Search | SpaceXplorer`}</title>
       </Head>
+
       <Navbar />
-      <header
-        className={`flex w-full flex-col items-center relative ${theme.base.surfaceBackground}`}
-      >
+
+      <header className="flex w-full flex-col items-center relative bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
         <SearchHeader />
         <SearchInput
           changed={(value) => {
-            setFilters({ ...filters, q: value })
+            setFilters({ ...filters, page: 1, q: value })
           }}
           value={filters.q}
         />
       </header>
-      <div
-        className={`w-full h-full flex flex-col ${theme.base.surfaceBackground}`}
-      >
-        <div
-          className={`mb-24 px-2 pt-4 min-h-full justify-center flex w-full ${theme.base.surfaceBackground}`}
-        >
+
+      <div className="w-full h-full flex flex-col bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
+        <div className="mb-24 px-2 pt-4 min-h-full justify-center flex w-full bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
           <div className="hidden lg:flex h-full w-full flex-col max-w-sm mr-8">
             <FilterSection
               filters={filters}
@@ -166,12 +160,14 @@ export default function SearchPage({
               resultCurrentPage={result.page}
               setCurrentPage={(page) => {
                 setFilters({ ...filters, page })
+                window.scroll({ top: 120, left: 0, behavior: 'smooth' })
               }}
               totalDocs={result.totalDocs}
               totalPages={result.totalPages}
             />
           </div>
         </div>
+
         <Footer />
       </div>
     </>

@@ -6,7 +6,6 @@ import Button from '../Button/Button'
 import { MenuIcon } from '@heroicons/react/outline'
 import { Drawer } from './Drawer'
 import Link from 'next/link'
-import { usePalette } from '../../lib/palette/store'
 import { useTheme } from 'next-themes'
 import { ThemeSwitch } from './ThemeSwitch'
 
@@ -18,8 +17,6 @@ interface Props {
 export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   const router = useRouter()
 
-  const theme = usePalette()
-
   const { theme: themeType, setTheme } = useTheme()
 
   const [menuOpened, setMenuOpened] = useState(false)
@@ -29,7 +26,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   let shadow = 'shadow-md'
   if (!isShadow) shadow = 'no-shadow'
 
-  if (!backgroundColor) backgroundColor = theme.base['dark:surface']
+  if (!backgroundColor) backgroundColor = 'bg-surfacePrimaryDark'
 
   const [navbarLinks, setNavbarLinks] = useState<INavItem[]>([...navItems])
 
@@ -58,13 +55,11 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   return (
     <>
       <nav
-        className={`w-full ${shadow} ${backgroundColor} transition h-16 ${
-          router.pathname == '/' ? 'fixed' : 'sticky'
-        } top-0 right-0 flex lg:justify-between items-center z-40 flex-row`}
+        className={`w-full ${shadow} ${backgroundColor} transition h-16 fixed top-0 right-0 flex lg:justify-between items-center z-40 flex-row`}
       >
         <Button
           icon={MenuIcon}
-          iconColor={theme.base['dark:iconAccent']}
+          iconColor="text-iconAccentDark"
           classes="mx-2 lg:hidden transition"
           click={() => {
             setMenuOpened(true)
@@ -75,7 +70,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
           href="/"
           size="text-2xl"
           weight="font-bold"
-          classes={`lg:ml-2 lg:text-4xl ${theme.base.textPrimary}`}
+          classes="lg:ml-2 lg:text-4xl text-primary"
         >
           SpaceXplorer
         </Text>
@@ -93,9 +88,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
                     >
                       <Text
                         classes={`font-semibold ${
-                          active
-                            ? theme.base.textPrimary
-                            : theme.base['dark:textAccent']
+                          active ? 'text-primary' : 'text-textAccentDark'
                         }`}
                       >
                         {title}
@@ -106,7 +99,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
               })
             : null}
         </div>
-        <ThemeSwitch theme={theme} themeType={themeType} setTheme={setTheme} />
+        <ThemeSwitch themeType={themeType} setTheme={setTheme} />
       </nav>
       <Drawer
         closeMenu={() => setMenuOpened(false)}

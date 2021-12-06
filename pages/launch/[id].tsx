@@ -10,7 +10,6 @@ import { LaunchCrewSection } from '../../components/Launch/Crew'
 import { LaunchGallerySection } from '../../components/Launch/Gallery'
 import Head from 'next/head'
 import { formatDate, getDateFormat } from '../../lib/utils/date-functions'
-import { usePalette } from '../../lib/palette/store'
 
 interface Props {
   launchData: Launch
@@ -31,7 +30,6 @@ export default function LaunchPage({ launchData }: Props) {
     success,
     upcoming,
   } = launchData
-  const theme = usePalette()
 
   const isImage = launchData.links!.flickr!.original.length > 0 || null
 
@@ -79,10 +77,8 @@ export default function LaunchPage({ launchData }: Props) {
           launchOutcome={launchOutcome}
           name={name}
         />
-        <div className={`${theme.base.surfaceBackground}`}>
-          <div
-            className={`${theme.base.surfaceBackground} flex flex-col items-center w-full`}
-          >
+        <div className="bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
+          <div className="bg-surfaceSecondary dark:bg-surfaceSecondaryDark flex flex-col items-center w-full">
             <article
               className={`flex flex-col max-w-screen-xl w-11/12 lg:w-full lg:px-6 h-full space-y-12 my-8`}
             >

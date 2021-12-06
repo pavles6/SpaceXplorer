@@ -78,7 +78,7 @@ export const LaunchOverviewSection = ({
     <div className="flex flex-col justify-center">
       <div>
         <Text
-          color="textAccent"
+          color="text-textAccent dark:text-textAccentDark"
           weight="font-bold"
           variant="articleHeading1"
           divider
@@ -94,7 +94,7 @@ export const LaunchOverviewSection = ({
       >
         {details || 'No details are provided yet.'}
       </Text>
-      <div className="flex flex-wrap flex-col md:flex-row mt-10 lg:space-x-6 w-full items-start justify-center xl:justify-start">
+      <div className="flex flex-wrap flex-col md:flex-row mt-10 lg:space-x-6 w-full items-start xl:justify-start">
         {mediaLinks.map((link) => (
           <LaunchMediaLink key={link.title} link={link} />
         ))}

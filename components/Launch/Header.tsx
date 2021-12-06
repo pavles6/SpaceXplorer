@@ -7,7 +7,6 @@ import {
 } from '@heroicons/react/solid'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 import { LaunchBadge } from './LaunchBadge'
 import { useMediaQuery } from 'react-responsive'
@@ -31,8 +30,6 @@ export const LaunchHeaderSection = ({
   upcoming,
   success,
 }: Props) => {
-  const theme = usePalette()
-
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -54,6 +51,7 @@ export const LaunchHeaderSection = ({
       className={`w-full h-launchHeaderXs sm:h-launchHeaderSm md:h-launchHeaderMd lg:h-launchHeader relative flex justify-center`}
     >
       <Image
+        priority
         quality={100}
         src={landingImageUrl}
         layout="fill"
@@ -64,16 +62,14 @@ export const LaunchHeaderSection = ({
       <div className="w-full relative z-30 h-full flex flex-col justify-end items-center">
         <Text
           classes={`xl:text-6xl lg:text-5xl ${titleTextSize} mb-4 md:mb-0`}
-          color="textPrimary"
+          color="text-primary"
           weight="font-bold"
           align="text-center"
         >
           {name}
         </Text>
         {!isSmallScreen && mounted ? (
-          <div
-            className={`flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full ${theme.base.surfaceBackground} bg-opacity-70 dark:bg-opacity-70`}
-          >
+          <div className="flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full bg-surfaceSecondary dark:bg-surfaceSecondaryDark bg-opacity-70 dark:bg-opacity-70">
             <LaunchBadge
               icon={ClockIcon}
               type="success"

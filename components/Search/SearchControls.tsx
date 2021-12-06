@@ -1,7 +1,6 @@
 import { Transition } from '@headlessui/react'
 import { FilterIcon } from '@heroicons/react/solid'
 import React from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Button from '../Button/Button'
 import { FilterSection } from './FilterSection'
 import { SortMenu } from './SortMenu'
@@ -23,8 +22,6 @@ export const SearchControls = ({
   opened,
   setOpened,
 }: Props) => {
-  const theme = usePalette()
-
   const isAnyFilterApplied =
     filters.launch_type !== '' ||
     filters.rocket.length > 0 ||
@@ -33,14 +30,12 @@ export const SearchControls = ({
 
   return (
     <>
-      <div
-        className={`h-16 w-full flex justify-between items-center border-b ${theme.base.border} px-4 my-4`}
-      >
+      <div className="h-16 w-full flex justify-between items-center border-b border-borderColor dark:border-borderColorDark px-4 my-4">
         <SortMenu sortOptions={sortOptions} />
         <div className="flex space-x-2">
           <Button
             classes="block lg:hidden"
-            iconClasses={`${theme.hover.iconAccent} w-8 h-8`}
+            iconClasses="hover:text-iconAccent dark:hover:text-iconAccentDark text-icon dark:text-iconDark w-8 h-8 "
             icon={FilterIcon}
             click={() => setOpened(!opened)}
             notificationBadge={isAnyFilterApplied}
@@ -72,7 +67,7 @@ export const SearchControls = ({
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-full"
           as="div"
-          className={`overflow-auto pb-6 px-2 w-full h-2/3 ${theme.base.surfaceBackground}`}
+          className="overflow-auto pb-6 px-2 w-full h-2/3 bg-surfaceSecondary dark:bg-surfaceSecondaryDark"
         >
           <div className="flex overflow-auto flex-col">
             <FilterSection

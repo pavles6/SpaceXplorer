@@ -32,7 +32,7 @@ type PaletteFields =
   | 'dark:surface'
   | 'surfaceBackground'
   | 'light:surfaceBackground'
-  | 'darksurfaceBackground'
+  | 'dark:surfaceBackground'
   | 'text'
   | 'light:text'
   | 'dark:text'

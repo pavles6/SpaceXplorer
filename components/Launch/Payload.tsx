@@ -40,7 +40,7 @@ export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
               <li key={payload.id}>
                 <Text
                   variant="subtitle1"
-                  color="textPrimary"
+                  color="text-primary"
                   link
                   target="_blank"
                   href={`https://api.spacexdata.com/v4/payloads/${payload.id}`}

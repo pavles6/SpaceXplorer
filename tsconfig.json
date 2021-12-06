@@ -16,12 +16,15 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",  ],
+    "**/*.tsx",
+    "lib/palette/palette-data.js"
+  ],
   "exclude": [
     "node_modules"
   ]

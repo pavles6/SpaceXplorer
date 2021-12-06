@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import Text from '../Text/Text'
 import ConditionalLink from '../../lib/utils/componentAsLink'
-import { usePalette } from '../../lib/palette/store'
 
 interface Props {
   link: IMediaLink
@@ -15,7 +14,7 @@ export interface IMediaLink {
 
 export const LaunchMediaLink = ({ link: { Icon, title, url } }: Props) => {
   const isLink = url !== null
-  const theme = usePalette()
+
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -28,7 +27,7 @@ export const LaunchMediaLink = ({ link: { Icon, title, url } }: Props) => {
         onTouchEnd={() => setHovered(false)}
         className={`flex m-2 p-2 rounded-md transition ${
           isLink
-            ? `${hovered ? `${theme.base.surfacePrimary}` : 'bg-transparent'}`
+            ? `${hovered ? 'bg-primary' : 'bg-transparent'}`
             : 'cursor-not-allowed'
         } ${isLink ? 'flex' : 'hidden'} lg:flex`}
       >
@@ -36,14 +35,18 @@ export const LaunchMediaLink = ({ link: { Icon, title, url } }: Props) => {
           className={`w-7 h-7 mr-1 ${
             isLink
               ? hovered
-                ? theme.base['dark:iconAccent']
-                : theme.base.iconPrimary
-              : theme.base.textDisabled
+                ? 'text-iconAccentDark'
+                : 'text-primary'
+              : 'text-disabled dark:text-disabledDark'
           }`}
         />
         <Text
           color={
-            isLink ? (hovered ? 'dark:textAccent' : 'text') : 'textDisabled'
+            isLink
+              ? hovered
+                ? 'text-textAccentDark'
+                : 'text-Accent dark:text-textAccentDark'
+              : 'text-disabled dark:text-disabledDark'
           }
         >
           {title}

@@ -2,14 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 import Text from '../Text/Text'
 
-interface Props {
-  query?: string
-}
+interface Props {}
 
-export const SearchHeader = ({ query = '' }: Props) => {
+export const SearchHeader = ({}: Props) => {
   return (
     <div className="flex items-center justify-center w-full lg:h-pageHeader md:h-pageHeaderMd sm:h-pageHeaderSm h-pageHeaderXs relative">
       <Image
+        priority
         quality={100}
         src="/img/search-header.jpg"
         layout="fill"
@@ -17,7 +16,7 @@ export const SearchHeader = ({ query = '' }: Props) => {
       />
       <div className="w-full h-full bg-landing-image-gradient absolute z-20" />
       <div className="absolute z-30 w-11/12 md:w-full flex flex-col justify-center">
-        <Text variant="h1" color="dark:textAccent" align="text-center">
+        <Text variant="h1" color="text-white" align="text-center">
           Search for SpaceX launches
         </Text>
         <Text

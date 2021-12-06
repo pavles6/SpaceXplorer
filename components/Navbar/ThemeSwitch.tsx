@@ -6,10 +6,9 @@ import { Palette } from '../../lib/types/theme'
 interface Props {
   themeType: string
   setTheme: Function
-  theme: Palette
 }
 
-export const ThemeSwitch = ({ themeType, setTheme, theme }: Props) => {
+export const ThemeSwitch = ({ themeType, setTheme }: Props) => {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -24,9 +23,7 @@ export const ThemeSwitch = ({ themeType, setTheme, theme }: Props) => {
         checked={themeType != 'light'}
         onChange={() => setTheme(themeType === 'light' ? 'dark' : 'light')}
         className={`${
-          themeType === 'dark'
-            ? theme.base['light:surface']
-            : theme.base['dark:surfaceDisabled']
+          themeType === 'dark' ? 'bg-surfacePrimary' : 'bg-surfaceSecondaryDark'
         } relative inline-flex items-center h-8 rounded-full w-14 focus:outline-none`}
       >
         <span
