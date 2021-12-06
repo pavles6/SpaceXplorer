@@ -36,7 +36,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           }
         />
         <FilterDropdownField
-          title="Non crew"
+          title="Non-crew"
           type="radio"
           checked={filters.launch_type === 'non-crew'}
           changeFilter={() =>
