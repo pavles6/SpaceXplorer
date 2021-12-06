@@ -7,7 +7,6 @@ import Text from '../components/Text/Text'
 import { getRecentLaunches, getNextLaunch } from '../lib/api/api-calls'
 import { Launch } from '../lib/types/api'
 import Image from 'next/image'
-import { useTheme } from 'next-themes'
 import { usePalette } from '../lib/palette/store'
 
 interface Props {

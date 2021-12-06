@@ -7,7 +7,6 @@ import {
   LaunchesIdsPayload,
   RocketsPreviewPayload,
   RocketTypesPayload,
-  PayloadTypesPayload,
   QueryLaunchesPayload,
 } from './endpoints'
 import { Dragon, Launch, Rocket } from '../types/api'

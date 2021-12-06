@@ -1,4 +1,3 @@
-import { Transition } from '@headlessui/react'
 import React from 'react'
 import { usePalette } from '../../lib/palette/store'
 import { LaunchQueryResultItem } from '../../lib/types/query'

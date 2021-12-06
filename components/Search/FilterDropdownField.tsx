@@ -1,5 +1,4 @@
 import React from 'react'
-import { usePalette } from '../../lib/palette/store'
 import { CheckBox } from '../common/CheckBox'
 import { RadioButton } from '../common/RadioButton'
 import Text from '../Text/Text'

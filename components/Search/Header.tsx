@@ -1,7 +1,5 @@
-import { SearchIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 import React from 'react'
-import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
 
 interface Props {
@@ -9,8 +7,6 @@ interface Props {
 }
 
 export const SearchHeader = ({ query = '' }: Props) => {
-  const theme = usePalette()
-
   return (
     <div className="flex items-center justify-center w-full lg:h-pageHeader md:h-pageHeaderMd sm:h-pageHeaderSm h-pageHeaderXs relative">
       <Image

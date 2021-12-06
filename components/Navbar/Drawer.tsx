@@ -1,7 +1,6 @@
 import { Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
-import { useRouter } from 'next/router'
-import React, { Fragment, useEffect, useState } from 'react'
+import React from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Button from '../Button/Button'
 import Text from '../Text/Text'

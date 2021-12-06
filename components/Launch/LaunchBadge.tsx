@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
-import { TextColor } from '../Text/types'
 import { useTheme } from 'next-themes'
+import { TextColor } from '../../lib/types/Text'
 
 interface Props {
   value: string

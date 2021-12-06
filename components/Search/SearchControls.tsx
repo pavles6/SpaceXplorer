@@ -1,6 +1,6 @@
 import { Transition } from '@headlessui/react'
 import { FilterIcon } from '@heroicons/react/solid'
-import React, { useState } from 'react'
+import React from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Button from '../Button/Button'
 import { FilterSection } from './FilterSection'

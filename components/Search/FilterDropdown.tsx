@@ -1,10 +1,5 @@
-import { Disclosure, Switch, Transition } from '@headlessui/react'
-import {
-  MinusIcon,
-  MinusSmIcon,
-  PlusIcon,
-  PlusSmIcon,
-} from '@heroicons/react/solid'
+import { Disclosure, Transition } from '@headlessui/react'
+import { MinusIcon, PlusIcon } from '@heroicons/react/solid'
 import React, { Fragment, ReactElement } from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'

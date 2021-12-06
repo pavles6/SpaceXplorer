@@ -124,17 +124,6 @@ export const RocketTypesPayload: RequestConfig = {
   },
 }
 
-export const PayloadTypesPayload: RequestConfig = {
-  method: 'POST',
-  url: 'https://api.spacexdata.com/v4/payloads/query',
-  data: {
-    options: {
-      pagination: false,
-      select: 'type',
-    },
-  },
-}
-
 export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
   const mongoQuery = {} as any
   const sort = {} as any

@@ -1,5 +1,4 @@
-import React, { FC } from 'react'
-import { AppProps } from 'next/app'
+import React from 'react'
 import 'tailwindcss/tailwind.css'
 import { ThemeProvider } from 'next-themes'
 import { PaletteProvider } from '../lib/palette/store'

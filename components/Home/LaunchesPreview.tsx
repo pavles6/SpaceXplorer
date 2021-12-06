@@ -9,7 +9,6 @@ import { Launch } from '../../lib/types/api'
 import { formatDate } from '../../lib/utils/date-functions'
 import { Countdown } from './Countdown'
 import { usePalette } from '../../lib/palette/store'
-import { Palette } from '../../lib/types/theme'
 import { LaunchCard } from '../common/LaunchCard'
 
 export interface TimerNode {
