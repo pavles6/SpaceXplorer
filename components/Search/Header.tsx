@@ -14,8 +14,8 @@ export const SearchHeader = ({}: Props) => {
         layout="fill"
         objectFit="cover"
       />
-      <div className="w-full h-full bg-landing-image-gradient absolute z-20" />
-      <div className="absolute z-30 w-11/12 md:w-full flex flex-col justify-center">
+      <div className="w-full h-full bg-landing-image-gradient relative" />
+      <div className="absolute z-30 w-full flex flex-col justify-center">
         <Text variant="h1" color="text-white" align="text-center">
           Search for SpaceX launches
         </Text>

@@ -96,7 +96,7 @@ export default function SearchPage({
 
   const sortOptions = [
     {
-      title: 'Newest',
+      title: 'Newest first',
       set: () =>
         setFilters({
           ...filters,
@@ -105,7 +105,7 @@ export default function SearchPage({
       active: filters.date_range === 'newest',
     },
     {
-      title: 'Oldest',
+      title: 'Oldest first',
       set: () =>
         setFilters({
           ...filters,
