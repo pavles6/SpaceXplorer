@@ -32,7 +32,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
         closeMenu()
       }}
       id="drawer_backdrop"
-      className="h-full w-screen top-0 lg:hidden fixed z-40 bg-black bg-opacity-60"
+      className="h-full w-screen  lg:hidden fixed z-40 bg-black bg-opacity-60"
     >
       <Transition.Child
         enter="transition ease duration-600 transform"

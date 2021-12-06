@@ -13,6 +13,7 @@ interface ButtonProps extends TextProps {
   id?: string
   iconColor?: string
   disabled?: boolean
+  notificationBadge?: boolean
 }
 
 export default function Button({
@@ -29,6 +30,7 @@ export default function Button({
   id,
   disabled = false,
   target = '_self',
+  notificationBadge = false,
 }: ButtonProps): ReactElement {
   const theme = usePalette()
 
@@ -79,6 +81,13 @@ export default function Button({
             !iconButton ? 'absolute' : ''
           } ${iconClasses || 'h-8 w-8'}`}
         />
+      ) : null}
+      {notificationBadge ? (
+        <div className="relative">
+          <span
+            className={`absolute -top-10 -right-1 ml-1.5 w-2 h-2 rounded-full ${theme.base.surfacePrimary}`}
+          />
+        </div>
       ) : null}
     </button>
   )

@@ -1,4 +1,3 @@
-import { FilterIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -9,7 +8,6 @@ import { SearchHeader } from '../components/Search/Header'
 import { PaginationControls } from '../components/Search/PaginationControls'
 import { SearchControls } from '../components/Search/SearchControls'
 import { SearchInput } from '../components/Search/SearchInput'
-import Text from '../components/Text/Text'
 import { getRocketTypes, queryLaunches } from '../lib/api/api-calls'
 import { usePalette } from '../lib/palette/store'
 import { QueryFilters, QueryParameters, QueryResult } from '../lib/types/query'
@@ -39,6 +37,13 @@ export default function SearchPage({
 
   const isFirstRender = useIsMount()
 
+  const [filterDrawerOpened, setFilterDrawerOpened] = useState(false)
+
+  useEffect(() => {
+    if (window && filterDrawerOpened) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = 'auto'
+  }, [filterDrawerOpened])
+
   const [filters, setFilters] = useState<QueryFilters>({
     q: appliedFilters.q || '',
     date_range: appliedFilters.date_range,
@@ -54,6 +59,7 @@ export default function SearchPage({
     page: appliedFilters.page || result.page,
     has_images: appliedFilters.has_images || '',
   })
+
   const applyFilters = () => {
     const query = {
       ...router.query,
@@ -76,7 +82,6 @@ export default function SearchPage({
   }
 
   useEffect(() => {
-    console.log(filters.has_images)
     if (!isFirstRender) applyFilters()
   }, [filters])
 
@@ -146,7 +151,14 @@ export default function SearchPage({
             />
           </div>
           <div className="flex flex-col w-full max-w-4xl">
-            <SearchControls sortOptions={sortOptions} />
+            <SearchControls
+              opened={filterDrawerOpened}
+              setOpened={setFilterDrawerOpened}
+              filters={filters}
+              rocketTypes={rocketTypes}
+              setFilters={setFilters}
+              sortOptions={sortOptions}
+            />
             {isResults ? <ResultList launches={result.docs} /> : 'No results'}
             <PaginationControls
               currentPage={filters.page}
