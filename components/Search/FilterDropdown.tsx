@@ -1,5 +1,10 @@
 import { Disclosure, Switch, Transition } from '@headlessui/react'
-import { MinusSmIcon, PlusIcon } from '@heroicons/react/solid'
+import {
+  MinusIcon,
+  MinusSmIcon,
+  PlusIcon,
+  PlusSmIcon,
+} from '@heroicons/react/solid'
 import React, { Fragment, ReactElement } from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
@@ -45,11 +50,9 @@ export const FilterDropdown = ({
                 </Transition>
               </Text>
               {open ? (
-                <MinusSmIcon
-                  className={`w-5 h-5 ${theme.base.iconSecondary}`}
-                />
+                <MinusIcon className={`w-4 h-4 ${theme.base.iconSecondary}`} />
               ) : (
-                <PlusIcon className={`w-5 h-5 ${theme.base.iconSecondary}`} />
+                <PlusIcon className={`w-4 h-4 ${theme.base.iconSecondary}`} />
               )}
             </div>
           </Disclosure.Button>
