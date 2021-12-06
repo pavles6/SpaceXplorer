@@ -69,7 +69,7 @@ export const LaunchGallerySection = ({ images, name }: Props) => {
           size="text-xs md:text-sm"
           classes="ml-2 mt-2"
         >
-          *Tap/Click the photo to view it in full resolution.
+          *Tap/Click the photo to inspect it in full resolution.
         </Text>
       </div>
       <LaunchGalleryModal

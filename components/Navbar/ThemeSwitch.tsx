@@ -1,14 +1,13 @@
 import { Switch, Transition } from '@headlessui/react'
 import { MoonIcon, SunIcon } from '@heroicons/react/solid'
 import React, { useEffect, useState } from 'react'
-import { Palette } from '../../lib/types/theme'
 
 interface Props {
-  themeType: string
+  resolvedTheme: string
   setTheme: Function
 }
 
-export const ThemeSwitch = ({ themeType, setTheme }: Props) => {
+export const ThemeSwitch = ({ resolvedTheme, setTheme }: Props) => {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -20,15 +19,17 @@ export const ThemeSwitch = ({ themeType, setTheme }: Props) => {
   return (
     <div className="h-full flex lg:justify-center justify-end  items-center lg:flex-grow-0 flex-grow ml-4 mr-2">
       <Switch
-        checked={themeType != 'light'}
-        onChange={() => setTheme(themeType === 'light' ? 'dark' : 'light')}
+        checked={resolvedTheme != 'light'}
+        onChange={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
         className={`${
-          themeType === 'dark' ? 'bg-surfacePrimary' : 'bg-surfaceSecondaryDark'
+          resolvedTheme === 'dark'
+            ? 'bg-surfacePrimary'
+            : 'bg-surfaceSecondaryDark'
         } relative inline-flex items-center h-8 rounded-full w-14 focus:outline-none`}
       >
         <span
           className={`${
-            themeType != 'light' ? 'translate-x-7' : 'translate-x-1'
+            resolvedTheme != 'light' ? 'translate-x-7' : 'translate-x-1'
           } inline-block transform transition rounded-full`}
         >
           <Transition
@@ -40,7 +41,7 @@ export const ThemeSwitch = ({ themeType, setTheme }: Props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            {themeType != 'light' ? (
+            {resolvedTheme != 'light' ? (
               <MoonIcon className="text-black h-6 w-6" />
             ) : (
               <SunIcon className="text-white h-6 w-6" />

@@ -39,13 +39,7 @@ export const Countdown = ({ timer }: Props) => {
             </Text>
           </div>
           {i !== timer.length - 1 && mounted ? (
-            <div
-              className={`md:hidden p-1 rounded-xl ${
-                themeMetadata.theme === 'dark'
-                  ? 'bg-surfacePrimary'
-                  : 'bg-surfacePrimaryDark'
-              }`}
-            />
+            <div className="md:hidden p-1 rounded-xl bg-surfacePrimaryDark dark:bg-surfacePrimary" />
           ) : null}
         </React.Fragment>
       ))}

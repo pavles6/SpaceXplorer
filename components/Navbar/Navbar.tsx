@@ -17,7 +17,9 @@ interface Props {
 export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   const router = useRouter()
 
-  const { theme: themeType, setTheme } = useTheme()
+  const { theme: themeType, setTheme, systemTheme } = useTheme()
+
+  const resolvedTheme = themeType === 'system' ? systemTheme : themeType
 
   const [menuOpened, setMenuOpened] = useState(false)
 
@@ -99,7 +101,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
               })
             : null}
         </div>
-        <ThemeSwitch themeType={themeType} setTheme={setTheme} />
+        <ThemeSwitch resolvedTheme={resolvedTheme} setTheme={setTheme} />
       </nav>
       <Drawer
         closeMenu={() => setMenuOpened(false)}
