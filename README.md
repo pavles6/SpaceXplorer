@@ -3,7 +3,7 @@
 #### SpaceX launch tracker 🚀
 
 ## Description
- SpaceXplorer is my personal project made with [Next.js](https://github.com/vercel/next.js) and [TailwindCSS](https://github.com/tailwindlabs/tailwindcss). You can search and explore in details: past, upcoming and recent launches. 
+ SpaceXplorer is my personal project made with [Next.js](https://github.com/vercel/next.js) and [TailwindCSS](https://github.com/tailwindlabs/tailwindcss). You can search and explore the details of every single rocket launch SpaceX has ever done. 
 
 ## Highlights
 - It renders data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API) 
