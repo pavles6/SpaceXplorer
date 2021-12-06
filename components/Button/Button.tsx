@@ -75,7 +75,7 @@ export default function Button({
       {children ? children : null}
       {Icon ? (
         <Icon
-          className={`${!iconColor ? theme.base.textAccent : iconColor} ${
+          className={`${!iconColor ? theme.base.text : iconColor} ${
             !iconButton ? 'absolute' : ''
           } ${iconClasses || 'h-8 w-8'}`}
         />

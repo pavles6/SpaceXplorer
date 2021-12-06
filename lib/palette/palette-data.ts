@@ -41,9 +41,9 @@ const palette: Palette = {}
 
 const viewportExtensions = ['base', 'xs', 'sm', 'md', 'lg', 'xl', '2xl']
 
-const eventExtensions = ['hover', 'focus', 'disabled']
+const stateExtensions = ['hover', 'focus', 'disabled']
 
-const extensions = [...eventExtensions, ...viewportExtensions];
+const extensions = [...stateExtensions, ...viewportExtensions]
 
 for (let ext of extensions) palette[ext] = {}
 
@@ -75,7 +75,7 @@ for (let key of Object.keys(darkTheme)) {
         lightTheme[key]
       } ${ext === 'base' ? '' : ext + ':'}dark:${darkTheme[key]}`
 
-    for (let ext of eventExtensions)
+    for (let ext of stateExtensions)
       palette[ext][`${key}`] = `${ext === 'base' ? '' : ext + ':'}${
         lightTheme[key]
       } dark:${ext === 'base' ? '' : ext + ':'}${darkTheme[key]}`

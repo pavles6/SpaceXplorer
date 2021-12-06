@@ -39,7 +39,10 @@ export const PaginationControls = ({
                 : totalDocs
             } of ${totalDocs}`
       } results`}</Text>
-      <div className="flex items-center justify-between w-full md:justify-auto md:w-auto space-x-4">
+      <Text classes="md:hidden w-full" variant="subtitle1">
+        {`Page ${resultCurrentPage}`}
+      </Text>
+      <div className="flex items-center w-full justify-end md:w-auto space-x-4">
         <Button
           disabled={Number(currentPage) - 1 === 0 ? true : false}
           click={() => setCurrentPage(Number(currentPage) - 1)}

@@ -6,7 +6,9 @@ export default function Footer() {
   const theme = usePalette()
 
   return (
-    <footer className={`${theme.base.surface} flex w-full justify-center`}>
+    <footer
+      className={`mt-32 ${theme.base.surface} flex w-full justify-center`}
+    >
       <div className={`w-full max-w-screen-lg flex flex-col `}>
         <div className="w-full mt-6 flex flex-col md:flex-row justify-between">
           <div className="flex flex-col justify-start items-start space-y-2 m-4">
@@ -125,8 +127,8 @@ export default function Footer() {
             weight="font-semibold"
             classes="mx-4 text-sm md:text-base text-center md:text-left md:text-justify"
           >
-            This is a personal project, aiming to showcase my skills and
-            knowledge in web development.
+            This is a personal project, with the intention of showing my skills
+            and knowledge of web development.
           </Text>
         </div>
         <div

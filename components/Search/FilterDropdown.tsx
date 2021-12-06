@@ -1,47 +1,59 @@
 import { Disclosure, Switch, Transition } from '@headlessui/react'
-import { MinusIcon, PlusIcon } from '@heroicons/react/solid'
-import React, { ReactElement } from 'react'
+import { MinusSmIcon, PlusIcon } from '@heroicons/react/solid'
+import React, { Fragment, ReactElement } from 'react'
 import { usePalette } from '../../lib/palette/store'
 import Text from '../Text/Text'
-import { FilterDropdownField } from './FilterDropdownField'
 
 interface Props {
   title: string
   children?: ReactElement[] | ReactElement
+  fieldsChecked: boolean
+  defaultOpen?: boolean
 }
 
-export const FilterDropdown = ({ title, children }: Props) => {
+export const FilterDropdown = ({
+  title,
+  children,
+  fieldsChecked,
+  defaultOpen = false,
+}: Props) => {
   const theme = usePalette()
 
   return (
-    <Disclosure>
+    <Disclosure defaultOpen={defaultOpen}>
       {({ open }) => (
         <>
-          <Disclosure.Button>
+          <Disclosure.Button className="focus:outline-none">
             <div
-              className={`${theme.base.border} ${theme.hover.surface} transform py-6 mx-4 border-b flex items-center justify-between w-full`}
+              className={`${theme.base.border} transform py-5 border-b flex items-center justify-between`}
             >
-              <Text variant="title1" color="textAccent" classes="pl-2">
+              <Text variant="subtitle1" color="textAccent" classes="pl-2">
                 {title}
+                <Transition
+                  show={fieldsChecked}
+                  enter="transition ease duration-600 transform"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition ease duration-600 transform"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  as={Fragment}
+                >
+                  <span
+                    className={`inline-flex ml-1.5 w-2 h-2 rounded-full ${theme.base.surfacePrimary}`}
+                  />
+                </Transition>
               </Text>
               {open ? (
-                <MinusIcon className="w-6 h-6" />
+                <MinusSmIcon
+                  className={`w-5 h-5 ${theme.base.iconSecondary}`}
+                />
               ) : (
-                <PlusIcon className="w-6 h-6" />
+                <PlusIcon className={`w-5 h-5 ${theme.base.iconSecondary}`} />
               )}
             </div>
           </Disclosure.Button>
-          <Transition
-            show={open}
-            enter="transition duration-150 ease-in"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition duration-150 ease-out"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Disclosure.Panel className="px-6">{children}</Disclosure.Panel>
-          </Transition>
+          <Disclosure.Panel className="px-4">{children}</Disclosure.Panel>
         </>
       )}
     </Disclosure>

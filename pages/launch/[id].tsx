@@ -9,7 +9,7 @@ import { LaunchPayloadSection } from '../../components/Launch/Payload'
 import { LaunchCrewSection } from '../../components/Launch/Crew'
 import { LaunchGallerySection } from '../../components/Launch/Gallery'
 import Head from 'next/head'
-import { formatDate } from '../../lib/utils/date-functions'
+import { formatDate, getDateFormat } from '../../lib/utils/date-functions'
 import { usePalette } from '../../lib/palette/store'
 
 interface Props {
@@ -57,25 +57,8 @@ export default function LaunchPage({ launchData }: Props) {
   if (success) launchOutcome = 'Successful'
   if (success === false) launchOutcome = 'Failed'
 
-  let dateFormat
+  const dateFormat = getDateFormat(date_precision, { month: 'MMMM' })
   let formattedDate = 'N/A'
-
-  switch (date_precision) {
-    case 'hour':
-    case 'day':
-      dateFormat = 'MMMM D, YYYY.'
-      break
-    case 'month':
-      dateFormat = 'MMMM, YYYY.'
-      break
-    case 'half':
-    case 'quarter':
-    case 'year':
-      dateFormat = 'YYYY.'
-      break
-    default:
-      dateFormat = null
-  }
 
   if (dateFormat)
     formattedDate = formatDate(new Date(date_unix * 1000), dateFormat)

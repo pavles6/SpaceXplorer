@@ -1,31 +1,29 @@
-import { Switch } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/solid'
 import React from 'react'
 import { usePalette } from '../../lib/palette/store'
+import { CheckBox } from '../common/CheckBox'
+import { RadioButton } from '../common/RadioButton'
 import Text from '../Text/Text'
 
 interface Props {
   checked?: boolean
-  changed: Function
+  changeFilter: Function
   title: string
+  type: 'radio' | 'checkbox'
 }
 
-export const FilterDropdownField = ({ checked, changed, title }: Props) => {
-  const theme = usePalette()
-
+export const FilterDropdownField = ({
+  checked,
+  changeFilter,
+  title,
+  type,
+}: Props) => {
   return (
     <div className="flex py-3 items-center space-x-4">
-      <Switch
-        className={`${checked ? 'p-1.5' : 'p-4'} rounded-md ${
-          checked ? theme.base.surfacePrimary : theme.base.surface
-        }`}
-        checked={checked}
-        onChange={() => changed()}
-      >
-        {checked ? (
-          <CheckIcon className={`w-5 h-5 ${theme.base.iconAccent}`} />
-        ) : null}
-      </Switch>
+      {type === 'checkbox' ? (
+        <CheckBox changed={changeFilter} checked={checked} />
+      ) : (
+        <RadioButton changed={changeFilter} checked={checked} />
+      )}
       <Text>{title}</Text>
     </div>
   )

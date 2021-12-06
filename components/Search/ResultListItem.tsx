@@ -15,7 +15,7 @@ export const ResultListItem = ({ launch }: Props) => {
   return (
     <Link href={`launch/${launch.id}`} key={launch.id}>
       <li
-        className={`transition transform hover:-translate-y-1 shadow-md hover:shadow-lg flex w-full cursor-pointer justify-between items-center py-6 my-6 rounded-lg ${theme.base.surface}`}
+        className={`transition transform shadow-sm flex w-full cursor-pointer justify-between items-center py-6 my-6 rounded-lg ${theme.base.surface}`}
       >
         <Text
           align="text-center"
@@ -30,7 +30,9 @@ export const ResultListItem = ({ launch }: Props) => {
         <Text align="text-center" classes="w-1/4" variant="subtitle2">
           {formatDate(
             new Date(launch.date_unix * 1000),
-            getDateFormat(launch.date_precision)
+            getDateFormat(launch.date_precision, {
+              month: 'MMM',
+            })
           )}
         </Text>
         <Text align="text-center" classes="w-1/4" variant="subtitle2">

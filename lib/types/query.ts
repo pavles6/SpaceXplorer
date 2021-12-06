@@ -5,7 +5,6 @@ export type QueryTypes =
   | 'launch_type'
   | 'date_range'
   | 'rocket'
-  | 'payload_type'
   | 'outcome'
   | 'has_images'
   | 'page'
@@ -15,7 +14,6 @@ export interface QueryParameters {
   launch_type?: 'crew' | 'non-crew'
   date_range?: string | 'newest' | 'oldest' | 'upcoming'
   rocket?: string
-  payload_type?: string
   outcome?: 'successful' | 'failed' | 'N/A'
   has_images?: 'images'
   page?: number | string

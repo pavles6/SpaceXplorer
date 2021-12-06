@@ -31,7 +31,7 @@ export default function HomePage({
     )
     if (landingImageContainer)
       if (window.scrollY >= landingImageContainer.clientHeight / 3) {
-        setNavbarColor(theme.base.surface)
+        setNavbarColor(theme.base['dark:surface'])
         setNavbarShadow(true)
       } else {
         setNavbarColor('bg-transparent')
@@ -72,7 +72,7 @@ export default function HomePage({
           <div className="w-full h-full bg-landing-image-gradient absolute z-20" />
           <div className="absolute z-30 w-11/12 md:w-full flex flex-col justify-center">
             <Text variant="h1" color="dark:textAccent" align="text-center">
-              SpaceXplorer: The SpaceX launch tracker
+              SpaceXplorer: The SpaceX launch explorer
             </Text>
             <Text
               classes="hidden md:block text-base text-white sm:text-lg xl:text-xl"

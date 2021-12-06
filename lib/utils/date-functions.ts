@@ -15,6 +15,12 @@ interface CountdownReturnObject {
   seconds: string
 }
 
+interface FormatOptions {
+  month?: string
+  day?: string
+  year?: string
+}
+
 // this fn is supposed to be called in 1s interval
 export function calculateCountdown(
   date_unix: number
@@ -48,21 +54,26 @@ export function calculateCountdown(
   }
 }
 
-export function getDateFormat(date_precision: string): string {
+export function getDateFormat(
+  date_precision: string,
+  options?: FormatOptions
+): string {
   let dateFormat
 
   switch (date_precision) {
     case 'hour':
     case 'day':
-      dateFormat = 'MMMM D, YYYY.'
+      dateFormat = `${options?.month || 'MMM'} ${options?.day || 'D'}, ${
+        options?.year || 'YYYY'
+      }.`
       break
     case 'month':
-      dateFormat = 'MMMM, YYYY.'
+      dateFormat = `${options?.month || 'MMM'}, ${options?.year || 'YYYY'}.`
       break
     case 'half':
     case 'quarter':
     case 'year':
-      dateFormat = 'YYYY.'
+      dateFormat = `${options?.year || 'YYYY'}.`
       break
     default:
       dateFormat = null

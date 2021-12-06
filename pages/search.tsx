@@ -7,22 +7,15 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
 import { SearchHeader } from '../components/Search/Header'
 import { PaginationControls } from '../components/Search/PaginationControls'
-import { ResultGrid } from '../components/Search/ResultGrid'
 import { SearchControls } from '../components/Search/SearchControls'
 import { SearchInput } from '../components/Search/SearchInput'
 import Text from '../components/Text/Text'
 import { getRocketTypes, queryLaunches } from '../lib/api/api-calls'
 import { usePalette } from '../lib/palette/store'
-import {
-  QueryFilters,
-  QueryParameters,
-  QueryResult,
-  QueryTypes,
-} from '../lib/types/query'
+import { QueryFilters, QueryParameters, QueryResult } from '../lib/types/query'
 import { useIsMount } from '../lib/utils/useIsMount'
 import { ResultList } from '../components/Search/ResultList'
-import { FilterDropdown } from '../components/Search/FilterDropdown'
-import { FilterDropdownField } from '../components/Search/FilterDropdownField'
+import { FilterSection } from '../components/Search/FilterSection'
 
 interface RockeyPayloadFilterType {
   name: string
@@ -31,13 +24,11 @@ interface RockeyPayloadFilterType {
 
 interface Props {
   rocketTypes: RockeyPayloadFilterType[]
-  payloadTypes: RockeyPayloadFilterType[]
   result: QueryResult
   appliedFilters: QueryParameters
 }
 
 export default function SearchPage({
-  payloadTypes,
   result,
   rocketTypes,
   appliedFilters,
@@ -48,31 +39,26 @@ export default function SearchPage({
 
   const isFirstRender = useIsMount()
 
-  const [resultsView, setResultsView] = useState<'grid' | 'list'>('list')
-
-  console.log(result)
-
   const [filters, setFilters] = useState<QueryFilters>({
     q: appliedFilters.q || '',
-    date_range: appliedFilters.date_range || '',
+    date_range: appliedFilters.date_range,
     launch_type: appliedFilters.launch_type || '',
     outcome: appliedFilters.outcome || '',
     rocket: appliedFilters.rocket
-      ? rocketTypes.find((type) => type.id === appliedFilters.rocket)
-      : '',
-    payload_type: appliedFilters.payload_type
-      ? payloadTypes.find((type) => type.id === appliedFilters.payload_type)
-      : '',
-    page: appliedFilters.page || 1,
+      ? appliedFilters.rocket.includes(',')
+        ? appliedFilters.rocket
+            .split(',')
+            .map((rocket) => rocketTypes.find((type) => type.id === rocket).id)
+        : [rocketTypes.find((type) => type.id === appliedFilters.rocket).id]
+      : [],
+    page: appliedFilters.page || result.page,
     has_images: appliedFilters.has_images || '',
   })
-
   const applyFilters = () => {
     const query = {
       ...router.query,
       ...filters,
-      rocket: filters.rocket?.id || '',
-      payload_type: filters.payload_type?.id || '',
+      rocket: filters?.rocket?.join(',') || '',
     }
 
     Object.keys(query).map((filter) =>
@@ -89,25 +75,43 @@ export default function SearchPage({
     )
   }
 
-  const removeFilter = (filterType: QueryTypes) => {
-    if (router.query[filterType]) {
-      setFilters({ ...filters, [filterType]: '' })
-    }
-    applyFilters()
-  }
-
   useEffect(() => {
+    console.log(filters.has_images)
     if (!isFirstRender) applyFilters()
   }, [filters])
 
   useEffect(() => {
-    if (filters.page > result.totalPages) {
+    if (result.page > result.totalPages) {
       setFilters({ ...filters, page: result.totalPages })
-      applyFilters()
     }
+    if (!filters.date_range) {
+      setFilters({ ...filters, date_range: 'newest' })
+    }
+    applyFilters()
   }, [])
 
   const isResults = result.docs.length !== 0
+
+  const sortOptions = [
+    {
+      title: 'Newest',
+      set: () =>
+        setFilters({
+          ...filters,
+          date_range: 'newest',
+        }),
+      active: filters.date_range === 'newest',
+    },
+    {
+      title: 'Oldest',
+      set: () =>
+        setFilters({
+          ...filters,
+          date_range: 'oldest',
+        }),
+      active: filters.date_range === 'oldest',
+    },
+  ]
 
   return (
     <>
@@ -128,103 +132,22 @@ export default function SearchPage({
           value={filters.q}
         />
       </header>
-      <div className={`w-full flex ${theme.base.surfaceBackground}`}>
+      <div
+        className={`w-full h-full flex flex-col ${theme.base.surfaceBackground}`}
+      >
         <div
-          className={`mb-24 pt-4 min-h-full justify-center flex w-full ${theme.base.surfaceBackground}`}
+          className={`mb-24 px-2 pt-4 min-h-full justify-center flex w-full ${theme.base.surfaceBackground}`}
         >
-          <div className={`h-full w-full flex flex-col max-w-md mr-8`}>
-            <div
-              className={`${theme.base.border} border-b flex h-16 items-center justify-start w-full mx-4 mt-4`}
-            >
-              <Text
-                variant="h4"
-                color="textAccent"
-                classes="flex items-center h-full pl-2"
-              >
-                Filters{' '}
-                <FilterIcon
-                  className={`ml-2 w-8 h-8 ${theme.base.textAccent}`}
-                />
-              </Text>
-            </div>
-            <FilterDropdown title="Date">
-              <FilterDropdownField
-                title="Newest"
-                checked={filters.date_range === 'newest'}
-                changed={() =>
-                  setFilters({
-                    ...filters,
-                    date_range: filters.date_range === 'newest' ? '' : 'newest',
-                  })
-                }
-              />
-              <FilterDropdownField
-                title="Oldest"
-                checked={filters.date_range === 'oldest'}
-                changed={() =>
-                  setFilters({
-                    ...filters,
-                    date_range: filters.date_range === 'oldest' ? '' : 'oldest',
-                  })
-                }
-              />
-            </FilterDropdown>
-            <FilterDropdown title="Type">
-              <FilterDropdownField
-                title="Crew"
-                checked={filters.launch_type === 'crew'}
-                changed={() =>
-                  setFilters({
-                    ...filters,
-                    launch_type: filters.launch_type === 'crew' ? '' : 'crew',
-                  })
-                }
-              />
-              <FilterDropdownField
-                title="Non crew"
-                checked={filters.launch_type === 'non-crew'}
-                changed={() =>
-                  setFilters({
-                    ...filters,
-                    launch_type:
-                      filters.launch_type === 'non-crew' ? '' : 'non-crew',
-                  })
-                }
-              />
-            </FilterDropdown>
-            <FilterDropdown title="Rocket">
-              {rocketTypes.map((rocket) => (
-                <FilterDropdownField
-                  title={rocket.name}
-                  checked={filters.rocket.id === rocket.id}
-                  changed={() =>
-                    setFilters({
-                      ...filters,
-                      rocket: filters.rocket === rocket ? '' : rocket,
-                    })
-                  }
-                />
-              ))}
-            </FilterDropdown>
-            <FilterDropdown title="Outcome"></FilterDropdown>
-            <FilterDropdown title="Other"></FilterDropdown>
-          </div>
-          <div className="flex flex-col w-full ml-8 max-w-4xl">
-            <SearchControls
-              appliedFilters={appliedFilters}
+          <div className="hidden lg:flex h-full w-full flex-col max-w-sm mr-8">
+            <FilterSection
               filters={filters}
-              removeFilter={removeFilter}
-              resultsView={resultsView}
-              setResultsView={setResultsView}
+              rocketTypes={rocketTypes}
+              setFilters={setFilters}
             />
-            {isResults ? (
-              <>
-                <ResultGrid resultsView={resultsView} launches={result.docs} />
-                <ResultList resultsView={resultsView} launches={result.docs} />
-              </>
-            ) : (
-              'No results'
-            )}
+          </div>
+          <div className="flex flex-col w-full max-w-4xl">
+            <SearchControls sortOptions={sortOptions} />
+            {isResults ? <ResultList launches={result.docs} /> : 'No results'}
             <PaginationControls
               currentPage={filters.page}
               limit={result.limit}
@@ -237,27 +160,22 @@ export default function SearchPage({
             />
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(ctx.query)
-
   const query: QueryParameters = {
     date_range: (ctx.query.date_range || null) as any,
     has_images: (ctx.query.has_images || null) as any,
     launch_type: (ctx.query.launch_type || null) as any,
     outcome: (ctx.query.outcome || null) as any,
-    page: (ctx.query.page || '1') as any,
-    payload_type: (ctx.query.payload_type || null) as any,
+    page: (parseInt(ctx.query.page as string) || 1) as any,
     q: (ctx.query.q || null) as any,
     rocket: (ctx.query.rocket || null) as any,
   }
-
-  console.log(await getRocketTypes())
 
   return {
     props: {

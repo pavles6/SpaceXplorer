@@ -29,7 +29,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   let shadow = 'shadow-md'
   if (!isShadow) shadow = 'no-shadow'
 
-  if (!backgroundColor) backgroundColor = theme.base.surface
+  if (!backgroundColor) backgroundColor = theme.base['dark:surface']
 
   const [navbarLinks, setNavbarLinks] = useState<INavItem[]>([...navItems])
 
@@ -64,6 +64,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
       >
         <Button
           icon={MenuIcon}
+          iconColor={theme.base['dark:iconAccent']}
           classes="mx-2 lg:hidden transition"
           click={() => {
             setMenuOpened(true)
@@ -91,16 +92,10 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
                       }`}
                     >
                       <Text
-                        classes={`font-semibold uppercase ${
+                        classes={`font-semibold ${
                           active
                             ? theme.base.textPrimary
-                            : theme.base.textAccent
-                        } ${
-                          active
-                            ? ''
-                            : themeType === 'light'
-                            ? `hover:${theme.base['dark:textSecondary']}`
-                            : `dark:hover:${theme.base['light:textSecondary']}`
+                            : theme.base['dark:textAccent']
                         }`}
                       >
                         {title}

@@ -140,15 +140,7 @@ export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
   const sort = {} as any
   const populate = [{ path: 'rocket', select: 'name' }] as any
 
-  const {
-    q,
-    date_range,
-    has_images,
-    launch_type,
-    outcome,
-    payload_type,
-    rocket,
-  } = query
+  const { q, date_range, has_images, launch_type, outcome, rocket } = query
 
   if (q)
     mongoQuery.name = {
@@ -209,31 +201,15 @@ export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
       $eq: false,
     }
 
-  if (payload_type) {
-    populate.push({
-      path: 'payloads',
-      match: { type: payload_type },
-    })
-
-    mongoQuery.payloads = {
-      $exists: true,
-      $not: {
-        $size: 0,
-      },
-    }
-  }
-
   if (rocket) {
     populate.push({
       path: 'rocket',
       select: 'name',
     })
     mongoQuery.rocket = {
-      $eq: rocket,
+      $in: rocket.split(','),
     }
   }
-
-  
 
   return {
     method: 'POST',

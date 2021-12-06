@@ -15,7 +15,7 @@ export const navItems: INavItem[] = [
     variant: 'link',
   },
   {
-    path: '/search?date_range=newest',
+    path: '/search',
     title: 'Search',
     active: false,
     variant: 'link',
