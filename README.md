@@ -6,7 +6,7 @@
  SpaceXplorer is my personal project made with [Next.js](https://github.com/vercel/next.js) and [TailwindCSS](https://github.com/tailwindlabs/tailwindcss). You can search and explore in details: past, upcoming and recent launches. 
 
 ## Highlights
-- It consumes data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API) 
+- It renders data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API) 
 - Launch pages are pre-rendered at the build-time which makes fluid app usage experience.
 - Search results are paginated, which eliminates the unneccessary traffic
 - Fully responsive pages
