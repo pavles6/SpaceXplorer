@@ -131,10 +131,10 @@ export default function Footer() {
             Licensed under{' '}
             <Text
               link
-              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE.md"
+              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE"
               color="text-primary"
             >
-              MIT License
+              GPLv3 License
             </Text>
           </Text>
           <div className={`p-0.5 mx-2  rounded-xl bg-black dark:bg-white`} />

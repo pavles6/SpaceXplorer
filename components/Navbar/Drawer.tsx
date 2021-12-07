@@ -84,7 +84,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
               href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE.md"
               color="text-primary"
             >
-              MIT License
+              GPLv3 License
             </Text>
           </Text>
         </div>
