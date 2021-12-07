@@ -10,7 +10,7 @@ export default function Footer() {
             <Text
               variant="small1"
               classes="uppercase font-semibold"
-              color="textAccent"
+              color="text-textMain dark:text-textMainDark"
             >
               Navigate
             </Text>
@@ -33,7 +33,7 @@ export default function Footer() {
             <Text
               variant="small1"
               classes="uppercase font-semibold"
-              color="textAccent"
+              color="text-textMain dark:text-textMainDark"
             >
               Project resources
             </Text>
@@ -54,14 +54,16 @@ export default function Footer() {
               Author
             </Text>
             <Text
+              target="_blank"
               link
-              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE.md"
+              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE"
               variant="subtitle2"
               color="text"
             >
               License
             </Text>
             <Text
+              target="_blank"
               link
               href="https://github.com/r-spacex/SpaceX-API"
               variant="subtitle2"
@@ -74,7 +76,7 @@ export default function Footer() {
             <Text
               variant="small1"
               classes="uppercase font-semibold"
-              color="textAccent"
+              color="text-textMain dark:text-textMainDark"
             >
               Tech stack
             </Text>
@@ -107,7 +109,7 @@ export default function Footer() {
 
         <div className="w-full border-t border-gray-400 dark:border-opacity-20 border-opacity-30 mt-4 pt-4">
           <Text
-            color="text"
+            color="text-textMain dark:text-textMainDark"
             classes="mb-2 mx-4 text-sm md:text-base sm:text-center md:text-left md:text-justify"
           >
             This project and its author are not affiliated, associated,
