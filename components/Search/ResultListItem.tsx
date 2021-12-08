@@ -35,7 +35,7 @@ export const ResultListItem = ({ launch }: Props) => {
             {launch.upcoming
               ? 'N/A (Upcoming)'
               : launch.success
-              ? 'Sucessful'
+              ? 'Successful'
               : 'Failed'}
           </Text>
           <Text align="text-center" classes="w-1/4" variant="subtitle2">

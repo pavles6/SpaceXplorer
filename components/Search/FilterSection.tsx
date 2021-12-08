@@ -72,7 +72,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
       <FilterDropdown fieldsChecked={filters.outcome !== ''} title="Outcome">
         <FilterDropdownField
           type="radio"
-          title="Sucessful"
+          title="Successful"
           checked={filters.outcome === 'successful'}
           changeFilter={() =>
             setFilters({
