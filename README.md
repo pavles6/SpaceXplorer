@@ -3,11 +3,11 @@
 # I am no longer maintaining this project.
 
 ## Collection of every SpaceX rocket launch 🚀
-- Uses [Next.js](https://github.com/vercel/next.js), a unbelievably fast React.js Framework for SSR and static site generation.
+- Uses [Next.js](https://github.com/vercel/next.js), a React.js Framework for SSR and static site generation.
 - It renders data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API).
 - Launch pages are pre-rendered at build time.
-- Search results are paginated, which eliminates the unneccessary traffic between the client and the server.
-- Fully device responsive app.
+- Search results are paginated.
+- Fully responsive frontend.
 - Light and dark UI themes.
 
 ## Future
