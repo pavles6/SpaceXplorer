@@ -52,7 +52,7 @@ module.exports = {
         galleryImage: '750px',
         galleryImageMd: 'calc(750px / 1.3)',
         galleryImageSm: 'calc(750px / 1.8)',
-        galleryImageXs: 'calc(750px / 2.3)',
+        galleryImageXs: 'calc(750px / 3)',
       },
       minHeight: {
         landingTile: '600px',
@@ -61,7 +61,7 @@ module.exports = {
         'landing-image-gradient':
           'linear-gradient(45deg, rgba(55, 65, 81, 0.75) 20%, rgba(185,28,28,0.4) 60%)',
         'launch-image-gradient':
-          'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(31, 41, 55, 0.8) 115%)',
+          'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(31, 41, 55, 1) 115%)',
       }),
       zIndex: {
         '-2': '-2',

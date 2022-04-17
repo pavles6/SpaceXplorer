@@ -27,7 +27,7 @@ export const DataRow = ({
       }`}
     >
       <div className="flex flex-shrink-0">
-        <Text variant="subtitle2" color="text">
+        <Text variant="subtitle2" color="themeSecondary">
           {title + ':'}
         </Text>
       </div>
@@ -37,10 +37,9 @@ export const DataRow = ({
         href={href}
         target={target}
         variant="subtitle1"
-        align="text-right"
-        color={
-          link ? 'text-primary' : 'text-textAccent dark:text-textAccentDark'
-        }
+        textAlign="text-right"
+        color={link ? 'info' : 'theme'}
+        decoration={link ? 'underline' : 'no-underline'}
       >{`${value}`}</Text>
     </div>
   )

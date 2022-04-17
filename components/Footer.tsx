@@ -3,7 +3,7 @@ import Text from './Text/Text'
 
 export default function Footer() {
   return (
-    <footer className="mt-32 bg-white dark:bg-black flex w-full justify-center">
+    <footer className="mt-32 bg-lightSecondary dark:bg-black flex w-full justify-center">
       <div className="w-full max-w-screen-lg flex flex-col items-center">
         <div className="w-full mt-6 flex flex-col md:flex-row justify-between">
           <div className="flex flex-col justify-start items-start space-y-2 m-4">

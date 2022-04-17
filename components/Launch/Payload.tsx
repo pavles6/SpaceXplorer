@@ -40,7 +40,8 @@ export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
               <li key={payload.id}>
                 <Text
                   variant="subtitle1"
-                  color="text-primary"
+                  color="info"
+                  decoration="underline"
                   link
                   target="_blank"
                   href={`https://api.spacexdata.com/v4/payloads/${payload.id}`}
@@ -62,11 +63,11 @@ export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
 
   return (
     <div className="flex w-full h-full flex-col space-y-2">
-      <Text classes="mb-4" divider variant="articleHeading2" color="textAccent">
+      <Text classes="mb-4" border variant="articleHeading2" color="theme">
         Payload
       </Text>
       {!isNoPayloadData && payloads.length === 0 ? (
-        <Text variant="title1" color="text">
+        <Text variant="title1" color="themeSecondary">
           There's no available payload data for this launch.
         </Text>
       ) : (
@@ -78,8 +79,8 @@ export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
               <div key={capsule.id}>
                 <Text
                   classes="mt-4"
-                  color="textAccent"
-                  divider
+                  color="theme"
+                  border
                   variant="articleHeading3"
                 >
                   Payload capsule

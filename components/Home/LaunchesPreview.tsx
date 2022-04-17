@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
-import {
-  calculateCountdown,
-  getDateFormat,
-} from '../../lib/utils/date-functions'
+import { calculateCountdown } from '../../lib/utils/date-functions'
 import { Launch } from '../../lib/types/api'
-import { formatDate } from '../../lib/utils/date-functions'
-import { Countdown } from './Countdown'
 import { LaunchCard } from '../common/LaunchCard'
 import { NextLaunch } from './NextLaunch'
 

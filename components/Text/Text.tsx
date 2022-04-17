@@ -19,7 +19,7 @@ export default function Text({
 }: TextProps) {
   let output = null
 
-  const borderStyles = `pb-3 border-b border-gray-400 dark:border-opacity-20 border-opacity-30`
+  const borderStyles = 'pb-3 border-b border-dark/20 dark:border-light/20'
   let textColor = null
 
   switch (color) {
@@ -163,5 +163,3 @@ export default function Text({
 
   return output
 }
-
-const eliminateRedundantWhitespaces = (s: string) => s.replace(/^\s+|\s+$/g, '')

@@ -40,17 +40,18 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
         as="div"
         className="h-screen w-2/3 max-w-lg relative flex flex-col items-center bg-light dark:bg-dark"
       >
-        <div className="h-16 w-full flex justify-between items-center">
+        <div className="h-16 w-full flex justify-between items-center bg-black">
           <Text
             fixedSize="text-2xl"
             weight="font-bold"
             classes="ml-2"
-            color="theme"
+            color="light"
           >
             SpaceXplorer
           </Text>
           <Button
             icon={XIcon}
+            iconColor="text-white"
             classes="mr-2 transition"
             click={() => {
               closeMenu(false)

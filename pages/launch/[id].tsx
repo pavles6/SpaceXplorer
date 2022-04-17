@@ -77,10 +77,10 @@ export default function LaunchPage({ launchData }: Props) {
           launchOutcome={launchOutcome}
           name={name}
         />
-        <div className="bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
-          <div className="bg-surfaceSecondary dark:bg-surfaceSecondaryDark flex flex-col items-center w-full">
+        <div className="bg-light dark:bg-dark">
+          <div className="bg-light dark:bg-dark flex flex-col items-center w-full">
             <article
-              className={`flex flex-col max-w-screen-xl w-11/12 lg:w-full lg:px-6 h-full space-y-12 my-8`}
+              className={`flex flex-col max-w-screen-xl px-4 w-full lg:px-6 h-full space-y-12 my-8`}
             >
               <LaunchOverviewSection
                 formattedDate={formattedDate}
@@ -113,24 +113,34 @@ export default function LaunchPage({ launchData }: Props) {
   )
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
   const launchData = await getLaunch(params.id)
 
   return {
     props: {
       launchData,
     },
-    revalidate: 10,
   }
 }
 
-export async function getStaticPaths() {
-  const docs = await getLaunchesIds()
+// export const getStaticProps = async ({ params }) => {
+//   const launchData = await getLaunch(params.id)
 
-  const paths = docs.map((doc: any) => ({ params: { id: doc.id } }))
+//   return {
+//     props: {
+//       launchData,
+//     },
+//     revalidate: 10,
+//   }
+// }
 
-  return {
-    paths,
-    fallback: false,
-  }
-}
+// export async function getStaticPaths() {
+//   const docs = await getLaunchesIds()
+
+//   const paths = docs.map((doc: any) => ({ params: { id: doc.id } }))
+
+//   return {
+//     paths,
+//     fallback: false,
+//   }
+// }

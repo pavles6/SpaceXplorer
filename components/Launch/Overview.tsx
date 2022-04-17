@@ -68,7 +68,7 @@ export const LaunchOverviewSection = ({
 
   for (let link of mediaLinks)
     if (link.url === null) {
-      // put unavailable links at the end
+      // puts unavailable links at the end
       mediaLinks.forEach((link, i) => {
         if (link.url === null) mediaLinks.push(mediaLinks.splice(i, 1)[0])
       })
@@ -77,20 +77,15 @@ export const LaunchOverviewSection = ({
   return (
     <div className="flex flex-col justify-center">
       <div>
-        <Text
-          color="text-textAccent dark:text-textAccentDark"
-          weight="font-bold"
-          variant="articleHeading1"
-          divider
-        >
+        <Text color="theme" weight="font-bold" variant="articleHeading1" border>
           Description and overview
         </Text>
       </div>
       <Text
-        align="text-justify"
+        textAlign="text-justify"
         classes="pt-4"
         variant="subtitle2"
-        color="text"
+        color="themeSecondary"
       >
         {details || 'No details are provided yet.'}
       </Text>
@@ -100,12 +95,7 @@ export const LaunchOverviewSection = ({
         ))}
       </div>
       <div className="flex w-full mt-12 flex-col space-y-2">
-        <Text
-          classes="mb-4"
-          divider
-          variant="articleHeading2"
-          color="textAccent"
-        >
+        <Text classes="mb-4" border variant="articleHeading2" color="theme">
           Basic information
         </Text>
         <DataRow title="Name" value={name} />

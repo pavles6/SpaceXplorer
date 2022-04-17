@@ -20,7 +20,7 @@ type TextDecoration = 'underline' | 'overline' | 'line-through' | 'no-underline'
 
 type TextVariantProp = keyof typeof TextVariants
 
-type TextColor =
+export type TextColor =
   | 'main'
   | 'dark'
   | 'light'

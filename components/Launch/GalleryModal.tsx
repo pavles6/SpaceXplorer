@@ -32,7 +32,7 @@ export const LaunchGalleryModal = ({
       leaveTo="opacity-0"
     >
       <div
-        className="w-screen h-screen fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75"
+        className="w-screen h-screen fixed inset-0 z-50 overflow-auto bg-black bg-opacity-80"
         onClick={() => close()}
       >
         <Transition.Child

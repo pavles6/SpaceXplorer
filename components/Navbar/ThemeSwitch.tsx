@@ -1,5 +1,5 @@
 import { Switch, Transition } from '@headlessui/react'
-import { MoonIcon, SunIcon } from '@heroicons/react/solid'
+import { MoonIcon, SunIcon } from '@heroicons/react/outline'
 import React, { useEffect, useState } from 'react'
 
 interface Props {

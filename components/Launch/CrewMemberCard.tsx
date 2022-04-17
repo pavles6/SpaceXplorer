@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { CrewMember } from '../../lib/types/api'
-import { Transition } from '@headlessui/react'
 import Text from '../Text/Text'
-import { useMediaQuery } from 'react-responsive'
 import Image from 'next/image'
 
 interface Props extends CrewMember {
@@ -16,71 +14,42 @@ export default function CrewMemberCard({
   agency,
   image,
 }: Props): ReactElement {
-  const [showMemberInfo, setShowMemberInfo] = useState(false)
-
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const isSmallScreen = useMediaQuery({ query: '(max-width: 767px)' })
-
   return (
-    <div
-      tabIndex={0}
-      className="w-64 h-64 my-8 md:mx-8 mb-0 flex relative shadow-md rounded-xl"
-    >
+    <div className="flex flex-col m-4 bg-lightSecondary dark:bg-darkSecondary rounded-xl">
       <Image
-        layout="fill"
+        layout="fixed"
+        width={256}
+        height={256}
         objectFit="cover"
         src={image}
         alt={`${name}, ${agency}`}
-        className="w-full relative h-full rounded-xl"
+        className="w-full h-full rounded-xl"
       />
-      <div
-        onMouseOver={() => setShowMemberInfo(true)}
-        onMouseLeave={() => setShowMemberInfo(false)}
-        className={`absolute flex flex-col w-full h-full
-        `}
-      >
-        <Transition
-          show={showMemberInfo || (isSmallScreen && mounted)}
-          enter="transition-opacity duration-150"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity duration-150"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          className="flex w-full h-full flex-col justify-center items-center spacing-y-5 rounded-xl
-          bg-black bg-opacity-60 transition"
-        >
+      <div className="flex flex-col justify-start p-4">
+        <Text variant="h4" border classes="mb-4" weight="font-semibold">
+          {name}
+        </Text>
+        <Text variant="subtitle2" color="themeSecondary">
+          <span>Agency: </span>
+          <span className="text-dark dark:text-light">{agency}</span>
+        </Text>
+        <Text variant="subtitle2" color="themeSecondary">
+          <span>No. of missions: </span>
+          <span className="text-dark dark:text-light">{launches.length}</span>
+        </Text>
+        {wikipedia ? (
           <Text
-            classes="cursor-default text-xl md:text-2xl text-primary dark:text-primary"
+            target="_blank"
+            variant="subtitle2"
+            decoration="underline"
             weight="font-semibold"
-            align="text-center"
+            link
+            color="info"
+            href={wikipedia}
           >
-            {name}
+            Wikipedia page
           </Text>
-          <Text classes="cursor-default sm:text-base md:text-lg text-textAccentDark">
-            {`Agency: ${agency}`}
-          </Text>
-          <Text classes="sm:text-base md:text-lg cursor-default text-textAccentDark">
-            {`No. of missions: ${launches.length}`}
-          </Text>
-          {wikipedia ? (
-            <Text
-              target="_blank"
-              classes="sm:text-base md:text-lg text-textAccentDark"
-              decoration="underline"
-              weight="font-semibold"
-              link
-              href={wikipedia}
-            >
-              Wikipedia page
-            </Text>
-          ) : null}
-        </Transition>
+        ) : null}
       </div>
     </div>
   )

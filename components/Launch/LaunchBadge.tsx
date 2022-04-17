@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import Text from '../Text/Text'
-import { useTheme } from 'next-themes'
 import { TextColor } from '../../lib/types/Text'
+import Text from '../Text/Text'
 
 interface Props {
   value: string
@@ -29,14 +28,14 @@ export const LaunchBadge = ({
 }: Props) => {
   const styles: BadgeStyles = {
     success: {
-      container: `bg-primary`,
-      text: `text-textAccentDark`,
-      icon: `text-iconAccentDark`,
+      container: `bg-main`,
+      text: `light`,
+      icon: `text-light`,
     },
     failure: {
-      container: `bg-disabled dark:bg-disabledDark bg-opacity-30 dark:bg-opacity-30`,
-      text: `text-textAccent dark:text-textAccentDark`,
-      icon: `text-iconAccent dark:text-iconAccentDark`,
+      container: `bg-light/50 dark:bg-dark/50 bg-opacity-30 dark:bg-opacity-30`,
+      text: `theme`,
+      icon: `text-dark dark:text-light`,
     },
   }
 
@@ -48,8 +47,9 @@ export const LaunchBadge = ({
         <Icon className={`w-4 h-4 md:w-6 md:h-6 ${styles[type].icon}`} />
       </div>
       <Text
-        size="text-sm"
-        classes={`md:text-base px-2 py-1 ${styles[type].text}`}
+        fixedSize="text-sm"
+        classes={`md:text-base px-2 py-1`}
+        color={styles[type].text}
       >
         {value}
       </Text>

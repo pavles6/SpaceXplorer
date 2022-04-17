@@ -10,7 +10,7 @@ interface Props {
 export const LaunchCrewSection = ({ crew }: Props) => {
   return (
     <div className="flex w-full h-full transition flex-col">
-      <Text divider variant="articleHeading2" color="textAccent">
+      <Text border variant="articleHeading2" color="theme">
         Crew
       </Text>
       <div
@@ -18,7 +18,7 @@ export const LaunchCrewSection = ({ crew }: Props) => {
           crew.length > 0 ? 'justify-center' : 'justify-start'
         } w-full`}
       >
-        <div className="md:grid max-w-full md:justify-items-center justify-center md:grid-flow-col md:grid-rows-2 xl:grid-rows-1">
+        <div className="flex flex-wrap justify-center xl:justify-between w-full">
           {crew.map((crewMember) => (
             <CrewMemberCard key={crewMember.id} {...crewMember} />
           ))}

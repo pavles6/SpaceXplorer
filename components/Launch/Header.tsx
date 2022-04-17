@@ -62,14 +62,15 @@ export const LaunchHeaderSection = ({
       <div className="w-full relative z-30 h-full flex flex-col justify-end items-center">
         <Text
           classes={`xl:text-6xl lg:text-5xl ${titleTextSize} mb-4 md:mb-0`}
-          color="text-primary"
+          fixedSize={titleTextSize as any}
+          color="main"
           weight="font-bold"
-          align="text-center"
+          textAlign="text-center"
         >
           {name}
         </Text>
         {!isSmallScreen && mounted ? (
-          <div className="flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full bg-surfaceSecondary dark:bg-surfaceSecondaryDark bg-opacity-70 dark:bg-opacity-70">
+          <div className="flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full bg-light dark:bg-dark bg-opacity-70 dark:bg-opacity-70">
             <LaunchBadge
               icon={ClockIcon}
               type="success"

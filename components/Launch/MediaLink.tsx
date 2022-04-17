@@ -15,38 +15,28 @@ export interface IMediaLink {
 export const LaunchMediaLink = ({ link: { Icon, title, url } }: Props) => {
   const isLink = url !== null
 
-  const [hovered, setHovered] = useState(false)
-
   return (
     <ConditionalLink url={url} link={isLink}>
       <div
         tabIndex={0}
-        onMouseOver={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onTouchStart={() => setHovered(true)}
-        onTouchEnd={() => setHovered(false)}
-        className={`flex m-2 p-2 rounded-md transition ${
+        className={`group flex m-2 p-2 rounded-md transition ${
           isLink
-            ? `${hovered ? 'bg-primary' : 'bg-transparent'}`
+            ? 'hover:bg-main dark:hover:bg-main bg-transparent dark:bg-transparent'
             : 'cursor-not-allowed'
         } ${isLink ? 'flex' : 'hidden'} lg:flex`}
       >
         <Icon
           className={`w-7 h-7 mr-1 ${
             isLink
-              ? hovered
-                ? 'text-iconAccentDark'
-                : 'text-primary'
-              : 'text-disabled dark:text-disabledDark'
+              ? 'group-hover:text-light group-hover:dark:text-light text-main dark:text-main'
+              : 'text-dark/50 dark:text-light/50'
           }`}
         />
         <Text
-          color={
+          classes={
             isLink
-              ? hovered
-                ? 'text-textAccentDark'
-                : 'text-Accent dark:text-textAccentDark'
-              : 'text-disabled dark:text-disabledDark'
+              ? 'group-hover:text-light text-dark dark:text-light'
+              : 'text-dark/50 dark:text-light/50'
           }
         >
           {title}

@@ -19,7 +19,13 @@ export const NextLaunch = ({
   return (
     <>
       <div className="mb-4 mt-4 flex items-center justify-center w-full">
-        <Text link href={`/launch/${id}`} color="main" variant="h4">
+        <Text
+          link
+          href={`/launch/${id}`}
+          color="main"
+          variant="h4"
+          decoration="underline"
+        >
           {name}
         </Text>
         <Text color="theme" variant="h4" classes="ml-2">
