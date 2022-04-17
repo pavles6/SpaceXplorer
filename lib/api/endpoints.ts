@@ -79,7 +79,7 @@ export const RecentLaunchesPayload: RequestConfig = {
   url: 'https://api.spacexdata.com/v4/launches/query',
   data: {
     options: {
-      limit: 5,
+      limit: 4,
       select: 'date_unix date_precision name id upcoming success rocket crew',
       sort: {
         date_unix: 'desc',

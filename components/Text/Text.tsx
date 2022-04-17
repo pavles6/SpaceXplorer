@@ -1,159 +1,147 @@
 import Link from 'next/link'
 import React from 'react'
-import {
-  TextProps,
-  TextVariantMapping,
-  TextWeight,
-  TwClass,
-} from '../../lib/types/Text'
-
-const defaultWeights: TextVariantMapping<TextWeight> = {
-  h1: 'font-bold',
-  h2: 'font-semibold',
-  h3: 'font-semibold',
-  h4: 'font-semibold',
-  title1: 'font-semibold',
-  title2: 'font-normal',
-  subtitle1: 'font-semibold',
-  subtitle2: 'font-normal',
-  small1: 'font-normal',
-  small2: 'font-normal',
-  articleHeading1: 'font-bold',
-  articleHeading2: 'font-semibold',
-  articleHeading3: 'font-semibold',
-}
-
-const textVariants: TextVariantMapping<TwClass> = {
-  h1: 'text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl',
-  h2: 'text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl',
-  h3: 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl',
-  h4: 'text-2xl lg:text-3xl',
-  title1: 'text-lg',
-  title2: 'text-lg',
-  subtitle1: 'text-base',
-  subtitle2: 'text-base',
-  small1: 'text-sm',
-  small2: 'text-xs',
-  articleHeading1: 'text-2xl lg:text-3xl xl:text-4xl',
-  articleHeading2: 'text-xl lg:text-2xl xl:text-3xl',
-  articleHeading3: 'text-lg lg:text-xl xl:text-2xl',
-}
-
-export const useTextVariant = (variant: TwClass, weight?: TextWeight) =>
-  `${textVariants[variant]} ${defaultWeights[variant] || weight}`
+import { TextProps, TextVariants } from '../../lib/types/Text'
 
 export default function Text({
   link = false,
-  divider = false,
+  border = false,
   decoration = 'no-underline',
   target = '_self',
-  align,
-  href,
-  color,
-  weight,
-  classes,
-  size,
+  textAlign,
+  href = null,
+  color = 'theme',
+  weight = 'font-normal',
+  classes = null,
+  fixedSize,
   children,
-  variant,
-  id,
+  variant = null,
+  cssId = undefined,
 }: TextProps) {
-  const defaultColor = 'text dark:darkText'
-
-  let styles = null
   let output = null
 
-  const titleDividerStyles = `pb-3 border-b border-gray-400 dark:border-opacity-20 border-opacity-30`
+  const borderStyles = `pb-3 border-b border-gray-400 dark:border-opacity-20 border-opacity-30`
+  let textColor = null
 
-  if (variant)
-    styles = `${textVariants[variant]} ${defaultWeights[variant] || weight} ${
-      color || defaultColor
-    } ${align || 'text-left'} ${divider ? titleDividerStyles : ''} ${weight} ${
-      size || ''
-    } ${decoration} ${classes || ''}`
-  else {
-    styles = `${color} ${align || 'text-left'} ${
-      divider ? titleDividerStyles : ''
-    } ${weight || 'font-normal'} ${size || 'text-base'} ${decoration} ${
-      classes || ''
-    }`
+  switch (color) {
+    case 'main':
+      textColor = 'text-main dark:text-main'
+      break
+    case 'dark':
+      textColor = 'text-dark dark:text-dark'
+      break
+    case 'darkSecondary':
+      textColor = 'text-darkSecondary dark:text-darkSecondary'
+      break
+    case 'light':
+      textColor = 'text-light dark:text-light'
+      break
+    case 'lightSecondary':
+      textColor = 'text-lightSecondary dark:text-lightSecondary'
+      break
+    case 'theme':
+      textColor = 'text-dark dark:text-light'
+      break
+    case 'themeSecondary':
+      textColor = 'text-textDarkSecondary dark:text-textLightSecondary'
+      break
+    case 'info':
+      textColor = 'text-info dark:text-info'
+      break
+    case 'warning':
+      textColor = 'text-warning dark:text-warning'
+      break
+    case 'success':
+      textColor = 'text-success dark:text-success'
+      break
+    case 'danger':
+      textColor = 'text-danger dark:text-danger'
+      break
   }
 
-  styles = eliminateRedundantWhitespaces(styles)
+  const styles = variant
+    ? `${TextVariants[variant].size} ${
+        TextVariants[variant].weight
+      } ${decoration} ${textColor}${textAlign ? ' ' + textAlign : ''}${
+        classes ? ' ' + classes : ''
+      }${border ? ' ' + borderStyles : ''}`
+    : `${fixedSize ? fixedSize + ' ' : ''}${weight} ${decoration} ${textColor}${
+        textAlign ? ' ' + textAlign : ''
+      }${classes ? ' ' + classes : ''}${border ? ' ' + borderStyles : ''}`
 
   switch (variant) {
     case 'h1':
       output = (
-        <h1 id={id} className={styles}>
+        <h1 id={cssId} className={styles}>
           {children}
         </h1>
       )
       break
     case 'h2':
       output = (
-        <h2 id={id} className={styles}>
+        <h2 id={cssId} className={styles}>
           {children}
         </h2>
       )
       break
     case 'h3':
       output = (
-        <h3 id={id} className={styles}>
+        <h3 id={cssId} className={styles}>
           {children}
         </h3>
       )
       break
     case 'h4':
       output = (
-        <h4 id={id} className={styles}>
+        <h4 id={cssId} className={styles}>
           {children}
         </h4>
       )
       break
     case 'title1':
       output = (
-        <p id={id} className={styles}>
+        <p id={cssId} className={styles}>
           {children}
         </p>
       )
       break
     case 'title2':
       output = (
-        <p id={id} className={styles}>
+        <p id={cssId} className={styles}>
           {children}
         </p>
       )
       break
     case 'subtitle1':
       output = (
-        <p id={id} className={styles}>
+        <p id={cssId} className={styles}>
           {children}
         </p>
       )
       break
     case 'subtitle2':
       output = (
-        <p id={id} className={styles}>
+        <p id={cssId} className={styles}>
           {children}
         </p>
       )
       break
     case 'small1':
       output = (
-        <span id={id} className={styles}>
+        <span id={cssId} className={styles}>
           {children}
         </span>
       )
       break
     case 'small2':
       output = (
-        <span id={id} className={styles}>
+        <span id={cssId} className={styles}>
           {children}
         </span>
       )
       break
     default:
       output = (
-        <p id={id} className={styles}>
+        <p id={cssId} className={styles}>
           {children}
         </p>
       )
@@ -167,7 +155,7 @@ export default function Text({
   if (link)
     output = (
       <Link href={href}>
-        <a id={id} target={target} className={styles}>
+        <a id={cssId || ''} target={target} className={styles}>
           {children}
         </a>
       </Link>

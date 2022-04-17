@@ -66,23 +66,35 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
   }, [nextLaunch])
 
   return (
-    <div className="w-full min-h-min  bg-surfaceSecondary dark:bg-surfaceSecondaryDark flex flex-col">
-      <div className="mt-12 flex flex-col justify-center items-center">
-        <Text color="text-textAccent dark:text-textAccentDark" variant="h4">
-          Next Launch:
+    <div className="w-full min-h-min px-4 md:px-0">
+      <div className="mt-32 flex flex-col justify-center items-start">
+        <Text variant="h1" classes="mb-2">
+          SpaceXplorer
         </Text>
-        <div className="m-6">
+        <Text variant="h4" classes="font-normal">
+          SpaceXplorer helps you search through the archive of every SpaceX
+          rocket launch.
+        </Text>
+        <div className="flex items-center mb-10 mt-4">
+          <Text classes="mr-2">This project is based on </Text>
+          <Text link href="https://github.com/r-spacex/SpaceX-API" color="info">
+            r/SpaceX API
+          </Text>
+        </div>
+        <div className="mb-4 mt-4 flex items-center justify-center w-full">
           <Text
             link
             href={`/launch/${nextLaunch.id}`}
-            color="text-primary"
-            variant="h1"
-            decoration="underline"
+            color="main"
+            variant="h4"
           >
             {nextLaunch.name}
           </Text>
+          <Text color="theme" variant="h4" classes="ml-2">
+            is lifting off in:
+          </Text>
         </div>
-        <div className="flex md:space-x-6 justify-around items-center max-w-screen-sm w-full">
+        <div className="flex space-x-2 md:space-x-4 justify-center items-center max-w-screen-sm w-full">
           {nextLaunch.date_precision === 'hour' ? (
             <Countdown timer={timer} />
           ) : (
@@ -96,11 +108,11 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
         </div>
       </div>
 
-      <div className="flex justify-center mt-12">
+      <div className="mt-12">
         <div className="flex flex-col w-full items-center">
           <Text
-            color="text-textAccent dark:text-textAccentDark"
-            size="text-2xl"
+            color="theme"
+            fixedSize="text-2xl"
             weight={'font-semibold'}
             classes="mb-6 lg:text-3xl"
           >
@@ -115,13 +127,13 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center mt-12 lg:mt-52 mb-12 justify-end">
+      <div className="flex flex-col items-center mt-12 mb-12 justify-end">
         <Button
           buttonVariant="link"
           href="/search"
           variant="title1"
-          color="text-white"
-          classes={`transition transform hover:-translate-y-1 bg-primary rounded-lg px-20 py-5`}
+          color="light"
+          classes={`transition transform hover:-translate-y-1 bg-main rounded-lg px-20 py-5`}
         >
           Browse all launches
         </Button>

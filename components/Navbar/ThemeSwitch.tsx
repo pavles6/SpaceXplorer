@@ -22,9 +22,7 @@ export const ThemeSwitch = ({ resolvedTheme, setTheme }: Props) => {
         checked={resolvedTheme != 'light'}
         onChange={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
         className={`${
-          resolvedTheme === 'dark'
-            ? 'bg-surfacePrimary'
-            : 'bg-surfaceSecondaryDark'
+          resolvedTheme === 'dark' ? 'bg-light' : 'bg-darkSecondary'
         } relative inline-flex items-center h-8 rounded-full w-14 focus:outline-none`}
       >
         <span

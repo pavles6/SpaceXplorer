@@ -28,7 +28,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
   let shadow = 'shadow-md'
   if (!isShadow) shadow = 'no-shadow'
 
-  if (!backgroundColor) backgroundColor = 'bg-surfacePrimaryDark'
+  if (!backgroundColor) backgroundColor = 'bg-black'
 
   const [navbarLinks, setNavbarLinks] = useState<INavItem[]>([...navItems])
 
@@ -61,7 +61,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
       >
         <Button
           icon={MenuIcon}
-          iconColor="text-iconAccentDark"
+          iconColor="text-light"
           classes="mx-2 lg:hidden transition"
           click={() => {
             setMenuOpened(true)
@@ -70,9 +70,10 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
         <Text
           link
           href="/"
-          size="text-2xl"
-          weight="font-bold"
-          classes="lg:ml-2 lg:text-4xl text-primary"
+          fixedSize="text-2xl"
+          weight="font-semibold"
+          classes="lg:ml-4 lg:text-3xl"
+          color="lightSecondary"
         >
           SpaceXplorer
         </Text>
@@ -89,9 +90,8 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
                       }`}
                     >
                       <Text
-                        classes={`font-semibold ${
-                          active ? 'text-primary' : 'text-textAccentDark'
-                        }`}
+                        weight="font-semibold"
+                        color={active ? 'main' : 'light'}
                       >
                         {title}
                       </Text>

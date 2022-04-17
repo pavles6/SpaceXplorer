@@ -38,14 +38,14 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
         leaveFrom="opacity-100 translate-x-0"
         leaveTo="opacity-0 -translate-x-full"
         as="div"
-        className="h-screen w-2/3 max-w-lg relative flex flex-col items-center bg-surfaceSecondary dark:bg-surfaceSecondaryDark"
+        className="h-screen w-2/3 max-w-lg relative flex flex-col items-center bg-light dark:bg-dark"
       >
         <div className="h-16 w-full flex justify-between items-center">
           <Text
-            size="text-2xl"
+            fixedSize="text-2xl"
             weight="font-bold"
             classes="ml-2"
-            color="textAccent"
+            color="theme"
           >
             SpaceXplorer
           </Text>
@@ -63,12 +63,12 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
               <Text
                 link
                 variant="subtitle1"
-                color="textAccent"
+                color={link.active ? 'main' : 'theme'}
                 href={link.path}
                 classes={`py-4 my-2 pl-2 transition rounded-lg ${
                   !link.active
-                    ? 'hover:bg-surfacePrimary dark:hover:bg-surfacePrimaryDark'
-                    : 'cursor-default pointer-events-none bg-surfacePrimary dark:bg-surfacePrimaryDark text-primary'
+                    ? 'active:bg-lightSecondary dark:active:bg-darkSecondary'
+                    : 'cursor-default pointer-events-none bg-lightSecondary dark:bg-darkSecondary'
                 } `}
                 key={link.title}
               >
@@ -76,17 +76,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
               </Text>
             )
           })}
-          <div className="border-t mt-4 border-borderColor dark:border-borderColorDark dark:border-opacity-40 mb-4" />
-          <Text variant="subtitle2" align="text-center" color="text">
-            Licensed under{' '}
-            <Text
-              link
-              href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE"
-              color="text-primary"
-            >
-              GPLv3 License
-            </Text>
-          </Text>
+          <div className="border-t mt-4 border-dark/10 dark:border-light/20 mb-4" />
         </div>
       </Transition.Child>
     </Transition>

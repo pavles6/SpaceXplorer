@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react'
 import { TextProps } from '../../lib/types/Text'
-import Text, { useTextVariant } from '../Text/Text'
+import Text from '../Text/Text'
 
 interface ButtonProps extends TextProps {
   click?: Function
@@ -19,7 +19,7 @@ export default function Button({
   click,
   buttonVariant = 'button',
   variant = 'subtitle1',
-  children = '',
+  children = null,
   iconClasses,
   classes,
   href,
@@ -42,7 +42,7 @@ export default function Button({
         color={color}
         href={href}
         target={target}
-        id={id}
+        // id={id}
       >
         {!iconButton ? (
           <span
@@ -70,7 +70,7 @@ export default function Button({
     <button
       disabled={disabled}
       id={id}
-      className={`${classes} focus:outline-none ${useTextVariant(variant)}`}
+      className={`${classes} focus:outline-none`}
       onClick={() => click()}
     >
       {children ? children : null}
