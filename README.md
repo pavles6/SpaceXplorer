@@ -1,7 +1,5 @@
 # [SpaceXplorer](https://space-xplorer.vercel.app)  &middot; ![GitHub](https://img.shields.io/github/license/pavles6/SpaceXplorer) ![Website](https://img.shields.io/website?url=https%3A%2F%2Fspace-xplorer.vercel.app%2F) ![Lines of code](https://img.shields.io/tokei/lines/github/pavles6/SpaceXplorer)
 
-# I am no longer maintaining this project.
-
 ## Collection of every SpaceX rocket launch 🚀
 - Uses [Next.js](https://github.com/vercel/next.js), a React.js Framework for SSR and static site generation.
 - It renders data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API).
