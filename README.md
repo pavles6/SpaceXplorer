@@ -1,16 +1,13 @@
 # [SpaceXplorer](https://space-xplorer.vercel.app)  &middot; ![GitHub](https://img.shields.io/github/license/pavles6/SpaceXplorer) ![Website](https://img.shields.io/website?url=https%3A%2F%2Fspace-xplorer.vercel.app%2F) ![Lines of code](https://img.shields.io/tokei/lines/github/pavles6/SpaceXplorer)
 
-The collection of every SpaceX rocket launch 🚀
+# I am no longer maintaining this project.
 
-## Motivation
-Looking around existing adaptations of [r-SpaceX API](https://github.com/r-spacex/SpaceX-API) I haven't seen any app or a website that manages to display neccessary data around the topic of launches and their details on clean, modern and good-looking UI while it also being simple to use. That gave me a motivation to make the SpaceXplorer: my personal project in a form of a web application where you can search and explore the details about every single rocket launch SpaceX has ever done. 
-
-## Highlights
-- Uses [Next.js](https://github.com/vercel/next.js), a unbelievably fast React.js Framework for SSR and static site generation.
+## Collection of every SpaceX rocket launch 🚀
+- Uses [Next.js](https://github.com/vercel/next.js), a React.js Framework for SSR and static site generation.
 - It renders data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API).
 - Launch pages are pre-rendered at build time.
-- Search results are paginated, which eliminates the unneccessary traffic between the client and the server.
-- Fully device responsive app.
+- Search results are paginated.
+- Fully responsive frontend.
 - Light and dark UI themes.
 
 ## Future
