@@ -26,12 +26,32 @@ export default function HomePage({
       <Navbar />
       <div className="transition flex flex-col items-center h-full bg-light dark:bg-dark">
         <div className="max-w-screen-sm">
+          <div>
+            <div className="mt-32 flex flex-col justify-center items-start">
+              <Text variant="h1" classes="mb-2">
+                SpaceXplorer
+              </Text>
+              <Text variant="h4" classes="font-normal">
+                SpaceXplorer helps you search through the archive of every
+                SpaceX rocket launch.
+              </Text>
+              <div className="flex items-center mb-10 mt-4">
+                <Text classes="mr-2">This project is based on </Text>
+                <Text
+                  link
+                  href="https://github.com/r-spacex/SpaceX-API"
+                  color="info"
+                >
+                  r/SpaceX API
+                </Text>
+              </div>
+            </div>
+          </div>
           <LaunchesPreview
             recentLaunches={recentLaunchesData}
             nextLaunch={nextLaunchData}
           />
         </div>
-
         <Footer />
       </div>
     </>

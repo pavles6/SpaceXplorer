@@ -9,6 +9,7 @@ import { Launch } from '../../lib/types/api'
 import { formatDate } from '../../lib/utils/date-functions'
 import { Countdown } from './Countdown'
 import { LaunchCard } from '../common/LaunchCard'
+import { NextLaunch } from './NextLaunch'
 
 export interface TimerNode {
   type: string
@@ -67,46 +68,7 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
 
   return (
     <div className="w-full min-h-min px-4 md:px-0">
-      <div className="mt-32 flex flex-col justify-center items-start">
-        <Text variant="h1" classes="mb-2">
-          SpaceXplorer
-        </Text>
-        <Text variant="h4" classes="font-normal">
-          SpaceXplorer helps you search through the archive of every SpaceX
-          rocket launch.
-        </Text>
-        <div className="flex items-center mb-10 mt-4">
-          <Text classes="mr-2">This project is based on </Text>
-          <Text link href="https://github.com/r-spacex/SpaceX-API" color="info">
-            r/SpaceX API
-          </Text>
-        </div>
-        <div className="mb-4 mt-4 flex items-center justify-center w-full">
-          <Text
-            link
-            href={`/launch/${nextLaunch.id}`}
-            color="main"
-            variant="h4"
-          >
-            {nextLaunch.name}
-          </Text>
-          <Text color="theme" variant="h4" classes="ml-2">
-            is lifting off in:
-          </Text>
-        </div>
-        <div className="flex space-x-2 md:space-x-4 justify-center items-center max-w-screen-sm w-full">
-          {nextLaunch.date_precision === 'hour' ? (
-            <Countdown timer={timer} />
-          ) : (
-            <Text variant="title1">
-              {formatDate(
-                new Date(nextLaunch.date_unix * 1000),
-                getDateFormat(nextLaunch.date_precision)
-              )}
-            </Text>
-          )}
-        </div>
-      </div>
+      <NextLaunch {...nextLaunch} timer={timer} />
 
       <div className="mt-12">
         <div className="flex flex-col w-full items-center">
