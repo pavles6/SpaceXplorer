@@ -67,7 +67,7 @@ export default function LaunchPage({ launchData }: Props) {
         <title>{`${launchData.name} | SpaceXplorer`}</title>
       </Head>
       <Navbar />
-      <div>
+      <div className="">
         <LaunchHeaderSection
           success={success}
           isCrew={crew.length > 0}

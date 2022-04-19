@@ -124,7 +124,7 @@ export default function SearchPage({
 
       <Navbar />
 
-      <div className="transition w-full h-full pt-16 flex flex-col bg-light dark:bg-dark">
+      <div className="w-full h-full pt-16 flex flex-col bg-light dark:bg-dark">
         <div className="pb-24 px-4 pt-14 h-full justify-center items-start flex w-full bg-light dark:bg-dark">
           <div className="hidden lg:flex h-full w-full flex-col max-w-sm mr-8">
             <FilterSection
