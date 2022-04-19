@@ -3,7 +3,7 @@
 ## Collection of every SpaceX rocket launch 🚀
 
 - Uses [Next.js](https://github.com/vercel/next.js), a React.js Framework.
-- It renders data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API).
+- Consuming data from [r-SpaceX API](https://github.com/r-spacex/SpaceX-API).
 - Fully responsive user interface.
 - Light and dark UI themes.
 
