@@ -1,6 +1,6 @@
-import { Disclosure, Transition } from '@headlessui/react'
+import { Disclosure } from '@headlessui/react'
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid'
-import React, { Fragment, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import Text from '../Text/Text'
 
 interface Props {

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { LaunchQueryResultItem } from '../../lib/types/query'
-import Text from '../Text/Text'
 import { ResultListItem } from './ResultListItem'
 
 interface Props {

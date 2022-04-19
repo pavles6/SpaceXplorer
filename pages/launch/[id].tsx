@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
-import { getLaunch, getLaunchesIds } from '../../lib/api/api-calls'
+import { getLaunch } from '../../lib/api/api-calls'
 import { Launch } from '../../lib/types/api'
 import Footer from '../../components/Footer'
 import { LaunchHeaderSection } from '../../components/Launch/Header'

@@ -1,6 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import { useTheme } from 'next-themes'
 import React, { Fragment } from 'react'
 
 interface Option {
@@ -14,8 +13,6 @@ interface Props {
 }
 
 export const SortMenu = ({ sortOptions }: Props) => {
-  const { theme: themeType } = useTheme()
-
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>

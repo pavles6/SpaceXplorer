@@ -3,7 +3,7 @@ import { XIcon } from '@heroicons/react/outline'
 import React from 'react'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
-import { INavItem, navItems } from './NavItems'
+import { INavItem } from './NavItems'
 
 interface Props {
   closeMenu: Function

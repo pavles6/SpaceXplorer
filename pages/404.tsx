@@ -1,8 +1,5 @@
-import { ExclamationIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
-import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
 import Text from '../components/Text/Text'
 

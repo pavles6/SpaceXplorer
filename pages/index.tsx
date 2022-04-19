@@ -1,12 +1,10 @@
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import LaunchesPreview from '../components/Home/LaunchesPreview'
 import Navbar from '../components/Navbar/Navbar'
 import Text from '../components/Text/Text'
 import { getRecentLaunches, getNextLaunch } from '../lib/api/api-calls'
 import { Launch } from '../lib/types/api'
-import Image from 'next/image'
 
 interface Props {
   nextLaunchData: Launch
