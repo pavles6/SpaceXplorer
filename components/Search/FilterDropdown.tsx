@@ -7,40 +7,22 @@ interface Props {
   title: string
   children?: ReactElement[] | ReactElement
   fieldsChecked: boolean
-  defaultOpen?: boolean
 }
 
-export const FilterDropdown = ({
-  title,
-  children,
-  fieldsChecked,
-  defaultOpen = false,
-}: Props) => {
+export const FilterDropdown = ({ title, children, fieldsChecked }: Props) => {
   return (
-    <Disclosure defaultOpen={defaultOpen}>
+    <Disclosure defaultOpen={fieldsChecked}>
       {({ open }) => (
         <>
           <Disclosure.Button className="focus:outline-none">
-            <div className="border-borderColor dark:border-borderColorDark transform py-5 border-b flex items-center justify-between">
-              <Text variant="subtitle1" color="textAccent" classes="pl-2">
-                {title}
-                <Transition
-                  show={fieldsChecked}
-                  enter="transition ease duration-600 transform"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="transition ease duration-600 transform"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                  as={Fragment}
-                >
-                  <span className="inline-flex ml-1.5 w-2 h-2 rounded-full bg-primary" />
-                </Transition>
+            <div className="border-dark/10 dark:border-light/20 transform py-5 border-b flex items-center justify-between">
+              <Text variant="subtitle1" color="theme" classes="pl-2">
+                {title as any}
               </Text>
               {open ? (
-                <MinusIcon className="w-4 h-4 text-icon dark:text-iconDark" />
+                <MinusIcon className="w-4 h-4 text-dark dark:text-light" />
               ) : (
-                <PlusIcon className="w-4 h-4 text-icon dark:text-iconDark" />
+                <PlusIcon className="w-4 h-4 text-dark dark:text-light" />
               )}
             </div>
           </Disclosure.Button>

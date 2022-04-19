@@ -20,7 +20,7 @@ export const LaunchGallerySection = ({ images, name }: Props) => {
 
   return (
     <>
-      <div className="flex w-full max-w-screen-xl h-full mt-8 flex-col px-4">
+      <div className="flex w-full max-w-screen-xl h-full mt-8 flex-col px-4 pb-12">
         <Text
           variant="articleHeading1"
           classes="mb-6"

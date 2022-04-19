@@ -3,6 +3,7 @@ import { FilterIcon } from '@heroicons/react/solid'
 import React from 'react'
 import Button from '../Button/Button'
 import { FilterSection } from './FilterSection'
+import { SearchInput } from './SearchInput'
 import { SortMenu } from './SortMenu'
 
 interface Props {
@@ -30,16 +31,26 @@ export const SearchControls = ({
 
   return (
     <>
-      <div className="h-16 w-full flex justify-between items-center border-b border-borderColor dark:border-borderColorDark px-4 my-4">
-        <SortMenu sortOptions={sortOptions} />
-        <div className="flex space-x-2">
-          <Button
-            classes="block lg:hidden"
-            iconClasses="hover:text-iconAccent dark:hover:text-iconAccentDark text-icon dark:text-iconDark w-8 h-8 "
-            icon={FilterIcon}
-            click={() => setOpened(!opened)}
-            notificationBadge={isAnyFilterApplied}
-          />
+      <div className="w-full max-w-screen-lg flex border-b border-dark/10 dark:border-light/20 pb-4">
+        <div className="flex items-center justify-between space-x-4 w-full px-2">
+          <SortMenu sortOptions={sortOptions} />
+          <div className="lg:hidden w-80">
+            <SearchInput
+              changed={(value) => {
+                setFilters({ ...filters, page: 1, q: value })
+              }}
+              value={filters.q}
+            />
+          </div>
+          <div className="flex items-center relative">
+            <Button
+              classes="block lg:hidden"
+              iconClasses="text-darkSecondary dark:text-lightSecondary w-8 h-8"
+              icon={FilterIcon}
+              click={() => setOpened(!opened)}
+              notificationBadge={isAnyFilterApplied}
+            />
+          </div>
         </div>
       </div>
       <Transition
@@ -67,7 +78,7 @@ export const SearchControls = ({
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-full"
           as="div"
-          className="overflow-auto pb-6 px-2 w-full h-2/3 bg-surfaceSecondary dark:bg-surfaceSecondaryDark"
+          className="overflow-auto pb-6 px-4 w-full h-2/3 bg-light dark:bg-dark rounded-t-xl"
         >
           <div className="flex overflow-auto flex-col">
             <FilterSection

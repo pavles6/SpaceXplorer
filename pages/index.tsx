@@ -32,8 +32,8 @@ export default function HomePage({
                 SpaceXplorer
               </Text>
               <Text variant="h4" classes="font-normal">
-                SpaceXplorer is a collection of every SpaceX rocket launch with
-                its in-depth information.
+                SpaceXplorer is a place where you can find info about every
+                SpaceX rocket launch.
               </Text>
               <div className="flex items-center mb-10 mt-4">
                 <Text classes="mr-1">This project is based on </Text>

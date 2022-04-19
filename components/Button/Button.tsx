@@ -83,7 +83,7 @@ export default function Button({
       ) : null}
       {notificationBadge ? (
         <div className="relative">
-          <span className="absolute -top-10 -right-1 ml-1.5 w-2 h-2 rounded-full bg-primary" />
+          <span className="absolute -top-10 -right-1 ml-1.5 w-2 h-2 rounded-full bg-main" />
         </div>
       ) : null}
     </button>

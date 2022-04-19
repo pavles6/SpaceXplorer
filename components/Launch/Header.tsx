@@ -52,7 +52,7 @@ export const LaunchHeaderSection = ({
     >
       <Image
         priority
-        quality={100}
+        quality={50}
         src={landingImageUrl}
         layout="fill"
         objectFit="cover"
@@ -70,14 +70,20 @@ export const LaunchHeaderSection = ({
           {name}
         </Text>
         {!isSmallScreen && mounted ? (
-          <div className="flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full bg-light dark:bg-dark bg-opacity-70 dark:bg-opacity-70">
+          <div className="flex flex-row justify-center py-3 mt-4 items-center jusitfy-center space-x-4 w-full border-light/20 border-t">
             <LaunchBadge
               icon={ClockIcon}
               type="success"
+              color="info"
               value={formattedDate}
             />
             {isCrew ? (
-              <LaunchBadge icon={UserGroupIcon} type="success" value="Crew" />
+              <LaunchBadge
+                icon={UserGroupIcon}
+                type="success"
+                value="Crew"
+                color="main"
+              />
             ) : null}
             <LaunchBadge
               icon={
@@ -85,6 +91,7 @@ export const LaunchHeaderSection = ({
               }
               type={success ? 'success' : 'failure'}
               value={upcoming ? 'N/A (Upcoming)' : launchOutcome}
+              color="success"
             />
           </div>
         ) : null}

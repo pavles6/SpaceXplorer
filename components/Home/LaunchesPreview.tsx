@@ -90,7 +90,7 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
           href="/search"
           variant="title1"
           color="light"
-          classes={`transition transform hover:-translate-y-1 bg-main rounded-lg px-20 py-5`}
+          classes={`transition transform hover:-translate-y-1 bg-main rounded-lg px-12 lg:px-20 py-5`}
         >
           Browse all launches
         </Button>

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
-import { QueryParameters, QueryTypes } from '../types/query'
-import { IEndpointPayload, OptionsParameters } from './IEndpoints'
+import { QueryParameters } from '../types/query'
+import { IEndpointPayload } from './IEndpoints'
 
 interface RequestConfig extends AxiosRequestConfig {
   data?: IEndpointPayload

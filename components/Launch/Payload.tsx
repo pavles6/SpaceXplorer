@@ -46,7 +46,7 @@ export const LaunchPayloadSection = ({ payloads, capsules }: Props) => {
                   target="_blank"
                   href={`https://api.spacexdata.com/v4/payloads/${payload.id}`}
                 >
-                  {`• ${payload.name} (${category})`}
+                  {`${payload.name} (${category})`}
                 </Text>
               </li>
             )

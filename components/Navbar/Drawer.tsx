@@ -40,10 +40,10 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
         as="div"
         className="h-screen w-2/3 max-w-lg relative flex flex-col items-center bg-light dark:bg-dark"
       >
-        <div className="h-16 w-full flex justify-between items-center bg-black">
+        <div className="h-16 mb-2 w-full flex justify-between items-center bg-black">
           <Text
             fixedSize="text-2xl"
-            weight="font-bold"
+            weight="font-semibold"
             classes="ml-2"
             color="light"
           >

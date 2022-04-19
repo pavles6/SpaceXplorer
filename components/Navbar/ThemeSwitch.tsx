@@ -17,13 +17,13 @@ export const ThemeSwitch = ({ resolvedTheme, setTheme }: Props) => {
   if (!mounted) return null
 
   return (
-    <div className="h-full flex lg:justify-center justify-end  items-center lg:flex-grow-0 flex-grow ml-4 mr-2">
+    <div className="h-full flex lg:justify-center justify-end items-center lg:flex-grow-0 flex-grow ml-4 mr-2">
       <Switch
         checked={resolvedTheme != 'light'}
         onChange={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
         className={`${
           resolvedTheme === 'dark' ? 'bg-light' : 'bg-darkSecondary'
-        } relative inline-flex items-center h-8 rounded-full w-14 focus:outline-none`}
+        } relative inline-flex items-center h-8 rounded-full w-14 focus:outline-none border border-white/10 dark:border-black/10`}
       >
         <span
           className={`${

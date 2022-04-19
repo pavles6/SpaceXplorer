@@ -23,7 +23,7 @@ export const PaginationControls = ({
     <div
       className={`${
         currentPage <= totalPages && totalPages > 1 ? 'block' : 'hidden'
-      } h-16 w-full flex justify-between items-center px-4 my-4`}
+      } h-16 w-full max-w-screen-lg flex justify-between items-center px-4 my-4`}
     >
       <Text classes="hidden md:block" variant="subtitle1">{`Showing ${
         resultCurrentPage === 1 ? '1' : limit * (resultCurrentPage - 1) + 1
@@ -37,19 +37,19 @@ export const PaginationControls = ({
             } of ${totalDocs}`
       } results`}</Text>
       <Text classes="md:hidden w-full" variant="subtitle1">
-        {`Page ${resultCurrentPage}`}
+        {`Page ${resultCurrentPage} of ${totalPages}`}
       </Text>
       <div className="flex items-center w-full justify-end md:w-auto space-x-4">
         <Button
           disabled={Number(currentPage) - 1 === 0 ? true : false}
           click={() => setCurrentPage(Number(currentPage) - 1)}
-          classes="disabled:text-textMain dark:disabled:text-disabledDark font-semibold bg-surfacePrimary dark:bg-surfacePrimaryDark text-textAccent dark:text-textAccentDark px-4 py-3 rounded-md disabled:cursor-not-allowed disabled:bg-opacity-50 dark:disabled:bg-opacity-100"
+          classes="disabled:text-textDarkSecondary/75 dark:disabled:text-textDarkSecondary font-semibold bg-lightSecondary dark:bg-darkSecondary text-dark dark:text-light px-4 py-3 rounded-md disabled:cursor-not-allowed"
         >
           Previous
         </Button>
         <Button
           click={() => setCurrentPage(Number(currentPage) + 1)}
-          classes="disabled:text-textMain dark:disabled:text-disabledDark font-semibold bg-surfacePrimary dark:bg-surfacePrimaryDark text-textAccent dark:text-textAccentDark px-4 py-3 rounded-md disabled:cursor-not-allowed disabled:bg-opacity-50 dark:disabled:bg-opacity-100"
+          classes="disabled:text-textDarkSecondary/75 dark:disabled:text-textDarkSecondary font-semibold bg-lightSecondary dark:bg-darkSecondary text-dark dark:text-light px-4 py-3 rounded-md disabled:cursor-not-allowed"
           disabled={
             currentPage === totalPages || totalDocs < limit ? true : false
           }

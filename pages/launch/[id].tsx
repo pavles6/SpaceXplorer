@@ -79,9 +79,7 @@ export default function LaunchPage({ launchData }: Props) {
         />
         <div className="bg-light dark:bg-dark">
           <div className="bg-light dark:bg-dark flex flex-col items-center w-full">
-            <article
-              className={`flex flex-col max-w-screen-xl px-4 w-full lg:px-6 h-full space-y-12 my-8`}
-            >
+            <article className="flex flex-col max-w-screen-xl px-4 w-full lg:px-6 h-full space-y-12 my-8">
               <LaunchOverviewSection
                 formattedDate={formattedDate}
                 launchOutcome={launchOutcome}
@@ -113,6 +111,7 @@ export default function LaunchPage({ launchData }: Props) {
   )
 }
 
+// using getServerSideProps for now due to complexity of on-demand static rendering of future launches
 export const getServerSideProps = async ({ params }) => {
   const launchData = await getLaunch(params.id)
 

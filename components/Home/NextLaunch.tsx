@@ -32,7 +32,7 @@ export const NextLaunch = ({
           is lifting off in:
         </Text>
       </div>
-      <div className="flex space-x-2 md:space-x-4 justify-center items-center max-w-screen-sm w-full">
+      <div className="flex gap-2 md:gap-4 justify-center items-center max-w-screen-sm w-full">
         {date_precision === 'hour' ? (
           <Countdown timer={timer} />
         ) : (

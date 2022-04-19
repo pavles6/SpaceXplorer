@@ -8,8 +8,8 @@ interface Props {
 
 export const SearchInput = ({ value, changed }: Props) => {
   return (
-    <div className="flex z-20 transform -translate-y-1/2 items-center justify-center relative w-11/12 md:w-2/3 max-w-2xl h-14 md:h-16 rounded-xl bg-white shadow-xl">
-      <SearchIcon className="pl-4 w-10 h-10 text-icon" />
+    <div className="flex items-center justify-center p-2 pr-0 w-full relative rounded-xl bg-lightSecondary dark:bg-darkSecondary shadow-sm dark:shadow-none">
+      <SearchIcon className="pl-3 w-8 h-8 text-dark dark:text-light" />
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -18,10 +18,10 @@ export const SearchInput = ({ value, changed }: Props) => {
       >
         <input
           onChange={(e) => changed(e.target.value)}
-          placeholder="Type something... (e.g. Crew-2, Starlink)"
+          placeholder="Type something..."
           type="search"
           value={value}
-          className="px-4 bg-transparent h-full w-full focus:outline-none text-textSecondary text-sm lg:text-lg"
+          className="px-4 bg-transparent h-full w-full focus:outline-none text-darkSecondary dark:text-lightSecondary text-sm "
         />
       </form>
     </div>

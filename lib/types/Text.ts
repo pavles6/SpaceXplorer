@@ -63,7 +63,7 @@ export const TextVariants = {
   },
   h4: {
     weight: 'font-semibold',
-    size: 'text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl',
+    size: 'text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl',
   },
   title1: {
     weight: 'font-semibold',

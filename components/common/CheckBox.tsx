@@ -10,8 +10,10 @@ interface Props {
 export const CheckBox = ({ checked, changed }: Props) => {
   return (
     <Switch
-      className={`w-7 h-7 flex items-center justify-center focus:outline-none rounded-lg ${
-        checked ? 'bg-primary' : 'bg-surfacePrimary dark:bg-surfacePrimary'
+      className={`w-7 h-7 flex items-center justify-center focus:outline-none rounded-md transition ${
+        checked
+          ? 'bg-main'
+          : 'bg-lightSecondary border border-black border-opacity-10 dark:bg-darkSecondary dark:border-white dark:border-opacity-10'
       }`}
       checked={checked}
       onChange={() => {

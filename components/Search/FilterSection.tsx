@@ -3,6 +3,7 @@ import { QueryFilters } from '../../lib/types/query'
 import Text from '../Text/Text'
 import { FilterDropdown } from './FilterDropdown'
 import { FilterDropdownField } from './FilterDropdownField'
+import { SearchInput } from './SearchInput'
 
 interface Props {
   filters: QueryFilters
@@ -13,10 +14,19 @@ interface Props {
 export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
   return (
     <>
-      <div className="border-borderColor dark:border-borderColorDark border-b flex h-16 items-center justify-start w-full mt-4">
+      <div className="hidden lg:block">
+        <SearchInput
+          changed={(value) => {
+            setFilters({ ...filters, page: 1, q: value })
+          }}
+          value={filters.q}
+        />
+      </div>
+      <div className="border-dark/10 dark:border-light/20 border-b flex h-16 items-center justify-start w-full mt-4">
         <Text
-          variant="h4"
-          color="textAccent"
+          fixedSize="text-xl"
+          weight="font-semibold"
+          color="theme"
           classes="flex items-center h-full pl-2"
         >
           Filter

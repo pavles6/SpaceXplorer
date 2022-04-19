@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
-import { SearchHeader } from '../components/Search/Header'
 import { PaginationControls } from '../components/Search/PaginationControls'
 import { SearchControls } from '../components/Search/SearchControls'
 import { SearchInput } from '../components/Search/SearchInput'
@@ -125,18 +124,8 @@ export default function SearchPage({
 
       <Navbar />
 
-      <header className="flex w-full flex-col items-center relative bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
-        <SearchHeader />
-        <SearchInput
-          changed={(value) => {
-            setFilters({ ...filters, page: 1, q: value })
-          }}
-          value={filters.q}
-        />
-      </header>
-
-      <div className="w-full h-full flex flex-col bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
-        <div className="mb-24 px-2 pt-4 min-h-full justify-center flex w-full bg-surfaceSecondary dark:bg-surfaceSecondaryDark">
+      <div className="transition w-full h-full pt-16 flex flex-col bg-light dark:bg-dark">
+        <div className="pb-24 px-4 pt-14 h-full justify-center items-start flex w-full bg-light dark:bg-dark">
           <div className="hidden lg:flex h-full w-full flex-col max-w-sm mr-8">
             <FilterSection
               filters={filters}
@@ -144,7 +133,7 @@ export default function SearchPage({
               setFilters={setFilters}
             />
           </div>
-          <div className="flex flex-col w-full max-w-4xl">
+          <div className="flex flex-col w-full max-w-screen-lg justify-center">
             <SearchControls
               opened={filterDrawerOpened}
               setOpened={setFilterDrawerOpened}

@@ -43,7 +43,7 @@ export const LaunchGalleryModal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="flex h-screen flex-row items-center justify-center">
+          <div className="flex h-screen relative flex-row items-center justify-center">
             <Image
               layout="fill"
               objectFit="contain"

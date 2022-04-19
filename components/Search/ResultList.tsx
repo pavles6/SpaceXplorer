@@ -1,4 +1,5 @@
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
 import { LaunchQueryResultItem } from '../../lib/types/query'
 import Text from '../Text/Text'
 import { ResultListItem } from './ResultListItem'
@@ -8,41 +9,17 @@ interface Props {
 }
 
 export const ResultList = ({ launches }: Props) => {
+  const isLargeScreenSize = useMediaQuery({ minWidth: 1024 })
+
   return (
-    <div className="min-w-full px-2">
-      <div className="w-full flex justify-between items-center">
-        <Text
-          variant="subtitle1"
-          align="text-center"
-          classes="text-textSecondary dark:text-textSecondaryDark w-1/4"
-        >
-          Name
-        </Text>
-        <Text
-          variant="subtitle1"
-          align="text-center"
-          classes="text-textSecondary dark:text-textSecondaryDark w-1/4"
-        >
-          Date
-        </Text>
-        <Text
-          variant="subtitle1"
-          align="text-center"
-          classes="text-textSecondary dark:text-textSecondaryDark w-1/4"
-        >
-          Outcome
-        </Text>
-        <Text
-          variant="subtitle1"
-          align="text-center"
-          classes="text-textSecondary dark:text-textSecondaryDark w-1/4"
-        >
-          Rocket
-        </Text>
-      </div>
-      <ul>
+    <div className="max-w-screen-xl px-2 w-full flex items-center">
+      <ul className="flex flex-col lg:flex-wrap lg:flex-row items-center justify-center w-full lg:gap-4 space-y-6 lg:space-y-0 mt-12">
         {launches.map((launch) => (
-          <ResultListItem key={launch.id} launch={launch} />
+          <ResultListItem
+            isLargeScreen={isLargeScreenSize}
+            key={launch.id}
+            launch={launch}
+          />
         ))}
       </ul>
     </div>
