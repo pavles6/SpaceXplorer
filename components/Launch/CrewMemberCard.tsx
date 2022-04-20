@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement } from 'react'
 import { CrewMember } from '../../lib/types/api'
 import Text from '../Text/Text'
 import Image from 'next/image'
