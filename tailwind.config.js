@@ -20,6 +20,7 @@ module.exports = {
       'zoom-in': 'zoom-in',
     },
     colors: {
+      transparent: 'transparent',
       current: 'currentColor',
       main: '#EF233C',
       lightSecondary: '#f2f2f2',
