@@ -32,6 +32,35 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           Filter
         </Text>
       </div>
+      <FilterDropdown
+        fieldsChecked={filters.date_range !== ''}
+        title="Date range"
+      >
+        <FilterDropdownField
+          type="radio"
+          title="Upcoming"
+          checked={filters.date_range === 'upcoming'}
+          changeFilter={() =>
+            setFilters({
+              ...filters,
+              page: 1,
+              date_range: filters.date_range === 'upcoming' ? '' : 'upcoming',
+            })
+          }
+        />
+        <FilterDropdownField
+          title="Past"
+          type="radio"
+          checked={filters.date_range === 'past'}
+          changeFilter={() =>
+            setFilters({
+              ...filters,
+              page: 1,
+              date_range: filters.date_range === 'past' ? '' : 'past',
+            })
+          }
+        />
+      </FilterDropdown>
       <FilterDropdown fieldsChecked={filters.launch_type !== ''} title="Type">
         <FilterDropdownField
           type="radio"

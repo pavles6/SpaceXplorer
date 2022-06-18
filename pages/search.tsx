@@ -6,20 +6,19 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
 import { PaginationControls } from '../components/Search/PaginationControls'
 import { SearchControls } from '../components/Search/SearchControls'
-import { SearchInput } from '../components/Search/SearchInput'
 import { getRocketTypes, queryLaunches } from '../lib/api/api-calls'
 import { QueryFilters, QueryParameters, QueryResult } from '../lib/types/query'
 import { useIsMount } from '../lib/utils/useIsMount'
 import { ResultList } from '../components/Search/ResultList'
 import { FilterSection } from '../components/Search/FilterSection'
 
-interface RockeyPayloadFilterType {
+interface RocketPayloadFilterType {
   name: string
   id: string
 }
 
 interface Props {
-  rocketTypes: RockeyPayloadFilterType[]
+  rocketTypes: RocketPayloadFilterType[]
   result: QueryResult
   appliedFilters: QueryParameters
 }
@@ -42,7 +41,8 @@ export default function SearchPage({
 
   const [filters, setFilters] = useState<QueryFilters>({
     q: appliedFilters.q || '',
-    date_range: appliedFilters.date_range,
+    date_range: appliedFilters.date_range || '',
+    date_sort: appliedFilters.date_sort,
     launch_type: appliedFilters.launch_type || '',
     outcome: appliedFilters.outcome || '',
     rocket: appliedFilters.rocket
@@ -85,9 +85,6 @@ export default function SearchPage({
     if (result.page > result.totalPages) {
       setFilters({ ...filters, page: result.totalPages })
     }
-    if (!filters.date_range) {
-      setFilters({ ...filters, date_range: 'newest' })
-    }
     applyFilters()
   }, [])
 
@@ -99,18 +96,18 @@ export default function SearchPage({
       set: () =>
         setFilters({
           ...filters,
-          date_range: 'newest',
+          date_sort: 'newest',
         }),
-      active: filters.date_range === 'newest',
+      active: filters.date_sort === 'newest',
     },
     {
       title: 'Oldest first',
       set: () =>
         setFilters({
           ...filters,
-          date_range: 'oldest',
+          date_sort: 'oldest',
         }),
-      active: filters.date_range === 'oldest',
+      active: filters.date_sort === 'oldest',
     },
   ]
 
@@ -166,6 +163,7 @@ export default function SearchPage({
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const query: QueryParameters = {
     date_range: (ctx.query.date_range || null) as any,
+    date_sort: (ctx.query.date_sort || null) as any,
     has_images: (ctx.query.has_images || null) as any,
     launch_type: (ctx.query.launch_type || null) as any,
     outcome: (ctx.query.outcome || null) as any,

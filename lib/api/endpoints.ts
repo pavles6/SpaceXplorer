@@ -129,7 +129,8 @@ export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
   const sort = {} as any
   const populate = [{ path: 'rocket', select: 'name' }] as any
 
-  const { q, date_range, has_images, launch_type, outcome, rocket } = query
+  const { q, date_range, has_images, launch_type, outcome, rocket, date_sort } =
+    query
 
   if (q)
     mongoQuery.name = {
@@ -137,32 +138,22 @@ export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
       $options: 'i',
     }
 
+  if (date_sort) {
+    if (date_sort === 'newest') sort.date_unix = 'desc'
+
+    if (date_sort === 'oldest') sort.date_unix = 'asc'
+  }
+
   if (date_range) {
-    if (date_range === 'newest') {
+    if (date_range === 'past')
       mongoQuery.upcoming = {
         $eq: false,
       }
-      sort.date_unix = 'desc'
-    } else if (date_range === 'upcoming') {
-      ;(mongoQuery.upcoming = {
+
+    if (date_range === 'upcoming')
+      mongoQuery.upcoming = {
         $eq: true,
-      }),
-        (sort.date_unix = 'asc')
-    } else if (date_range === 'oldest') {
-      mongoQuery.upcoming = {
-        $eq: false,
       }
-      sort.date_unix = 'asc'
-    } else {
-      const range = date_range.split('_')
-      if (range.length === 2) {
-        mongoQuery.date_unix = {
-          $gte: (new Date(range[0]) as any) / 1000,
-          $lt: (new Date(range[1]) as any) / 1000,
-        }
-        sort.date_unix = 'asc'
-      }
-    }
   }
 
   if (has_images === 'images')

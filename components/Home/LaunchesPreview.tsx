@@ -17,6 +17,7 @@ interface Props {
 }
 
 export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
+  const [timerLoading, setTimerLoading] = useState(true)
   const [timer, setTimer] = useState<TimerNode[]>([
     {
       type: 'days',
@@ -38,6 +39,10 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
 
   let countdownInterval: any = useRef<any | null>(null)
 
+  const isCountdown =
+    nextLaunch.date_precision === 'hour' &&
+    calculateCountdown(nextLaunch.date_unix)
+
   const startTimer = () => {
     countdownInterval = window?.setInterval(() => {
       const result = calculateCountdown(nextLaunch.date_unix)
@@ -48,12 +53,13 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
           value: result[node.type],
         }))
         setTimer(timerData)
+        setTimerLoading(false)
       }
     }, 1000)
   }
 
   useEffect(() => {
-    if (nextLaunch.date_precision === 'hour') {
+    if (isCountdown) {
       startTimer()
       return () => {
         window.clearInterval(countdownInterval)
@@ -63,7 +69,9 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
 
   return (
     <div className="w-full min-h-min px-4 md:px-0">
-      <NextLaunch {...nextLaunch} timer={timer} />
+      {isCountdown ? (
+        <NextLaunch {...nextLaunch} loading={timerLoading} timer={timer} />
+      ) : null}
 
       <div className="mt-12">
         <div className="flex flex-col w-full items-center">
@@ -87,7 +95,7 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
       <div className="flex flex-col items-center mt-12 mb-12 justify-end">
         <Button
           buttonVariant="link"
-          href="/search"
+          href="/search?date_sort=newest&date_range=past"
           variant="title1"
           color="light"
           classes={`transition transform hover:-translate-y-1 bg-main rounded-lg px-12 lg:px-20 py-5`}

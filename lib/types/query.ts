@@ -8,11 +8,13 @@ export type QueryTypes =
   | 'outcome'
   | 'has_images'
   | 'page'
+  | 'date_sort'
 
 export interface QueryParameters {
   q?: string
   launch_type?: 'crew' | 'non-crew'
-  date_range?: string | 'newest' | 'oldest' | 'upcoming'
+  date_sort?: 'newest' | 'oldest'
+  date_range?: 'past' | 'upcoming'
   rocket?: string
   outcome?: 'successful' | 'failed' | 'N/A'
   has_images?: 'images'

@@ -7,6 +7,7 @@ import { TimerNode } from './LaunchesPreview'
 
 interface Props extends Launch {
   timer: TimerNode[]
+  loading: boolean
 }
 
 export const NextLaunch = ({
@@ -15,10 +16,11 @@ export const NextLaunch = ({
   timer,
   date_unix,
   date_precision,
+  loading,
 }: Props) => {
   return (
     <>
-      <div className="mb-4 mt-4 flex items-center justify-center w-full">
+      <div className="mb-4 mt-6 flex items-center justify-center w-full">
         <Text
           link
           href={`/launch/${id}`}
@@ -34,7 +36,7 @@ export const NextLaunch = ({
       </div>
       <div className="flex gap-2 md:gap-4 justify-center items-center max-w-screen-sm w-full">
         {date_precision === 'hour' ? (
-          <Countdown timer={timer} />
+          <Countdown loading={loading} timer={timer} />
         ) : (
           <Text variant="title1">
             {formatDate(

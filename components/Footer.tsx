@@ -14,13 +14,20 @@ export default function Footer() {
             >
               Navigate
             </Text>
-            <Text link href="/" variant="subtitle2" color="themeSecondary">
+            <Text
+              link
+              href="/"
+              variant="subtitle2"
+              decoration="underline"
+              color="themeSecondary"
+            >
               Home
             </Text>
             <Text
               link
-              href="/search"
+              href="/search?date_sort=newest&date_range=past"
               variant="subtitle2"
+              decoration="underline"
               color="themeSecondary"
             >
               Search
@@ -29,6 +36,7 @@ export default function Footer() {
               link
               href="https://github.com/pavles6/SpaceXplorer/tree/master#readme"
               variant="subtitle2"
+              decoration="underline"
               color="themeSecondary"
             >
               About
@@ -47,6 +55,7 @@ export default function Footer() {
               href="https://github.com/pavles6/SpaceXplorer"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               GitHub Repository
             </Text>
@@ -55,6 +64,7 @@ export default function Footer() {
               href="https://github.com/pavles6"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               Author
             </Text>
@@ -64,6 +74,7 @@ export default function Footer() {
               href="https://github.com/pavles6/SpaceXplorer/blob/master/LICENSE"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               License
             </Text>
@@ -73,6 +84,7 @@ export default function Footer() {
               href="https://github.com/r-spacex/SpaceX-API"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               r/SpaceX API
             </Text>
@@ -90,6 +102,7 @@ export default function Footer() {
               href="https://nextjs.org/"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               Next.js
             </Text>
@@ -98,6 +111,7 @@ export default function Footer() {
               href="https://tailwindcss.com/"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               TailwindCSS
             </Text>
@@ -106,6 +120,7 @@ export default function Footer() {
               href="https://headlessui.dev/"
               variant="subtitle2"
               color="themeSecondary"
+              decoration="underline"
             >
               HeadlessUI
             </Text>
