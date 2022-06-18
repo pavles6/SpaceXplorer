@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
-import { getLaunch } from '../../lib/api/api-calls'
+import { getLaunch, getLaunchesIds } from '../../lib/api/api-calls'
 import { Launch } from '../../lib/types/api'
 import Footer from '../../components/Footer'
 import { LaunchHeaderSection } from '../../components/Launch/Header'
@@ -10,12 +10,56 @@ import { LaunchCrewSection } from '../../components/Launch/Crew'
 import { LaunchGallerySection } from '../../components/Launch/Gallery'
 import Head from 'next/head'
 import { formatDate, getDateFormat } from '../../lib/utils/date-functions'
+import { useRouter } from 'next/router'
+
+const LAUNCH_ID = /^[a-f\d]{24}$/i
+
+export const getStaticProps = async ({ params }) => {
+  if (!LAUNCH_ID.test(params.id))
+    return {
+      notFound: true,
+    }
+
+  try {
+    const launchData = await getLaunch(params.id)
+    if (!launchData)
+      return {
+        notFound: true,
+      }
+    return {
+      props: {
+        launchData,
+      },
+      revalidate: 10,
+    }
+  } catch (err) {
+    return {
+      notFound: true,
+    }
+  }
+}
+
+export async function getStaticPaths() {
+  const docs = await getLaunchesIds()
+
+  const paths = docs.map((doc: any) => ({ params: { id: doc.id } }))
+
+  return {
+    paths,
+    fallback: true,
+  }
+}
 
 interface Props {
   launchData: Launch
 }
 
 export default function LaunchPage({ launchData }: Props) {
+  const router = useRouter()
+
+  if (router.isFallback) return <div>Loading...</div>
+  // TODO: LAUNCH PAGE SKELETON
+
   const {
     capsules,
     rocket,
@@ -110,36 +154,3 @@ export default function LaunchPage({ launchData }: Props) {
     </>
   )
 }
-
-// using getServerSideProps for now due to complexity of on-demand static rendering of future launches
-export const getServerSideProps = async ({ params }) => {
-  const launchData = await getLaunch(params.id)
-
-  return {
-    props: {
-      launchData,
-    },
-  }
-}
-
-// export const getStaticProps = async ({ params }) => {
-//   const launchData = await getLaunch(params.id)
-
-//   return {
-//     props: {
-//       launchData,
-//     },
-//     revalidate: 10,
-//   }
-// }
-
-// export async function getStaticPaths() {
-//   const docs = await getLaunchesIds()
-
-//   const paths = docs.map((doc: any) => ({ params: { id: doc.id } }))
-
-//   return {
-//     paths,
-//     fallback: false,
-//   }
-// }
