@@ -8,7 +8,7 @@ interface Props {
 
 export const SearchInput = ({ value, changed }: Props) => {
   return (
-    <div className="flex items-center justify-center p-2 pr-0 w-full relative rounded-xl bg-lightSecondary dark:bg-darkSecondary shadow-sm dark:shadow-none ring-1 dark:focus-within:ring-main ring-lightSecondary/25">
+    <div className="flex items-center justify-center p-2 pr-0 w-full relative rounded-xl bg-lightSecondary dark:bg-darkSecondary shadow-sm dark:shadow-none ring-1 focus-within:ring-main ring-darkSecondary/25 dark:focus-within:ring-main dark:ring-lightSecondary/25">
       <SearchIcon className="pl-2 w-7 h-7 text-dark dark:text-light" />
       <form
         onSubmit={(e) => {
