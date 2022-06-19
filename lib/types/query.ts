@@ -13,7 +13,7 @@ export type QueryTypes =
 export interface QueryParameters {
   q?: string
   launch_type?: 'crew' | 'non-crew'
-  date_sort?: 'newest' | 'oldest'
+  date_sort?: 'descending' | 'ascending'
   date_range?: 'past' | 'upcoming'
   rocket?: string
   outcome?: 'successful' | 'failed' | 'N/A'

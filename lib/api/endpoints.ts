@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { QUERY_PAGE_LIMIT } from '../constants/api'
 import { QueryParameters } from '../types/query'
 import { IEndpointPayload } from './IEndpoints'
 
@@ -139,9 +140,9 @@ export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
     }
 
   if (date_sort) {
-    if (date_sort === 'newest') sort.date_unix = 'desc'
+    if (date_sort === 'descending') sort.date_unix = 'desc'
 
-    if (date_sort === 'oldest') sort.date_unix = 'asc'
+    if (date_sort === 'ascending') sort.date_unix = 'asc'
   }
 
   if (date_range) {
@@ -196,7 +197,7 @@ export const QueryLaunchesPayload = (query: QueryParameters): RequestConfig => {
     url: 'https://api.spacexdata.com/v4/launches/query',
     data: {
       options: {
-        limit: 12,
+        limit: QUERY_PAGE_LIMIT,
         page: query.page || 1,
         select: 'name id date_unix date_precision success crew rocket upcoming',
         sort,

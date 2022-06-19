@@ -134,7 +134,7 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           }
         />
       </FilterDropdown>
-      <FilterDropdown fieldsChecked={filters.has_images !== ''} title="Other">
+      <FilterDropdown fieldsChecked={filters.has_images !== ''} title="Media">
         <FilterDropdownField
           type="checkbox"
           title="Includes images"

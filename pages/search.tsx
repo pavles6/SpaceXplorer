@@ -11,6 +11,8 @@ import { QueryFilters, QueryParameters, QueryResult } from '../lib/types/query'
 import { useIsMount } from '../lib/utils/useIsMount'
 import { ResultList } from '../components/Search/ResultList'
 import { FilterSection } from '../components/Search/FilterSection'
+import Text from '../components/Text/Text'
+import { ResultListItemSkeleton } from '../components/Search/ResultListItemSkeleton'
 
 interface RocketPayloadFilterType {
   name: string
@@ -33,6 +35,8 @@ export default function SearchPage({
   const isFirstRender = useIsMount()
 
   const [filterDrawerOpened, setFilterDrawerOpened] = useState(false)
+
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (window && filterDrawerOpened) document.body.style.overflow = 'hidden'
@@ -57,6 +61,7 @@ export default function SearchPage({
   })
 
   const applyFilters = () => {
+    setIsLoading(true)
     const query = {
       ...router.query,
       ...filters,
@@ -67,14 +72,16 @@ export default function SearchPage({
       query[filter] ? null : delete query[filter]
     )
 
-    router.replace(
-      {
-        pathname: '/search',
-        query,
-      },
-      undefined,
-      { scroll: false }
-    )
+    router
+      .replace(
+        {
+          pathname: '/search',
+          query,
+        },
+        undefined,
+        { scroll: false }
+      )
+      .then(() => setIsLoading(false))
   }
 
   useEffect(() => {
@@ -92,22 +99,22 @@ export default function SearchPage({
 
   const sortOptions = [
     {
-      title: 'Newest first',
+      title: 'Descending',
       set: () =>
         setFilters({
           ...filters,
-          date_sort: 'newest',
+          date_sort: 'descending',
         }),
-      active: filters.date_sort === 'newest',
+      active: filters.date_sort === 'descending',
     },
     {
-      title: 'Oldest first',
+      title: 'Ascending',
       set: () =>
         setFilters({
           ...filters,
-          date_sort: 'oldest',
+          date_sort: 'ascending',
         }),
-      active: filters.date_sort === 'oldest',
+      active: filters.date_sort === 'ascending',
     },
   ]
 
@@ -130,7 +137,7 @@ export default function SearchPage({
               setFilters={setFilters}
             />
           </div>
-          <div className="flex flex-col w-full max-w-screen-lg justify-center">
+          <div className="flex flex-col h-full w-full max-w-screen-lg justify-center">
             <SearchControls
               opened={filterDrawerOpened}
               setOpened={setFilterDrawerOpened}
@@ -139,14 +146,35 @@ export default function SearchPage({
               setFilters={setFilters}
               sortOptions={sortOptions}
             />
-            {isResults ? <ResultList launches={result.docs} /> : 'No results'}
+            {isLoading ? (
+              <div className="max-w-screen-xl px-2 w-full flex items-center">
+                <ul className="flex flex-col lg:flex-wrap lg:flex-row items-center justify-center w-full lg:gap-4 space-y-6 lg:space-y-0 mt-12">
+                  {[...Array(10)].map((_, i) => (
+                    <ResultListItemSkeleton key={i} />
+                  ))}
+                </ul>
+              </div>
+            ) : isResults ? (
+              <ResultList launches={result.docs} />
+            ) : (
+              <div className="w-full pt-12 h-full flex items-center justify-center">
+                <div className="flex flex-col items-center min-h-full justify-center">
+                  <Text variant="h2" color="theme">
+                    No results found.
+                  </Text>
+                  <Text variant="subtitle2" color="themeSecondary">
+                    Try other search criteria to get better results.
+                  </Text>
+                </div>
+              </div>
+            )}
             <PaginationControls
               currentPage={filters.page}
               limit={result.limit}
               resultCurrentPage={result.page}
               setCurrentPage={(page) => {
                 setFilters({ ...filters, page })
-                window.scroll({ top: 120, left: 0, behavior: 'smooth' })
+                window.scroll({ top: 0, behavior: 'smooth' })
               }}
               totalDocs={result.totalDocs}
               totalPages={result.totalPages}

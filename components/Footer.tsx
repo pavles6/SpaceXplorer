@@ -25,7 +25,7 @@ export default function Footer() {
             </Text>
             <Text
               link
-              href="/search?date_sort=newest&date_range=past"
+              href="/search?date_sort=descending&date_range=past"
               variant="subtitle2"
               decoration="underline"
               color="themeSecondary"

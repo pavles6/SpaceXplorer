@@ -95,7 +95,7 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
       <div className="flex flex-col items-center mt-12 mb-12 justify-end">
         <Button
           buttonVariant="link"
-          href="/search?date_sort=newest&date_range=past"
+          href="/search?date_sort=descending&date_range=past"
           variant="title1"
           color="light"
           classes={`transition transform hover:-translate-y-1 bg-main rounded-lg px-12 lg:px-20 py-5`}

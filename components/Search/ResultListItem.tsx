@@ -7,10 +7,9 @@ import { DocumentSearchIcon } from '@heroicons/react/outline'
 
 interface Props {
   launch: LaunchQueryResultItem
-  isLargeScreen: boolean
 }
 
-export const ResultListItem = ({ launch, isLargeScreen }: Props) => {
+export const ResultListItem = ({ launch }: Props) => {
   return (
     <li className="max-w-xs w-full">
       <Link href={`/launch/${launch.id}`} key={launch.id}>

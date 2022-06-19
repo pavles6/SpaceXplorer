@@ -28,7 +28,7 @@ export const SearchControls = ({
     filters.rocket.length > 0 ||
     filters.outcome !== '' ||
     filters.has_images !== '' ||
-    filters.date_raneg !== ''
+    filters.date_range !== ''
 
   return (
     <>
