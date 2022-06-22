@@ -1,16 +1,17 @@
 import { Transition } from '@headlessui/react'
 import Image from 'next/image'
 import React, { ReactElement, useEffect } from 'react'
+import { LaunchImage } from '../../lib/types/api'
 
 interface Props {
-  imageUrl: string
+  image: LaunchImage
   launchName: string
   close: Function
   show: boolean
 }
 
 export const LaunchGalleryModal = ({
-  imageUrl,
+  image,
   close,
   show,
   launchName,
@@ -32,10 +33,11 @@ export const LaunchGalleryModal = ({
       leaveTo="opacity-0"
     >
       <div
-        className="w-screen h-screen fixed inset-0 z-50 overflow-auto bg-black bg-opacity-80"
+        className="w-full h-full fixed inset-0 z-50 overflow-auto bg-black bg-opacity-90 py-8 md:px-8"
         onClick={() => close()}
       >
         <Transition.Child
+          className="w-full h-full"
           enter="transition-opacity duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -43,13 +45,16 @@ export const LaunchGalleryModal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="flex h-screen relative flex-row items-center justify-center">
+          <div className="flex h-full relative flex-row items-center justify-center w-full">
             <Image
               layout="fill"
+              width={image.imageData.width}
+              height={image.imageData.height}
               objectFit="contain"
-              src={imageUrl}
+              src={image.imageData.src}
+              placeholder="blur"
+              blurDataURL={image.placeholder}
               alt={launchName}
-              className="p-6 max-w-screen max-h-screen"
             />
           </div>
         </Transition.Child>

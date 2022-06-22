@@ -40,6 +40,8 @@ export const LaunchHeaderSection = ({
 
   let titleTextSize = 'text-4xl'
 
+  const [imageLoaded, setimageLoaded] = useState(false)
+
   if (name.length > 25) titleTextSize = 'text-3xl'
 
   if (name.length > 35) titleTextSize = 'text-2xl'
@@ -50,14 +52,21 @@ export const LaunchHeaderSection = ({
     <section
       className={`w-full h-launchHeaderXs sm:h-launchHeaderSm md:h-launchHeaderMd lg:h-launchHeader relative flex justify-center`}
     >
-      <Image
-        priority
-        quality={50}
-        src={landingImageUrl}
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
-      />
+      {!imageLoaded && (
+        <div className="bg-darkSecondary/50 dark:bg-lightSecondary/50 animate-pulse w-full h-full absolute " />
+      )}
+      {landingImageUrl ? (
+        <Image
+          priority
+          quality={50}
+          src={landingImageUrl}
+          onLoad={() => setimageLoaded(true)}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+        />
+      ) : null}
+
       <div className="bg-launch-image-gradient z-20 absolute w-full h-full" />
       <div className="w-full relative z-30 h-full flex flex-col justify-end items-center">
         <Text

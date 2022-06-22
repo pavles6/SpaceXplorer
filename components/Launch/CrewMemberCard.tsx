@@ -13,6 +13,7 @@ export default function CrewMemberCard({
   launches,
   agency,
   image,
+  imagePlaceholder,
 }: Props): ReactElement {
   return (
     <div className="flex flex-col m-4 bg-lightSecondary dark:bg-darkSecondary rounded-xl">
@@ -22,6 +23,8 @@ export default function CrewMemberCard({
         height={256}
         objectFit="cover"
         src={image}
+        placeholder="blur"
+        blurDataURL={imagePlaceholder}
         alt={`${name}, ${agency}`}
         className="w-full h-full rounded-xl"
       />

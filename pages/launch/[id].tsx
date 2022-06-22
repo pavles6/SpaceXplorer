@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import { getLaunch, getLaunchesIds } from '../../lib/api/api-calls'
-import { Launch } from '../../lib/types/api'
+import { Launch, LaunchImage } from '../../lib/types/api'
 import Footer from '../../components/Footer'
 import { LaunchHeaderSection } from '../../components/Launch/Header'
 import { LaunchOverviewSection } from '../../components/Launch/Overview'
@@ -11,6 +11,7 @@ import { LaunchGallerySection } from '../../components/Launch/Gallery'
 import Head from 'next/head'
 import { formatDate, getDateFormat } from '../../lib/utils/date-functions'
 import { useRouter } from 'next/router'
+import { getPlaiceholder } from 'plaiceholder'
 
 const LAUNCH_ID = /^[a-f\d]{24}$/i
 
@@ -26,9 +27,32 @@ export const getStaticProps = async ({ params }) => {
       return {
         notFound: true,
       }
+
+    if (launchData.crew.length > 0) {
+      for (let crewMember in launchData.crew) {
+        const { base64 } = await getPlaiceholder(
+          launchData.crew[crewMember].image
+        )
+        launchData.crew[crewMember].imagePlaceholder = base64
+      }
+    }
+
+    let launchImages: LaunchImage[] | null = []
+
+    if (launchData.links!.flickr!.original.length > 0) {
+      for (let image of launchData.links!.flickr!.original) {
+        const { base64, img } = await getPlaiceholder(image)
+
+        launchImages.push({ imageData: img, placeholder: base64 })
+      }
+    } else {
+      launchImages = null
+    }
+
     return {
       props: {
         launchData,
+        launchImages,
       },
       revalidate: 10,
     }
@@ -52,9 +76,10 @@ export async function getStaticPaths() {
 
 interface Props {
   launchData: Launch
+  launchImages: LaunchImage[] | null
 }
 
-export default function LaunchPage({ launchData }: Props) {
+export default function LaunchPage({ launchData, launchImages }: Props) {
   const router = useRouter()
 
   if (router.isFallback) return <div>Loading...</div>
@@ -77,9 +102,7 @@ export default function LaunchPage({ launchData }: Props) {
 
   const isImage = launchData.links!.flickr!.original.length > 0 || null
 
-  const [landingImage, setLandingImage] = useState<string>(
-    '/img/default-launch-header.jpg'
-  )
+  const [landingImage, setLandingImage] = useState<string>(null)
 
   useEffect(() => {
     if (isImage) {
@@ -87,6 +110,8 @@ export default function LaunchPage({ launchData }: Props) {
         Math.random() * launchData.links.flickr.original.length
       )
       setLandingImage(launchData.links.flickr.original[randomImage])
+    } else {
+      setLandingImage('/img/default-launch-header.jpg')
     }
   }, [])
 
@@ -141,11 +166,8 @@ export default function LaunchPage({ launchData }: Props) {
               {crew.length > 0 ? <LaunchCrewSection crew={crew} /> : null}
             </article>
 
-            {links.flickr.original.length > 0 ? (
-              <LaunchGallerySection
-                name={name}
-                images={links.flickr.original}
-              />
+            {launchImages ? (
+              <LaunchGallerySection name={name} images={launchImages} />
             ) : null}
             <Footer />
           </div>

@@ -18,6 +18,15 @@ interface Document {
   id: string
 }
 
+export interface LaunchImage {
+  imageData: {
+    src: string
+    width: number
+    height: number
+  }
+  placeholder: string
+}
+
 interface DragonDraft extends Document {
   name: string
   type: string
@@ -108,6 +117,7 @@ interface CrewMemberDraft extends Document {
   image: string
   wikipedia: string
   launches: LaunchDraft[]
+  imagePlaceholder?: string | null
 }
 
 interface DragonCapsuleDraft extends Document {
