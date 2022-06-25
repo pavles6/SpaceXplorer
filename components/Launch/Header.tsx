@@ -64,6 +64,7 @@ export const LaunchHeaderSection = ({
           layout="fill"
           objectFit="cover"
           objectPosition="center"
+          alt={name}
         />
       ) : null}
 

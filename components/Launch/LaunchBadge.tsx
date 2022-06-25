@@ -63,7 +63,7 @@ export const LaunchBadge = ({
 
   return (
     <div
-      className={`${classes} border border-white border-opacity-30 cursor-default flex items-center rounded-full ${styles[type].container}`}
+      className={`${classes} border border-white border-opacity-30 cursor-default flex items-center rounded-full ${styles[type].container} bg-opacity-50`}
     >
       <div className={`h-full p-1.5`}>
         <Icon className={`w-4 h-4 md:w-6 md:h-6 ${styles[type].icon}`} />

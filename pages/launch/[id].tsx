@@ -134,6 +134,7 @@ export default function LaunchPage({ launchData, launchImages }: Props) {
     <>
       <Head>
         <title>{`${launchData.name} | SpaceXplorer`}</title>
+        <meta name="description" content={details} />
       </Head>
       <Navbar />
       <div className="">

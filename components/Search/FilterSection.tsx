@@ -19,7 +19,6 @@ export const FilterSection = ({ filters, setFilters, rocketTypes }: Props) => {
           changed={(value) => {
             setFilters({ ...filters, page: 1, q: value })
           }}
-          value={filters.q}
         />
       </div>
       <div className="border-dark/10 dark:border-light/20 border-b flex h-16 items-center justify-start w-full mt-4">

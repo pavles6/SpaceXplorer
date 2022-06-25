@@ -19,6 +19,10 @@ export default function HomePage({
     <>
       <Head>
         <title>SpaceXplorer</title>
+        <meta
+          name="description"
+          content="SpaceXplorer is a place where you can find info about every SpaceX rocket launch."
+        />
       </Head>
 
       <Navbar />

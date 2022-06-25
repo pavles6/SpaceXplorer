@@ -14,7 +14,11 @@ interface Props {
 
 export const SortMenu = ({ sortOptions }: Props) => {
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu
+      as="div"
+      aria-label="open sort menu"
+      className="relative inline-block text-left"
+    >
       <div>
         <Menu.Button
           className={`group inline-flex focus:outline-none justify-center items-center text-dark dark:text-light`}

@@ -66,6 +66,7 @@ export default function Navbar({ backgroundColor, isShadow = true }: Props) {
           click={() => {
             setMenuOpened(true)
           }}
+          ariaLabel="open menu"
         />
         <Text
           link

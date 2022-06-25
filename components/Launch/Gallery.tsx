@@ -47,7 +47,7 @@ export const LaunchGallerySection = ({ images, name }: Props) => {
               src={images[imageIndex].imageData.src}
               placeholder="blur"
               blurDataURL={images[imageIndex].placeholder}
-              alt={name}
+              alt={`${name}#${imageIndex}`}
             />
             <div>
               {isImageLoaded ? (
@@ -62,8 +62,10 @@ export const LaunchGallerySection = ({ images, name }: Props) => {
                       setIsImageLoaded(false)
                     }}
                     icon={ChevronLeftIcon}
+                    ariaLabel="gallery go back"
                   />
                   <Button
+                    ariaLabel="gallery go forward"
                     iconColor="text-white"
                     classes="absolute  top-1/2 right-0"
                     iconClasses="w-8 h-8 md:w-12 md:h-12"

@@ -19,6 +19,7 @@ export const ThemeSwitch = ({ resolvedTheme, setTheme }: Props) => {
   return (
     <div className="h-full flex lg:justify-center justify-end items-center lg:flex-grow-0 flex-grow ml-4 mr-2">
       <Switch
+        aria-label="toggle website theme"
         checked={resolvedTheme != 'light'}
         onChange={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
         className={`${

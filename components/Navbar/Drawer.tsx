@@ -50,6 +50,7 @@ export const Drawer = ({ closeMenu, open, navLinks }: Props) => {
             SpaceXplorer
           </Text>
           <Button
+            ariaLabel="close menu"
             icon={XIcon}
             iconColor="text-white"
             classes="mr-2 transition"

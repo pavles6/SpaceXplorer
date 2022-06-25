@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar/Navbar'
 import { PaginationControls } from '../components/Search/PaginationControls'
@@ -60,7 +60,7 @@ export default function SearchPage({
     has_images: appliedFilters.has_images || '',
   })
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     setIsLoading(true)
     const query = {
       ...router.query,
@@ -82,7 +82,7 @@ export default function SearchPage({
         { scroll: false }
       )
       .then(() => setIsLoading(false))
-  }
+  }, [filters])
 
   useEffect(() => {
     if (!isFirstRender) applyFilters()
@@ -124,6 +124,7 @@ export default function SearchPage({
         <title>{`${
           filters.q.length > 0 ? `${filters.q} - ` : ''
         }Search | SpaceXplorer`}</title>
+        <meta name="description" content="Browse SpaceX rocket launches" />
       </Head>
 
       <Navbar />

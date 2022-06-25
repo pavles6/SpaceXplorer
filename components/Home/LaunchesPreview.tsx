@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
 import { calculateCountdown } from '../../lib/utils/date-functions'
@@ -43,7 +43,7 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
     nextLaunch.date_precision === 'hour' &&
     calculateCountdown(nextLaunch.date_unix)
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     countdownInterval = window?.setInterval(() => {
       const result = calculateCountdown(nextLaunch.date_unix)
       if (!result) window?.clearInterval(countdownInterval.current)
@@ -56,14 +56,12 @@ export default function LaunchesPreview({ nextLaunch, recentLaunches }: Props) {
         setTimerLoading(false)
       }
     }, 1000)
-  }
+  }, [])
 
   useEffect(() => {
     if (isCountdown) {
       startTimer()
-      return () => {
-        window.clearInterval(countdownInterval)
-      }
+      return () => window.clearInterval(countdownInterval)
     }
   }, [nextLaunch])
 

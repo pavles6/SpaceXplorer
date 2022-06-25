@@ -13,6 +13,7 @@ interface ButtonProps extends TextProps {
   iconColor?: string
   disabled?: boolean
   notificationBadge?: boolean
+  ariaLabel?: string
 }
 
 export default function Button({
@@ -30,6 +31,7 @@ export default function Button({
   disabled = false,
   target = '_self',
   notificationBadge = false,
+  ariaLabel = 'button',
 }: ButtonProps): ReactElement {
   const iconButton = !children && Icon
 
@@ -68,6 +70,7 @@ export default function Button({
 
   return (
     <button
+      aria-label={ariaLabel}
       disabled={disabled}
       id={id}
       className={`${classes} focus:outline-none`}

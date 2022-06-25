@@ -40,7 +40,6 @@ export const SearchControls = ({
               changed={(value) => {
                 setFilters({ ...filters, page: 1, q: value })
               }}
-              value={filters.q}
             />
           </div>
           <div className="flex items-center relative">
@@ -50,6 +49,7 @@ export const SearchControls = ({
               icon={FilterIcon}
               click={() => setOpened(!opened)}
               notificationBadge={isAnyFilterApplied}
+              ariaLabel="open filter menu"
             />
           </div>
         </div>
