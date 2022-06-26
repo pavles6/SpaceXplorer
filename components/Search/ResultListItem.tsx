@@ -28,7 +28,7 @@ export const ResultListItem = ({ launch }: Props) => {
                 formatDate(
                   new Date(launch.date_unix * 1000),
                   getDateFormat(launch.date_precision, {
-                    month: 'MMM',
+                    month: 'short',
                   })
                 )}
             </Text>

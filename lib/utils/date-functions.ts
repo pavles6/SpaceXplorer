@@ -1,24 +1,17 @@
-import moment from 'moment'
+export function formatDate(
+  date: Date,
+  format: Intl.DateTimeFormatOptions = {}
+): string {
+  const localeDateformat = Intl.DateTimeFormat('en', format)
 
-export function formatDate(date: Date, format: string): string {
-  if (!moment(Date.now(), format).isValid()) {
-    throw new Error(`Invalid date format > ${format}`)
-  }
-
-  return moment(date).format(format)
+  return localeDateformat.format(date)
 }
 
-interface CountdownReturnObject {
+export interface CountdownReturnObject {
   days: string
   hours: string
   minutes: string
   seconds: string
-}
-
-interface FormatOptions {
-  month?: string
-  day?: string
-  year?: string
 }
 
 // this fn is supposed to be called in 1s interval
@@ -56,27 +49,30 @@ export function calculateCountdown(
 
 export function getDateFormat(
   date_precision: string,
-  options?: FormatOptions
-): string {
-  let dateFormat
+  options?: Intl.DateTimeFormatOptions
+): Intl.DateTimeFormatOptions {
+  const dateFormat: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: 'numeric',
+    year: 'numeric',
+  }
 
   switch (date_precision) {
     case 'hour':
     case 'day':
-      dateFormat = `${options?.month || 'MMM'} ${options?.day || 'D'}, ${
-        options?.year || 'YYYY'
-      }.`
+      dateFormat.month = options?.month || 'short'
+      dateFormat.day = options?.day || '2-digit'
+      dateFormat.year = options?.year || 'numeric'
       break
     case 'month':
-      dateFormat = `${options?.month || 'MMM'}, ${options?.year || 'YYYY'}.`
+      dateFormat.month = options?.month || 'short'
+      dateFormat.year = options?.year || 'numeric'
       break
     case 'half':
     case 'quarter':
     case 'year':
-      dateFormat = `${options?.year || 'YYYY'}.`
+      dateFormat.year = options?.year || 'numeric'
       break
-    default:
-      dateFormat = null
   }
 
   return dateFormat

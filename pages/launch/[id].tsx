@@ -124,7 +124,7 @@ export default function LaunchPage({ launchData, launchImages }: Props) {
   if (success) launchOutcome = 'Successful'
   if (success === false) launchOutcome = 'Failed'
 
-  const dateFormat = getDateFormat(date_precision, { month: 'MMMM' })
+  const dateFormat = getDateFormat(date_precision, { month: 'long' })
   let formattedDate = 'N/A'
 
   if (dateFormat)
