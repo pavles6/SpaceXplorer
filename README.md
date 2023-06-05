@@ -1,3 +1,4 @@
+# Old project, no longer maintained
 # [SpaceXplorer](https://space-xplorer.vercel.app) &middot; ![GitHub](https://img.shields.io/github/license/pavles6/SpaceXplorer) ![Website](https://img.shields.io/website?url=https%3A%2F%2Fspace-xplorer.vercel.app%2F) ![Lines of code](https://img.shields.io/tokei/lines/github/pavles6/SpaceXplorer)
 
 ## Collection of every SpaceX rocket launch 🚀
